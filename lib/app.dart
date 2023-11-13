@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'screens/calendar.dart';
-import 'screens/record.dart';
-import 'screens/timer.dart';
+import 'view/calendar/calendar.dart';
+import 'view/memo/memo.dart';
+import 'view/timer/timer.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: '筋トレ管理アプリ',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -27,10 +27,10 @@ class MyStatefulWidget extends StatefulWidget {
 }
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
-  static const _screens = [
-    CalendarScreen(),
-    RecordScreen(),
-    TimerScreen(),
+  static final _screens = [
+    CalendarPage(),
+    MemoPage(),
+    TimerPage(),
   ];
 
   int _selectedIndex = 0;
@@ -50,7 +50,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           onTap: _onItemTapped,
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(icon: Icon(Icons.calendar_month), label: 'カレンダー'),
-            BottomNavigationBarItem(icon: Icon(Icons.note), label: 'メモ'),
+            BottomNavigationBarItem(icon: Icon(Icons.edit_note), label: 'メモ'),
             BottomNavigationBarItem(icon: Icon(Icons.timer), label: 'タイマー'),
           ],
           type: BottomNavigationBarType.fixed,
