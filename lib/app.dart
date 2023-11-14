@@ -1,59 +1,55 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'view/calendar/calendar.dart';
 import 'view/memo/memo.dart';
 import 'view/timer/timer.dart';
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+
+// プロバイダー
+final indexProvider = StateProvider((ref) {
+  // 変化させたいデータ
+  return 0;
+});
+
+class Myapp extends ConsumerWidget {
+  const Myapp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: '筋トレ管理アプリ',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyStatefulWidget(),
+  Widget build(BuildContext context, WidgetRef ref) {
+
+    // インデックス
+    final index = ref.watch(indexProvider);
+
+    // アイテム
+    const items = [
+      BottomNavigationBarItem(icon: Icon(Icons.calendar_month), label: 'カレンダー'),
+      BottomNavigationBarItem(icon: Icon(Icons.edit_note), label: 'メモ'),
+      BottomNavigationBarItem(icon: Icon(Icons.timer), label: 'タイマー'),
+    ];
+
+    final bar = BottomNavigationBar(
+      items: items,
+      backgroundColor: Colors.blue,
+      selectedItemColor: Colors.white,
+      unselectedItemColor: Colors.black45,
+      currentIndex: index,
+      onTap: (index) {
+        ref.read(indexProvider.notifier).state = index;
+      },
     );
-  }
-}
 
-class MyStatefulWidget extends StatefulWidget {
-  const MyStatefulWidget({Key? key}) : super(key: key);
+    final pages = [
+      CalendarPage(),
+      MemoPage(),
+      TimerPage(),
+    ];
 
-  @override
-  State<MyStatefulWidget> createState() => _MyStatefulWidgetState();
-}
-
-class _MyStatefulWidgetState extends State<MyStatefulWidget> {
-  static final _screens = [
-    CalendarPage(),
-    MemoPage(),
-    TimerPage(),
-  ];
-
-  int _selectedIndex = 0;
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
-        body: _screens[_selectedIndex],
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _selectedIndex,
-          onTap: _onItemTapped,
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(icon: Icon(Icons.calendar_month), label: 'カレンダー'),
-            BottomNavigationBarItem(icon: Icon(Icons.edit_note), label: 'メモ'),
-            BottomNavigationBarItem(icon: Icon(Icons.timer), label: 'タイマー'),
-          ],
-          type: BottomNavigationBarType.fixed,
-        ));
+      body: pages[index],
+      bottomNavigationBar: bar,
+    );
+
   }
 }
+

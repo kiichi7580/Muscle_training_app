@@ -35,9 +35,10 @@ dependencies:
   cupertino_icons: ^1.0.2
   firebase_core: ^2.22.0
   cloud_firestore: ^4.13.0
+  flutter_riverpod: ^2.4.6
+  intl: ^0.18.1
 
   table_calendar: ^3.0.9
-  intl: ^0.18.1
   modal_bottom_sheet: ^2.1.2
   audioplayers: ^5.2.0
 
