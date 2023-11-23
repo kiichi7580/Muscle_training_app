@@ -15,7 +15,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  // riverpodを使用するための記述　scope
+  // riverpodを使用するための記述 scope
   const scope = ProviderScope(child: MaterialApp(home: Myapp()));
 
   // カレンダーパッケージを使用するための記述　initializeDateFormatting().then((_)
