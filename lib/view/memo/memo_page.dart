@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 
 import 'package:muscle_training_app/view/memo/add_memo.dart';
 import 'package:muscle_training_app/view_model/memo_model/memo_model.dart';
@@ -7,9 +8,11 @@ import 'package:muscle_training_app/view/memo/edit_memo.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 import 'package:muscle_training_app/domain/memo.dart';
+import 'package:muscle_training_app/view/memo/table_memo.dart';
 // import '../login/login_page.dart';
 
 class MemoPage extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<MemoModel>(
@@ -34,63 +37,32 @@ class MemoPage extends StatelessWidget {
         ),
         body: Center(
           child: Consumer<MemoModel>(builder: (context, model, child) {
-            final List<Memo>? memos = model.memos;
+            final List<dynamic>? memos = model.memos;
 
             if (memos == null) {
               return CircularProgressIndicator();
             }
 
-            final List<Widget> widgets = memos
-                .map(
-                  (memo) => Slidable(
-                    child: ListTile(
-                      title: Text(memo.event),
-                      subtitle: Text(memo.weight),
-                    ),
-                    endActionPane: ActionPane(
-                      motion: ScrollMotion(),
-                      children: [
-                        SlidableAction(
-                          // An action can be bigger than the others.
-                          onPressed: (BuildContext context) async {
-                            //編集画面に遷移
-                            final String? event = await Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => EditMemoPage(memo),
-                              ),
-                            );
+            final List<Widget> widgets = memos.map((memo) {
+              
 
-                            if (event != null) {
-                              final snackBar = SnackBar(
-                                backgroundColor: Colors.green,
-                                content: Text('$eventを編集しました'),
-                              );
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(snackBar);
-                            }
-                            model.fetchMemo();
-                          },
-                          backgroundColor: Colors.black45,
-                          foregroundColor: Colors.white,
-                          icon: Icons.edit,
-                          label: '編集',
-                        ),
-                        SlidableAction(
-                          onPressed: (BuildContext context) async {
-                            //削除しますか？って聞いて、はいだったら削除
-                            await showConfirmDialog(context, memo, model);
-                          },
-                          backgroundColor: Colors.red,
-                          foregroundColor: Colors.white,
-                          icon: Icons.delete,
-                          label: '削除',
-                        ),
-                      ],
+              return ListTile(
+                title: Text(
+                  memo.toString(),
+                  style: TextStyle(
+                    fontSize: 20,
+                    decoration: TextDecoration.underline,
                     ),
-                  ),
-                )
-                .toList();
+                ),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                      builder: (context) => TableWidget(date: memo.toString()),
+                      ));
+                },
+              );
+            }).toList();
             return ListView(
               children: widgets,
             );

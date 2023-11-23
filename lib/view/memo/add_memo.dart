@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:flutter/rendering.dart';
 import 'package:muscle_training_app/domain/memo.dart';
+import 'package:muscle_training_app/view_model/memo_model/memo_model.dart';
 import 'package:provider/provider.dart';
 import 'package:muscle_training_app/view_model/memo_model/add_memo_model.dart';
 import 'package:muscle_training_app/view/memo/table_memo.dart';
@@ -74,6 +75,7 @@ class AddMemoPage extends StatelessWidget {
                           try {
                             model.startLoding();
                             await model.addMemo();
+                            Navigator.pop(context);
                           } catch (e) {
                             print(e);
                             final snackBar = SnackBar(
@@ -88,6 +90,8 @@ class AddMemoPage extends StatelessWidget {
                         },
                         child: Text('追加する'),
                       ),
+                      Text('今日のメニュー'),
+                      
                     ],
                   ),
                 ),

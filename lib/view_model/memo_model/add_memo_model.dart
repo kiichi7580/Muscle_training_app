@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class AddMemoModel extends ChangeNotifier {
   String? event;
@@ -20,7 +21,7 @@ class AddMemoModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future addMemo() async {
+  Future<void> addMemo() async {
     if (event == null || event == "") {
       throw '種目が入力されていません';
     }
@@ -34,8 +35,14 @@ class AddMemoModel extends ChangeNotifier {
       throw '回数が入力されていません';
     }
 
-
     final doc = FirebaseFirestore.instance.collection('memos').doc();
+
+    // final time = Timestamp.fromDate(DateTime.now());
+
+    final format1 = DateFormat('yyyy-MM-dd');
+    DateTime now = DateTime.now();
+    final time1 = format1.format(now);
+    final time = time1.toString();
 
     // firestoreに追加
     await doc.set({
@@ -43,8 +50,7 @@ class AddMemoModel extends ChangeNotifier {
       'weight': weight,
       'set': set,
       'rep': rep,
+      'time': time,
     });
   }
-
 }
-
