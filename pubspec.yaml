@@ -32,16 +32,29 @@ dependencies:
     sdk: flutter
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
+
   cupertino_icons: ^1.0.2
+
+  # firebase関連
   firebase_core: ^2.22.0
   cloud_firestore: ^4.13.0
+
+
+  # プロバイダー関連
   flutter_riverpod: ^2.4.6
   provider: ^6.1.1
-  intl: ^0.18.1
 
+
+  # カレンダー機能関連
   table_calendar: ^3.0.9
+
+
+  #メモ機能関連
+  intl: ^0.18.1
   flutter_slidable: ^3.0.1
-  modal_bottom_sheet: ^2.1.2
+
+
+  # タイマー機能関連
   audioplayers: ^5.2.0
   circular_countdown_timer: ^0.2.3
 
@@ -51,6 +64,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
     
+  # コードチェック
   pedantic_mono: any
 
   # The "flutter_lints" package below contains a set of recommended lints to

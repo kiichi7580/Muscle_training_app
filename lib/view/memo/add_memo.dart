@@ -90,7 +90,6 @@ class AddMemoPage extends StatelessWidget {
                         },
                         child: Text('追加する'),
                       ),
-                      Text('今日のメニュー'),
                       
                     ],
                   ),
