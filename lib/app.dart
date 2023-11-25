@@ -1,8 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import 'login/login_page.dart';
+import 'view/login/login_page.dart';
 import 'view/calendar/calendar_page.dart';
 import 'view/memo/memo_page.dart';
 import 'view/timer/timer_page.dart';
