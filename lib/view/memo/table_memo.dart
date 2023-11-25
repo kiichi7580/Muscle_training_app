@@ -49,11 +49,6 @@ class TableWidget extends StatelessWidget {
             }
 
             final List<Widget> widgets = memos.map((memo) {
-              // if (memo.time != null && memo.time is Timestamp) {
-              //   final format1 = DateFormat('yyyy-MM-dd');
-              //   final today = (memo.time as Timestamp).toDate();
-              //   memo.time = format1.format(today);
-              // }
               return Slidable(
                 // child: Padding(
                 //   padding: const EdgeInsets.all(8.0),

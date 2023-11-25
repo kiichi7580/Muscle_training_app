@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:flutter/rendering.dart';
-import 'package:muscle_training_app/view/calendar/event_firestore_service.dart';
+import 'package:muscle_training_app/constant/colors.dart';
 import 'package:provider/provider.dart';
 
 import '../../view_model/calendar_model/add_event_model.dart';
@@ -35,7 +35,8 @@ class _AddEventState extends State<AddEventPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("予定追加")),
+      appBar: AppBar(title: const Text("予定を追加")),
+      backgroundColor: mainColor,
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: [
@@ -60,11 +61,24 @@ class _AddEventState extends State<AddEventPage> {
             maxLines: 5,
             decoration: const InputDecoration(labelText: '詳細'),
           ),
-          ElevatedButton(
-            onPressed: () {
-              _addEvent();
-            },
-            child: const Text("追加する"),
+          Padding(
+            padding: const EdgeInsets.all(64.0),
+            child: SizedBox(
+              height: 50,
+              width: 120,
+              child: ElevatedButton(
+                onPressed: () {
+                  _addEvent();
+                },
+                child: const Text(
+                  "追加する",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ),
           ),
         ],
       ),

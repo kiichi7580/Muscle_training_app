@@ -37,12 +37,12 @@ class AddMemoModel extends ChangeNotifier {
 
     final doc = FirebaseFirestore.instance.collection('memos').doc();
 
-    // final time = Timestamp.fromDate(DateTime.now());
-
+    // timeのフォーマットを変更
     final format1 = DateFormat('yyyy-MM-dd');
     DateTime now = DateTime.now();
     final time1 = format1.format(now);
     final time = time1.toString();
+
 
     // firestoreに追加
     await doc.set({

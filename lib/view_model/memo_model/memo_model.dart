@@ -4,20 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:muscle_training_app/domain/memo.dart';
 
-// DateTime now = DateTime.now();
-// DateFormat outputFormat = DateFormat('yyyy-MM-dd');
-// String date = outputFormat.format(now);
-
 class MemoModel extends ChangeNotifier {
   List<dynamic>? memos;
 
   final Stream<QuerySnapshot> _usersStream = FirebaseFirestore.instance
       .collection('memos')
-      // .where('time', isEqualTo: date)
+      // .orderBy('timeId', descending: true)
       .snapshots();
 
-  void fetchMemo() {
-    _usersStream.listen((snapshot) {
+  void fetchMemo() async {
+    await _usersStream.listen((snapshot) {
       final List<dynamic> memos = [];
       for (var i = 0; i < snapshot.docs.length; i++) {
         // for (var document in snapshot.docs) {

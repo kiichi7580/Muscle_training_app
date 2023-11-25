@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:muscle_training_app/constant/colors.dart';
 import 'package:muscle_training_app/view/calendar/add_event.dart';
 import 'package:muscle_training_app/view/calendar/edit_event.dart';
-import 'package:muscle_training_app/view/calendar/event_firestore_service.dart';
 import 'package:muscle_training_app/view/calendar/event_item.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -13,12 +14,15 @@ import '../../view_model/calendar_model/calendar_model.dart';
 
 class CalendarPage extends StatefulWidget {
   const CalendarPage({super.key});
+  // const CalendarPage(User user, {super.key});
 
   @override
   State<CalendarPage> createState() => _CalendarPageState();
 }
 
 class _CalendarPageState extends State<CalendarPage> {
+  late User user;
+
   late DateTime _focusedDay;
   late DateTime _firstDay;
   late DateTime _lastDay;
@@ -77,9 +81,10 @@ class _CalendarPageState extends State<CalendarPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('カレンダー')),
+      backgroundColor: mainColor,
       body: ListView(
         children: [
+          // Text('{$user}さん、ようこそ！'),
           TableCalendar(
             eventLoader: _getEventsForTheDay,
             calendarFormat: _calendarFormat,
@@ -130,15 +135,15 @@ class _CalendarPageState extends State<CalendarPage> {
             }),
             calendarStyle: const CalendarStyle(
               weekendTextStyle: TextStyle(
-                // 週末の色を指定
-                // 土日両方同じ色になってしまうため、改善策を模索中
-              ),
+                  // 週末の色を指定
+                  // 土日両方同じ色になってしまうため、改善策を模索中
+                  ),
               selectedDecoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: Colors.orange,
               ),
             ),
-            headerStyle: HeaderStyle(
+            headerStyle: const HeaderStyle(
               // カレンダーの表示範囲を変えないようにする場合はfalse
               formatButtonVisible: true,
               // タイトルを中央にしたかったらこの行を追加
@@ -195,6 +200,19 @@ class _CalendarPageState extends State<CalendarPage> {
                   }
                 }),
           ),
+          // Expanded(
+          //   child: ListView.builder(
+          //     itemCount: _events.length,
+          //     itemBuilder: (context, index) {
+          //       final event = _events[index];
+          //       return Card(
+          //         child: ListTile(
+          //           title: Text('$event'),
+          //         ),
+          //       );
+          //     },
+          //   ),
+          // ),
         ],
       ),
       floatingActionButton: FloatingActionButton(

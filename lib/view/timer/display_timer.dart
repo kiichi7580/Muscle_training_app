@@ -66,8 +66,7 @@ class _DisplayTimerPageState extends State<DisplayTimerPage> {
             appBar: AppBar(
               title: Text('タイマー'),
               leading: IconButton(
-                icon: Icon(
-                  Icons.arrow_back_rounded),
+                icon: Icon(Icons.arrow_back_rounded),
                 onPressed: () {
                   Navigator.pop(context);
                 },
@@ -93,31 +92,65 @@ class _DisplayTimerPageState extends State<DisplayTimerPage> {
 
     return isRunning || !isCompleted
         ? Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            ButtonWidget(
-                text: isRunning ? 'ストップ' : 'スタート',
-                onClicked: () {
-                  if (isRunning) {
-                    stopTimer(reset: false);
-                  } else {
-                    startTimer(reset: false);
-                  }
-                }),
+            SizedBox(
+              height: 70,
+              width: 150,
+              child: ElevatedButton(
+                  child: Text(
+                    isRunning ? 'ストップ' : 'スタート',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  style:
+                      ElevatedButton.styleFrom(backgroundColor: Colors.black26),
+                  onPressed: () {
+                    if (isRunning) {
+                      stopTimer(reset: false);
+                    } else {
+                      startTimer(reset: false);
+                    }
+                  }),
+            ),
             const SizedBox(width: 12),
-            ButtonWidget(
-                text: 'リセット',
-                onClicked: () {
-                  resetTimer();
-                })
+            SizedBox(
+              height: 70,
+              width: 150,
+              child: ElevatedButton(
+                  child: Text(
+                    'リセット',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  style:
+                      ElevatedButton.styleFrom(backgroundColor: Colors.black26),
+                  onPressed: () {
+                    resetTimer();
+                  }),
+            )
           ])
         : Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            ButtonWidget(
-              text: 'スタート',
-              color: Colors.black,
-              backgroundColor: Colors.white,
-              onClicked: () {
-                seconds = maxSeconds;
-                startTimer();
-              },
+            SizedBox(
+              height: 70,
+              width: 150,
+              child: ElevatedButton(
+                child: Text(
+                  'スタート',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
+                ),
+                style:
+                    ElevatedButton.styleFrom(backgroundColor: Colors.black26),
+                onPressed: () {
+                  seconds = maxSeconds;
+                  startTimer();
+                },
+              ),
             ),
           ]);
   }

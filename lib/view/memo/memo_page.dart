@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
+import 'package:muscle_training_app/constant/colors.dart';
 
 import 'package:muscle_training_app/view/memo/add_memo.dart';
 import 'package:muscle_training_app/view_model/memo_model/memo_model.dart';
@@ -12,29 +13,27 @@ import 'package:muscle_training_app/view/memo/table_memo.dart';
 // import '../login/login_page.dart';
 
 class MemoPage extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<MemoModel>(
       create: (_) => MemoModel()..fetchMemo(),
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text('メモ'),
-          // actions: [
-          //   IconButton(
-          //     onPressed: () async {
-          //       await Navigator.push(
-          //         context,
-          //         MaterialPageRoute(
-          //           builder: (context) => LoginPage(),
-          //           fullscreenDialog: true,
-          //         ),
-          //       );
-          //     },
-          //     icon: Icon(Icons.person),
-          //   ),
-          // ],
-        ),
+        backgroundColor: mainColor,
+        // actions: [
+        //   IconButton(
+        //     onPressed: () async {
+        //       await Navigator.push(
+        //         context,
+        //         MaterialPageRoute(
+        //           builder: (context) => LoginPage(),
+        //           fullscreenDialog: true,
+        //         ),
+        //       );
+        //     },
+        //     icon: Icon(Icons.person),
+        //   ),
+        // ],
+        // ),
         body: Center(
           child: Consumer<MemoModel>(builder: (context, model, child) {
             final List<dynamic>? memos = model.memos;
@@ -44,23 +43,32 @@ class MemoPage extends StatelessWidget {
             }
 
             final List<Widget> widgets = memos.map((memo) {
-              
-
-              return ListTile(
-                title: Text(
-                  memo.toString(),
-                  style: TextStyle(
-                    fontSize: 20,
-                    decoration: TextDecoration.underline,
+              return Padding(
+                padding: const EdgeInsets.all(6.0),
+                child: Card(
+                  child: ListTile(
+                    leading: Icon(Icons.check_circle),
+                    dense: true,
+                    tileColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
                     ),
+                    title: Text(
+                      memo.toString(),
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                TableWidget(date: memo.toString()),
+                          ));
+                    },
+                  ),
                 ),
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                      builder: (context) => TableWidget(date: memo.toString()),
-                      ));
-                },
               );
             }).toList();
             return ListView(
@@ -109,7 +117,7 @@ class MemoPage extends StatelessWidget {
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text("削除の確認"),
-            content: Text("『${memo.event}』を削除しますか？"),
+            content: Text("${memo}のメニューを削除しますか？"),
             actions: [
               TextButton(
                   child: Text("いいえ"),
@@ -124,7 +132,7 @@ class MemoPage extends StatelessWidget {
                   Navigator.pop(context);
                   final snackBar = SnackBar(
                     backgroundColor: Colors.red,
-                    content: Text('${memo.event}を削除しました'),
+                    content: Text('${memo}のメニューを削除しました'),
                   );
                   model.fetchMemo();
                   ScaffoldMessenger.of(context).showSnackBar(snackBar);

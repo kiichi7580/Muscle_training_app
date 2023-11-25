@@ -27,7 +27,7 @@ class Calendar {
     return {
       "date": Timestamp.fromDate(date),
       "title": title,
-      "description": description
+      "description": description,
     };
   }
 }
