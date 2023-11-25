@@ -38,6 +38,7 @@ dependencies:
   # firebase関連
   firebase_core: ^2.22.0
   cloud_firestore: ^4.13.0
+  firebase_auth: ^4.14.1
 
 
   # プロバイダー関連
@@ -57,6 +58,7 @@ dependencies:
   # タイマー機能関連
   audioplayers: ^5.2.0
   circular_countdown_timer: ^0.2.3
+
 
 
 
