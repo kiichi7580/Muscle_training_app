@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'login/login_page.dart';
 import 'view/calendar/calendar_page.dart';
 import 'view/memo/memo_page.dart';
 import 'view/timer/timer_page.dart';
@@ -45,7 +47,32 @@ class Myapp extends ConsumerWidget {
       TimerPage(),
     ];
 
+    final titles = [
+      'カレンダー',
+      'メモ',
+      'タイマー',
+    ];
+
     return Scaffold(
+      appBar: AppBar(
+        title: Text('${titles[index]}'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.logout),
+            onPressed: () async {
+              // ログアウト処理
+              // 内部で保持しているログイン情報等が初期化される
+              // （現時点ではログアウト時はこの処理を呼び出せばOKと、思うぐらいで大丈夫です）
+              await FirebaseAuth.instance.signOut();
+              // ログイン画面に遷移＋チャット画面を破棄
+              await Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) {
+                  return LoginPage();
+                }),
+              );
+            },
+          ),
+        ]),
       body: pages[index],
       bottomNavigationBar: bar,
     );
