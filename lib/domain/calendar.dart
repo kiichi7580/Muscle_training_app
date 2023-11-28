@@ -25,7 +25,7 @@ class Calendar {
 
   Map<String, Object?> toFirestore() {
     return {
-      "date": Timestamp.fromDate(date),
+      "date": Timestamp.fromDate(date).toDate(),
       "title": title,
       "description": description,
     };

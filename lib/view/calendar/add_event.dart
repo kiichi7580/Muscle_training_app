@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:flutter/rendering.dart';
+import 'package:muscle_training_app/app.dart';
 import 'package:muscle_training_app/constant/colors.dart';
+import 'package:muscle_training_app/view/calendar/calendar_page.dart';
 import 'package:provider/provider.dart';
 
 import '../../view_model/calendar_model/add_event_model.dart';
@@ -95,10 +97,18 @@ class _AddEventState extends State<AddEventPage> {
     await FirebaseFirestore.instance.collection('events').add({
       "title": title,
       "description": description,
-      "date": Timestamp.fromDate(_selectedDate),
+      "date": Timestamp.fromDate(_selectedDate).toDate(),
     });
+
     if (mounted) {
-      Navigator.pop<bool>(context, true);
+      // Navigator.pop<bool>(context, true);
+      await Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute<void>(
+          builder: (_) => const Myapp(),
+        ),
+        (_) => false,
+      );
     }
   }
 }
