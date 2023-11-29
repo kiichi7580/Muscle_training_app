@@ -25,7 +25,7 @@ class MyTimerModel extends ChangeNotifier {
     });
   }
 
-  // Future delete(Memo memo) {
-  //   return FirebaseFirestore.instance.collection('memos').doc(memo.id).delete();
-  // }
+  Future delete(MyTimer myTimer) {
+    return FirebaseFirestore.instance.collection('myTimers').doc(myTimer.id).delete();
+  }
 }

@@ -71,7 +71,7 @@ class AddTimerPage extends StatelessWidget {
                               ],
                             ),
                             SizedBox(
-                              height: 120,
+                              height: 50,
                               width: double.infinity,
                             ),
                             Row(
