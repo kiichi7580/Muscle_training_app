@@ -1,14 +1,9 @@
-import 'package:flutter/material.dart';
 import 'dart:async';
-import 'package:muscle_training_app/view_model/timer_model/display_timer_model.dart';
-import 'package:muscle_training_app/domain/timer.dart';
 
 import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter/material.dart';
+import 'package:muscle_training_app/view_model/timer_model/display_timer_model.dart';
 import 'package:provider/provider.dart';
-
-import 'dart:ui';
-import 'package:circular_countdown_timer/circular_countdown_timer.dart';
-import 'package:muscle_training_app/view/timer/button_widget.dart';
 
 class DisplayTimerPage extends StatefulWidget {
   const DisplayTimerPage({
@@ -64,9 +59,9 @@ class _DisplayTimerPageState extends State<DisplayTimerPage> {
             DisplayTimerModel()..fetchDisplayTimer(maxSeconds, seconds),
         child: Scaffold(
             appBar: AppBar(
-              title: Text('タイマー'),
+              title: const Text('タイマー'),
               leading: IconButton(
-                icon: Icon(Icons.arrow_back_rounded),
+                icon: const Icon(Icons.arrow_back_rounded),
                 onPressed: () {
                   Navigator.pop(context);
                 },
@@ -91,68 +86,72 @@ class _DisplayTimerPageState extends State<DisplayTimerPage> {
     final timeController = TextEditingController();
 
     return isRunning || !isCompleted
-        ? Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            SizedBox(
-              height: 70,
-              width: 150,
-              child: ElevatedButton(
-                  child: Text(
-                    isRunning ? 'ストップ' : 'スタート',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  style:
-                      ElevatedButton.styleFrom(backgroundColor: Colors.black26),
-                  onPressed: () {
-                    if (isRunning) {
-                      stopTimer(reset: false);
-                    } else {
-                      startTimer(reset: false);
-                    }
-                  }),
-            ),
-            const SizedBox(width: 12),
-            SizedBox(
-              height: 70,
-              width: 150,
-              child: ElevatedButton(
-                  child: Text(
-                    'リセット',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  style:
-                      ElevatedButton.styleFrom(backgroundColor: Colors.black26),
-                  onPressed: () {
-                    resetTimer();
-                  }),
-            )
-          ])
-        : Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            SizedBox(
-              height: 70,
-              width: 150,
-              child: ElevatedButton(
-                child: Text(
-                  'スタート',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold),
-                ),
-                style:
-                    ElevatedButton.styleFrom(backgroundColor: Colors.black26),
-                onPressed: () {
-                  seconds = maxSeconds;
-                  startTimer();
-                },
+        ? Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: 70,
+                width: 150,
+                child: ElevatedButton(
+                    child: Text(
+                      isRunning ? 'ストップ' : 'スタート',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.black26),
+                    onPressed: () {
+                      if (isRunning) {
+                        stopTimer(reset: false);
+                      } else {
+                        startTimer(reset: false);
+                      }
+                    }),
               ),
-            ),
-          ]);
+              const SizedBox(width: 12),
+              SizedBox(
+                height: 70,
+                width: 150,
+                child: ElevatedButton(
+                    child: const Text(
+                      'リセット',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.black26),
+                    onPressed: resetTimer),
+              ),
+            ],
+          )
+        : Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: 70,
+                width: 150,
+                child: ElevatedButton(
+                  child: const Text(
+                    'スタート',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  style:
+                      ElevatedButton.styleFrom(backgroundColor: Colors.black26),
+                  onPressed: () {
+                    seconds = maxSeconds;
+                    startTimer();
+                  },
+                ),
+              ),
+            ],
+          );
   }
 
   Widget buildTimer() => SizedBox(
@@ -163,7 +162,7 @@ class _DisplayTimerPageState extends State<DisplayTimerPage> {
         children: [
           CircularProgressIndicator(
             value: 1 - seconds / maxSeconds,
-            valueColor: AlwaysStoppedAnimation(Colors.white),
+            valueColor: const AlwaysStoppedAnimation(Colors.white),
             strokeWidth: 12,
             backgroundColor: Colors.greenAccent,
           ),
@@ -174,9 +173,14 @@ class _DisplayTimerPageState extends State<DisplayTimerPage> {
       ));
 
   Widget buildTime() {
-    return Text('$seconds',
-        style: TextStyle(
-            fontWeight: FontWeight.bold, color: Colors.white, fontSize: 80));
+    return Text(
+      '$seconds',
+      style: const TextStyle(
+        fontWeight: FontWeight.bold,
+        color: Colors.white,
+        fontSize: 80,
+      ),
+    );
   }
 
   // ウィジェットが作成された際に受け取る値を初期化

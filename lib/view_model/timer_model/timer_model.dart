@@ -25,7 +25,7 @@ class MyTimerModel extends ChangeNotifier {
     });
   }
 
-  Future delete(MyTimer myTimer) {
+  Future<void> delete(MyTimer myTimer) {
     return FirebaseFirestore.instance.collection('myTimers').doc(myTimer.id).delete();
   }
 }

@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'view/login/login_page.dart';
+import 'package:muscle_training_app/view/login/login_page.dart';
 import 'view/calendar/calendar_page.dart';
 import 'view/memo/memo_page.dart';
 import 'view/timer/timer_page.dart';
@@ -39,9 +39,9 @@ class Myapp extends ConsumerWidget {
     );
 
     final pages = [
-      CalendarPage(),
+      const CalendarPage(),
       MemoPage(),
-      TimerPage(),
+      const TimerPage(),
     ];
 
     final titles = [
@@ -54,25 +54,25 @@ class Myapp extends ConsumerWidget {
       appBar: AppBar(
           title: Text(
             '${titles[index]}',
-            style: TextStyle(fontWeight: FontWeight.w700),
+            style: const TextStyle(fontWeight: FontWeight.w700),
           ),
           actions: [
             IconButton(
-              icon: Icon(Icons.logout),
+              icon: const Icon(Icons.logout),
               onPressed: () async {
                 // ログアウト処理
                 // 内部で保持しているログイン情報等が初期化される
-                // （現時点ではログアウト時はこの処理を呼び出せばOKと、思うぐらいで大丈夫です）
+                // （現時点ではログアウト時はこの処理を呼び出せばOKと、思うぐらいで大丈夫）
                 await FirebaseAuth.instance.signOut();
                 // ログイン画面に遷移＋チャット画面を破棄
                 await Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) {
+                  MaterialPageRoute<void>(builder: (context) {
                     return LoginPage();
-                  }),
+                  },),
                 );
               },
             ),
-          ]),
+          ],),
       body: pages[index],
       bottomNavigationBar: bar,
     );

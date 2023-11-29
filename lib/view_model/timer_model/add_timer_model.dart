@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -22,14 +20,18 @@ class AddTimerModel extends ChangeNotifier {
 
   Future<void> addTimer() async {
     if (minute == null) {
+      // ignore: only_throw_errors
       throw '分数が入力されていません';
     }
     if (minute! is int) {
+      // ignore: only_throw_errors
       throw '数字で入力してください';
     }
     if (second == null) {
+      // ignore: only_throw_errors
       throw '秒数が入力されていません';
     } else if (second! is int) {
+      // ignore: only_throw_errors
       throw '数字で入力してください';
     }
 

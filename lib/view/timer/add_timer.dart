@@ -4,6 +4,8 @@ import 'package:muscle_training_app/view_model/timer_model/add_timer_model.dart'
 import 'package:provider/provider.dart';
 
 class AddTimerPage extends StatelessWidget {
+  const AddTimerPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<AddTimerModel>(
@@ -20,9 +22,9 @@ class AddTimerPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(8),
                       child: Container(
-                        padding: EdgeInsets.all(16.0),
+                        padding: const EdgeInsets.all(16),
                         child: Column(
                           children: [
                             Row(
@@ -32,21 +34,21 @@ class AddTimerPage extends StatelessWidget {
                                   height: 90,
                                   width: 130,
                                   child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
+                                    padding: const EdgeInsets.all(8),
                                     child: TextField(
                                       decoration: const InputDecoration(
                                           hintText: '分数を入力',
-                                          border: OutlineInputBorder()),
+                                          border: OutlineInputBorder(),),
                                       onChanged: (text) {
                                         model.minute = text;
                                       },
                                     ),
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 90,
                                   child: Padding(
-                                    padding: const EdgeInsets.all(10.0),
+                                    padding: EdgeInsets.all(10),
                                     child: Text(
                                       ':',
                                       style: TextStyle(fontSize: 40),
@@ -57,11 +59,11 @@ class AddTimerPage extends StatelessWidget {
                                   height: 90,
                                   width: 130,
                                   child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
+                                    padding: const EdgeInsets.all(8),
                                     child: TextField(
                                       decoration: const InputDecoration(
                                           hintText: '秒数を入力',
-                                          border: OutlineInputBorder()),
+                                          border: OutlineInputBorder(),),
                                       onChanged: (text) {
                                         model.second = text;
                                       },
@@ -70,7 +72,7 @@ class AddTimerPage extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 50,
                               width: double.infinity,
                             ),
@@ -84,7 +86,7 @@ class AddTimerPage extends StatelessWidget {
                                     onPressed: () {
                                       Navigator.of(context).pop();
                                     },
-                                    child: Text(
+                                    child: const Text(
                                       '閉じる',
                                       style: TextStyle(
                                         fontSize: 18,
@@ -93,7 +95,7 @@ class AddTimerPage extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 30,
                                 ),
                                 SizedBox(
@@ -117,7 +119,7 @@ class AddTimerPage extends StatelessWidget {
                                         model.endLoding();
                                       }
                                     },
-                                    child: Text(
+                                    child: const Text(
                                       '保存する',
                                       style: TextStyle(
                                         fontSize: 18,
@@ -135,6 +137,6 @@ class AddTimerPage extends StatelessWidget {
                   ],
                 ),
               );
-            }))));
+            },),),),);
   }
 }

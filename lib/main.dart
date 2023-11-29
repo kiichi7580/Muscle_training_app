@@ -1,11 +1,10 @@
-import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 import 'app.dart';
-
-import 'package:intl/date_symbol_data_local.dart';
+import 'firebase_options.dart';
 
 
 void main() async {
@@ -16,10 +15,12 @@ void main() async {
   );
 
   // riverpodを使用するための記述 scope
-  const scope = ProviderScope(child: MaterialApp(home: Myapp()));
+  const scope = ProviderScope(
+    child: MaterialApp(
+      home: Myapp(),),);
 
   // カレンダーパッケージを使用するための記述　initializeDateFormatting().then((_)
-  initializeDateFormatting().then((_) => runApp(scope));
+  await initializeDateFormatting().then((_) => runApp(scope));
 }
 
 //   const app = MaterialApp(home: MyPage());
