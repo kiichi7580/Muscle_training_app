@@ -1,17 +1,42 @@
 # muscle_training_app
 
-A new Flutter project.
+## アプリについて
+<br>
 
-## Getting Started
+### muscle_training_appは、筋トレを効率化するいくつかの機能が入った筋トレ管理アプリです
+<br>
 
-This project is a starting point for a Flutter application.
+#### このアプリを作ったきっかけは、筋トレするときに便利な機能を１つのアプリにまとめたいと思ったからです
+#### 自分は日々筋トレに励んでいる中で、ふとさまざまなアプリを行き来していることに気がつきました
+#### そこで、筋トレ中に自分がよく使っているアプリの主な機能を１つのアプリにまとめることで、
+#### アプリを行き来する手間をなくすことができ、より効率的に筋トレを行うことができるのではないかと思いこのアプリを作りました
+<br>
 
-A few resources to get you started if this is your first Flutter project:
+#### 筋トレを続けたいけど、いつも思いつきで筋トレを始めてやめての繰り返しをしていて、なかなか継続できない…
+#### そんな人をこのアプリを通して少しでもサポートできればなと思います
+<br>
+<br>
+<br>
+<br>
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+***
+## 主な機能
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-# Muscle_training_app
+- ## 🗓️ カレンダー機能
+
+  - #### 予定を記入し、スケジュール管理ができる
+  - #### ( 提供する価値 ) → 過去のスケジュールを見ることで、自分がどれくらいの期間・間隔で筋トレを継続できているのかがわかる
+  <br>
+
+- ## 📝 メモ機能
+
+  - #### 種目、重量、セット数、回数を記入し、今日のメニューを振り返ることができる
+  - #### ( 提供する価値 ) → 過去の記録を見ることで、自分の努力量や成長率を知ることができ、モチベーション☝️☝️につながる
+  <br>
+
+- ## ⏰ タイマー機能
+
+  - #### タイマー時間を自由に設定できる
+  - #### ( 提供する価値 ) → 筋トレ時間・休憩時間をタイマーで区切ることで、ダラダラ時間をなくし集中して筋トレをすることができる
+  <br>
+
