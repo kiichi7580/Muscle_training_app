@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class Calendar {
   final String title;
   final String? description;
-  final DateTime date;
+  late DateTime date;
   final String id;
   Calendar({
     required this.title,
@@ -12,11 +12,18 @@ class Calendar {
     required this.id,
   });
 
-  factory Calendar.fromFirestore(DocumentSnapshot<Map<String, dynamic>> snapshot,
+  factory Calendar.fromFirestore(
+      DocumentSnapshot<Map<String, dynamic>> snapshot,
       [SnapshotOptions? options]) {
     final data = snapshot.data()!;
+
+    final preDate = data['date'] as Timestamp;
+
+    final date = preDate.toDate();
+    print(date);
+
     return Calendar(
-      date: data['date'] as DateTime,
+      date: date,
       title: data['title'] as String,
       description: data['description'] as String,
       id: snapshot.id,

@@ -1,43 +1,40 @@
-import 'package:flutter/material.dart';
+import 'dart:ffi';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:muscle_training_app/domain/calendar.dart';
 
-import 'package:flutter/rendering.dart';
-import 'package:muscle_training_app/myapp.dart';
-import 'package:muscle_training_app/constant/colors.dart';
-import 'package:muscle_training_app/view/calendar/calendar_page.dart';
-import 'package:provider/provider.dart';
-
-
-class AddEventPage extends StatefulWidget {
+class EditEventPage extends StatefulWidget {
   final DateTime firstDate;
   final DateTime lastDate;
-  final DateTime? selectedDate;
-  const AddEventPage(
+  final Calendar event;
+  const EditEventPage(
       {Key? key,
       required this.firstDate,
       required this.lastDate,
-      this.selectedDate})
+      required this.event})
       : super(key: key);
 
   @override
-  State<AddEventPage> createState() => _AddEventState();
+  State<EditEventPage> createState() => _EditEventState();
 }
 
-class _AddEventState extends State<AddEventPage> {
+class _EditEventState extends State<EditEventPage> {
   late DateTime _selectedDate;
-  final _titleController = TextEditingController();
-  final _descController = TextEditingController();
+  late TextEditingController _titleController;
+  late TextEditingController _descController;
   @override
   void initState() {
     super.initState();
-    _selectedDate = widget.selectedDate ?? DateTime.now();
+    _selectedDate = widget.event.date;
+    _titleController = TextEditingController(text: widget.event.title);
+    _descController = TextEditingController(text: widget.event.description);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('予定を追加')),
-      backgroundColor: mainColor,
+      appBar: AppBar(title: const Text('予定を編集')),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
@@ -64,7 +61,7 @@ class _AddEventState extends State<AddEventPage> {
             decoration: const InputDecoration(labelText: '詳細'),
           ),
           Padding(
-            padding: const EdgeInsets.all(64.0),
+            padding: const EdgeInsets.all(64),
             child: SizedBox(
               height: 50,
               width: 120,
@@ -73,12 +70,12 @@ class _AddEventState extends State<AddEventPage> {
                   _addEvent();
                 },
                 child: const Text(
-                  '追加する',
+                  '変更する',
                   style: TextStyle(
                     fontSize: 18,
-                    fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w600,
                   ),
-                ),
+                  ),
               ),
             ),
           ),
@@ -91,24 +88,19 @@ class _AddEventState extends State<AddEventPage> {
     final title = _titleController.text;
     final description = _descController.text;
     if (title.isEmpty) {
-      print('予定が入力されていません');
+      print('title cannot be empty');
       return;
     }
-    await FirebaseFirestore.instance.collection('events').add({
-      "title": title,
-      "description": description,
-      "date": Timestamp.fromDate(_selectedDate).toDate(),
+    await FirebaseFirestore.instance
+        .collection('events')
+        .doc(widget.event.id)
+        .update({
+      'title': title,
+      'description': description,
+      'date': Timestamp.fromDate(_selectedDate).toDate(),
     });
-
     if (mounted) {
-      // Navigator.pop<bool>(context, true);
-      await Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute<void>(
-          builder: (_) => const Myapp(),
-        ),
-        (_) => false,
-      );
+      Navigator.pop<bool>(context, true);
     }
   }
 }
