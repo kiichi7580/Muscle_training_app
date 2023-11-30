@@ -2,8 +2,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:muscle_training_app/auth.dart';
+import 'package:muscle_training_app/view/login/login_page.dart';
 
-import 'app.dart';
+import 'myapp.dart';
 import 'firebase_options.dart';
 
 
@@ -15,9 +17,9 @@ void main() async {
   );
 
   // riverpodを使用するための記述 scope
-  const scope = ProviderScope(
+  final scope = ProviderScope(
     child: MaterialApp(
-      home: Myapp(),),);
+      home:  AuthPage(),),);
 
   // カレンダーパッケージを使用するための記述　initializeDateFormatting().then((_)
   await initializeDateFormatting().then((_) => runApp(scope));

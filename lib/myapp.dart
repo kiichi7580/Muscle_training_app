@@ -40,7 +40,7 @@ class Myapp extends ConsumerWidget {
 
     final pages = [
       const CalendarPage(),
-      MemoPage(),
+      const MemoPage(),
       const TimerPage(),
     ];
 
