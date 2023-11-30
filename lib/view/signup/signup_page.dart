@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:muscle_training_app/constant/colors.dart';
 import 'package:muscle_training_app/view/login/login_page.dart';
 import 'package:provider/provider.dart';
 import '../../view_model/signup_model/signup_model.dart';
 
 class SignUpPage extends StatelessWidget {
+  const SignUpPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     final emailEditingController = TextEditingController();
@@ -18,74 +19,78 @@ class SignUpPage extends StatelessWidget {
           title: const Text('新規登録'),
         ),
         backgroundColor: mainColor,
-        body: Consumer<SignUpModel>(builder: (context, model, child) {
-          return Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  TextField(
-                    controller: emailEditingController,
-                    decoration:
-                        const InputDecoration(hintText: 'example@email.com'),
-                    onChanged: (text) {
-                      model.email = text;
-                    },
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  TextField(
-                    controller: passwordEditingController,
-                    decoration: const InputDecoration(hintText: 'パスワード'),
-                    obscureText: true,
-                    onChanged: (text) {
-                      model.password = text;
-                    },
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  SizedBox(
-                    height: 50,
-                  ),
-                  SizedBox(
-                    height: 50,
-                    width: 120,
-                    child: ElevatedButton(
-                      onPressed: () async {
-                        //追加の処理
-                        try {
-                          await model.signup();
-                          await Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(builder: (context) {
-                              return LoginPage();
-                            }),
-                          );
-                        } catch (e) {
-                          print(e);
-                          final snackBar = SnackBar(
-                            backgroundColor: Colors.red,
-                            content: Text(e.toString()),
-                          );
-                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                        }
+        body: Consumer<SignUpModel>(
+          builder: (context, model, child) {
+            return Padding(
+              padding: const EdgeInsets.all(16),
+              child: Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TextField(
+                      controller: emailEditingController,
+                      decoration:
+                          const InputDecoration(hintText: 'example@email.com'),
+                      onChanged: (text) {
+                        model.email = text;
                       },
-                      child: const Text(
-                        '新規登録',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    TextField(
+                      controller: passwordEditingController,
+                      decoration: const InputDecoration(hintText: 'パスワード'),
+                      obscureText: true,
+                      onChanged: (text) {
+                        model.password = text;
+                      },
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    const SizedBox(
+                      height: 50,
+                    ),
+                    SizedBox(
+                      height: 50,
+                      width: 120,
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          //追加の処理
+                          try {
+                            await model.signup();
+                            await Navigator.of(context).pushReplacement(
+                              MaterialPageRoute<void>(
+                                builder: (context) {
+                                  return const LoginPage();
+                                },
+                              ),
+                            );
+                          } catch (e) {
+                            final snackBar = SnackBar(
+                              backgroundColor: Colors.red,
+                              content: Text(e.toString()),
+                            );
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                          }
+                        },
+                        child: const Text(
+                          '新規登録',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          );
-        }),
+            );
+          },
+        ),
       ),
     );
   }

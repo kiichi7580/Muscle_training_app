@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:muscle_training_app/domain/memo.dart';
 
 class MemoModel extends ChangeNotifier {
@@ -12,7 +11,7 @@ class MemoModel extends ChangeNotifier {
       // .orderBy('timeId', descending: true)
       .snapshots();
 
-  void fetchMemo() async {
+  Future<void> fetchMemo() async {
     await _usersStream.listen((snapshot) {
       final List<dynamic> memos = [];
       for (var i = 0; i < snapshot.docs.length; i++) {
@@ -23,9 +22,7 @@ class MemoModel extends ChangeNotifier {
           memos.add(time);
         } else if (!memos.contains(time)) {
           memos.add(time);
-        } else {
-          
-        }
+        } else {}
       }
 
       this.memos = memos;
@@ -33,7 +30,7 @@ class MemoModel extends ChangeNotifier {
     });
   }
 
-  Future delete(Memo memo) {
+  Future<void> delete(Memo memo) {
     return FirebaseFirestore.instance.collection('memos').doc(memo.id).delete();
   }
 }

@@ -1,20 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-
-import 'package:flutter/rendering.dart';
 import 'package:muscle_training_app/constant/colors.dart';
-import 'package:muscle_training_app/domain/memo.dart';
 import 'package:muscle_training_app/view/signup/signup_page.dart';
-import 'package:muscle_training_app/view_model/memo_model/memo_model.dart';
 import 'package:provider/provider.dart';
-import 'package:muscle_training_app/view_model/memo_model/add_memo_model.dart';
-import 'package:muscle_training_app/view/memo/table_memo.dart';
-
-import '../../app.dart';
+import '../../myapp.dart';
 import '../../view_model/login_model/login_model.dart';
-import '../../view_model/signup_model/signup_model.dart';
+
 
 class LoginPage extends StatelessWidget {
+  const LoginPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     final emailEditingController = TextEditingController();
@@ -25,11 +19,20 @@ class LoginPage extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: const Text('ログイン'),
+          leading: IconButton(
+              onPressed: () {
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute<void>(
+                    builder: (context) => const Myapp(),
+                  ),
+                );
+              },
+              icon: const Icon(Icons.arrow_back_ios),),
         ),
         backgroundColor: mainColor,
         body: Consumer<LoginModel>(builder: (context, model, child) {
           return Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16),
             child: Center(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -42,7 +45,7 @@ class LoginPage extends StatelessWidget {
                       model.email = text;
                     },
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 8,
                   ),
                   TextField(
@@ -53,10 +56,10 @@ class LoginPage extends StatelessWidget {
                       model.password = text;
                     },
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 8,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 50,
                   ),
                   SizedBox(
@@ -68,12 +71,11 @@ class LoginPage extends StatelessWidget {
                         try {
                           await model.login();
                           await Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(builder: (context) {
-                              return Myapp();
+                            MaterialPageRoute<void>(builder: (context) {
+                              return const Myapp();
                             }),
                           );
                         } catch (e) {
-                          print(e);
                           final snackBar = SnackBar(
                             backgroundColor: Colors.red,
                             content: Text(e.toString()),
@@ -91,14 +93,14 @@ class LoginPage extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(8),
                     child: TextButton(
                       onPressed: () {
                         Navigator.push(
                             context,
-                            MaterialPageRoute(
+                            MaterialPageRoute<void>(
                               builder: (context) => SignUpPage(),
-                            ));
+                            ),);
                       },
                       child: const Text(
                         '新規登録はこちら',
@@ -113,7 +115,8 @@ class LoginPage extends StatelessWidget {
               ),
             ),
           );
-        }),
+        },
+        ),
       ),
     );
   }

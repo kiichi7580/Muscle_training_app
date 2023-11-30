@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:muscle_training_app/domain/memo.dart';
 
 class EditMemoModel extends ChangeNotifier {
-  final Memo memo;
   EditMemoModel(this.memo) {
     eventController.text = memo.event;
     weightController.text = memo.weight;
     setController.text = memo.set;
     repController.text = memo.rep;
   }
+  final Memo memo;
 
   final eventController = TextEditingController();
   final weightController = TextEditingController();
@@ -45,7 +45,7 @@ class EditMemoModel extends ChangeNotifier {
     return event != null || weight != null || set != null || rep != null;
   }
 
-  Future update() async {
+  Future<void> update() async {
     this.event = eventController.text;
     this.weight = weightController.text;
     this.set = setController.text;

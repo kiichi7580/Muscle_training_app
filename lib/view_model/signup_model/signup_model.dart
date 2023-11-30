@@ -1,9 +1,6 @@
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class SignUpModel extends ChangeNotifier {
   String email = '';
@@ -11,11 +8,12 @@ class SignUpModel extends ChangeNotifier {
   bool isLoding = false;
 
   Future<void> signup() async {
-
     if (email.isEmpty) {
+      // ignore: only_throw_errors
       throw 'emailが入力されていません';
     }
     if (password.isEmpty) {
+      // ignore: only_throw_errors
       throw 'パスワールドが入力されていません';
     }
 
@@ -32,7 +30,7 @@ class SignUpModel extends ChangeNotifier {
     // firestoreに追加
     await doc.set({
       'email': email,
-      'createAt': Timestamp.now(),
+      'createAt': DateTime.now(),
       'uid': uid,
     });
   }

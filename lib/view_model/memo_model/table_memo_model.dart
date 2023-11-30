@@ -2,18 +2,16 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:muscle_training_app/domain/memo.dart';
-import 'package:muscle_training_app/view/memo/table_memo.dart';
-
 
 class TableMemoModel extends ChangeNotifier {
-
   List<Memo>? memos;
 
   void fetchTableMemo(String date) {
-  final Stream<QuerySnapshot> _usersStream = FirebaseFirestore.instance
-      .collection('memos')
-      .where('time', isEqualTo: date)
-      .snapshots();
+    final Stream<QuerySnapshot> _usersStream = FirebaseFirestore.instance
+        .collection('memos')
+        .where('time', isEqualTo: date)
+        .snapshots();
+
     _usersStream.listen((QuerySnapshot snapshot) {
       final List<Memo> memos = snapshot.docs.map((DocumentSnapshot document) {
         Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
@@ -31,7 +29,7 @@ class TableMemoModel extends ChangeNotifier {
     });
   }
 
-  Future delete(Memo memo) {
+  Future<void> delete(Memo memo) {
     return FirebaseFirestore.instance.collection('memos').doc(memo.id).delete();
   }
 }

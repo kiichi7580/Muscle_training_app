@@ -1,9 +1,5 @@
-import 'dart:io';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class LoginModel extends ChangeNotifier {
   String email = '';
@@ -12,9 +8,11 @@ class LoginModel extends ChangeNotifier {
 
   Future<void> login() async {
     if (email.isEmpty) {
+      // ignore: only_throw_errors
       throw 'emailが入力されていません';
     }
     if (password.isEmpty) {
+      // ignore: only_throw_errors
       throw 'パスワールドが入力されていません';
     }
 
