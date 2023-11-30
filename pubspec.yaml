@@ -58,6 +58,7 @@ dependencies:
   # タイマー機能関連
   audioplayers: ^5.2.0
   circular_countdown_timer: ^0.2.3
+  flutter_native_splash: ^2.3.6
 
 
 
@@ -75,6 +76,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+  flutter_launcher_icons: ^0.13.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -90,6 +92,19 @@ flutter:
   # To add assets to your application, add an assets section, like this:
 assets:
   - assets/Clock-Alarm02-4(Button).mp3
+
+
+# アイコン
+flutter_icons:
+  android: true
+  ios: true
+  image_path: 'assets/icons/1024.png'
+
+# ローンチスクリーンの表示
+flutter_native_splash:
+  fullscreen: true
+  image: 'assets/icons/1024.png'
+  color: "#ffffff"
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
