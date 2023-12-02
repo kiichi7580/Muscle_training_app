@@ -25,7 +25,7 @@ class EditMemoPage extends StatelessWidget {
                     TextField(
                       controller: model.eventController,
                       decoration: const InputDecoration(
-                        hintText: '種目',
+                        labelText: '種目',
                       ),
                       onChanged: (text) {
                         model..event = text
@@ -38,7 +38,7 @@ class EditMemoPage extends StatelessWidget {
                     TextField(
                       controller: model.weightController,
                       decoration: const InputDecoration(
-                        hintText: '重量',
+                        labelText: '重量',
                       ),
                       onChanged: (text) {
                         model..weight = text
@@ -51,7 +51,7 @@ class EditMemoPage extends StatelessWidget {
                     TextField(
                       controller: model.setController,
                       decoration: const InputDecoration(
-                        hintText: 'セット',
+                        labelText: 'セット',
                       ),
                       onChanged: (text) {
                         model..set = text
@@ -64,7 +64,7 @@ class EditMemoPage extends StatelessWidget {
                     TextField(
                       controller: model.repController,
                       decoration: const InputDecoration(
-                        hintText: '回数',
+                        labelText: '回数',
                       ),
                       onChanged: (text) {
                         model..rep = text
