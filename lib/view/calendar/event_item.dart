@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:muscle_training_app/domain/calendar.dart';
 
 class EventItem extends StatelessWidget {
@@ -12,15 +14,18 @@ class EventItem extends StatelessWidget {
   final Function() onDelete;
   final Function()? onTap;
 
-
   @override
   Widget build(BuildContext context) {
+    DateFormat format = DateFormat('yyyy年M月d日hh時mm分');
+    DateTime date1 = event.date;
+    String FormatedDate = format.format(date1);
+
     return ListTile(
       title: Text(
         event.title,
       ),
       subtitle: Text(
-        event.date.toString(),
+        FormatedDate,
       ),
       onTap: onTap,
       trailing: IconButton(
