@@ -53,7 +53,7 @@ class Myapp extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
           title: Text(
-            '${titles[index]}',
+            titles[index],
             style: const TextStyle(fontWeight: FontWeight.w700),
           ),
           actions: [
@@ -67,7 +67,7 @@ class Myapp extends ConsumerWidget {
                 // ログイン画面に遷移＋チャット画面を破棄
                 await Navigator.of(context).pushReplacement(
                   MaterialPageRoute<void>(builder: (context) {
-                    return LoginPage();
+                    return const LoginPage();
                   },),
                 );
               },

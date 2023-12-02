@@ -12,7 +12,7 @@ class MemoModel extends ChangeNotifier {
       .snapshots();
 
   Future<void> fetchMemo() async {
-    await _usersStream.listen((snapshot) {
+    _usersStream.listen((snapshot) {
       final List<dynamic> memos = [];
       for (var i = 0; i < snapshot.docs.length; i++) {
         // for (var document in snapshot.docs) {

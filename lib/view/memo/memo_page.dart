@@ -120,7 +120,7 @@ class MemoPage extends StatelessWidget {
                   backgroundColor: Colors.red,
                   content: Text('$memoのメニューを削除しました'),
                 );
-                model.fetchMemo();
+                await model.fetchMemo();
                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
               },
             ),

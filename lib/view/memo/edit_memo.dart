@@ -28,8 +28,8 @@ class EditMemoPage extends StatelessWidget {
                         hintText: '種目',
                       ),
                       onChanged: (text) {
-                        model.event = text;
-                        model.setEvent(text);
+                        model..event = text
+                        ..setEvent(text);
                       },
                     ),
                     const SizedBox(
@@ -41,8 +41,8 @@ class EditMemoPage extends StatelessWidget {
                         hintText: '重量',
                       ),
                       onChanged: (text) {
-                        model.weight = text;
-                        model.setEvent(text);
+                        model..weight = text
+                        ..setEvent(text);
                       },
                     ),
                     const SizedBox(
@@ -54,8 +54,8 @@ class EditMemoPage extends StatelessWidget {
                         hintText: 'セット',
                       ),
                       onChanged: (text) {
-                        model.set = text;
-                        model.setSet(text);
+                        model..set = text
+                        ..setSet(text);
                       },
                     ),
                     const SizedBox(
@@ -67,8 +67,8 @@ class EditMemoPage extends StatelessWidget {
                         hintText: '回数',
                       ),
                       onChanged: (text) {
-                        model.rep = text;
-                        model.setRep(text);
+                        model..rep = text
+                        ..setRep(text);
                       },
                     ),
                     const SizedBox(

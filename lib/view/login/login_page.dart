@@ -73,7 +73,7 @@ class LoginPage extends StatelessWidget {
                           await Navigator.of(context).pushReplacement(
                             MaterialPageRoute<void>(builder: (context) {
                               return const Myapp();
-                            }),
+                            },),
                           );
                         } catch (e) {
                           final snackBar = SnackBar(
@@ -99,7 +99,7 @@ class LoginPage extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute<void>(
-                              builder: (context) => SignUpPage(),
+                              builder: (context) => const SignUpPage(),
                             ),);
                       },
                       child: const Text(

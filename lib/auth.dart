@@ -6,6 +6,8 @@ import 'view/login/login_page.dart';
 
 
 class AuthPage extends StatelessWidget {
+  const AuthPage({super.key});
+
   @override
   Widget build(BuildContext context) => MaterialApp(
         home: StreamBuilder<User?>(
@@ -13,14 +15,14 @@ class AuthPage extends StatelessWidget {
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               // スプラッシュ画面などに書き換えても良い
-              return SizedBox();
+              return const SizedBox();
             }
             if (snapshot.hasData) {
               // User が null でなない、つまりサインイン済みのホーム画面へ
-              return Myapp();
+              return const Myapp();
             }
             // User が null である、つまり未サインインのサインイン画面へ
-            return LoginPage();
+            return const LoginPage();
           },
         ),
       );

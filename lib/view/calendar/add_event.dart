@@ -1,23 +1,18 @@
-import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
-import 'package:flutter/rendering.dart';
-import 'package:muscle_training_app/myapp.dart';
+import 'package:flutter/material.dart';
 import 'package:muscle_training_app/constant/colors.dart';
-import 'package:muscle_training_app/view/calendar/calendar_page.dart';
-import 'package:provider/provider.dart';
+import 'package:muscle_training_app/myapp.dart';
 
 
 class AddEventPage extends StatefulWidget {
+  const AddEventPage(
+      {super.key,
+      required this.firstDate,
+      required this.lastDate,
+      this.selectedDate,});
   final DateTime firstDate;
   final DateTime lastDate;
   final DateTime? selectedDate;
-  const AddEventPage(
-      {Key? key,
-      required this.firstDate,
-      required this.lastDate,
-      this.selectedDate})
-      : super(key: key);
 
   @override
   State<AddEventPage> createState() => _AddEventState();
@@ -47,7 +42,6 @@ class _AddEventState extends State<AddEventPage> {
             initialDate: _selectedDate,
             fieldLabelText: '日付',
             onDateSubmitted: (date) {
-              print(date);
               setState(() {
                 _selectedDate = date;
               });
@@ -64,14 +58,12 @@ class _AddEventState extends State<AddEventPage> {
             decoration: const InputDecoration(labelText: '詳細'),
           ),
           Padding(
-            padding: const EdgeInsets.all(64.0),
+            padding: const EdgeInsets.all(64),
             child: SizedBox(
               height: 50,
               width: 120,
               child: ElevatedButton(
-                onPressed: () {
-                  _addEvent();
-                },
+                onPressed: _addEvent,
                 child: const Text(
                   '追加する',
                   style: TextStyle(
@@ -87,7 +79,7 @@ class _AddEventState extends State<AddEventPage> {
     );
   }
 
-  void _addEvent() async {
+  Future<void> _addEvent() async {
     final title = _titleController.text;
     final description = _descController.text;
     if (title.isEmpty) {
@@ -95,9 +87,9 @@ class _AddEventState extends State<AddEventPage> {
       return;
     }
     await FirebaseFirestore.instance.collection('events').add({
-      "title": title,
-      "description": description,
-      "date": Timestamp.fromDate(_selectedDate).toDate(),
+      'title': title,
+      'description': description,
+      'date': Timestamp.fromDate(_selectedDate).toDate(),
     });
 
     if (mounted) {

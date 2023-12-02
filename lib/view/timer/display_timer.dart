@@ -22,10 +22,7 @@ class _DisplayTimerPageState extends State<DisplayTimerPage> {
   final _audio = AudioPlayer();
 
   late int maxSeconds;
-  // int maxSeconds = 10;
   late int seconds;
-  // late int maxSeconds;
-  // late int seconds;
   Timer? timer;
 
   void startTimer({bool reset = true}) {
@@ -33,7 +30,7 @@ class _DisplayTimerPageState extends State<DisplayTimerPage> {
       resetTimer();
     }
     // seconds: 1
-    timer = Timer.periodic(Duration(seconds: 1), (_) {
+    timer = Timer.periodic(const Duration(seconds: 1), (_) {
       if (seconds > 0) {
         setState(() => seconds--);
       } else {
@@ -75,9 +72,9 @@ class _DisplayTimerPageState extends State<DisplayTimerPage> {
                   children: [
                     buildTimer(),
                     const SizedBox(height: 80),
-                    buildButtons()
+                    buildButtons(),
                   ],
-                ))));
+                ),),),);
   }
 
   Widget buildButtons() {
@@ -95,20 +92,22 @@ class _DisplayTimerPageState extends State<DisplayTimerPage> {
                 child: ElevatedButton(
                     child: Text(
                       isRunning ? 'ストップ' : 'スタート',
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: Colors.white,
                           fontSize: 20,
-                          fontWeight: FontWeight.bold),
+                          fontWeight: FontWeight.bold,
+                          ),
                     ),
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.black26),
+                        backgroundColor: Colors.black26,
+                        ),
                     onPressed: () {
                       if (isRunning) {
                         stopTimer(reset: false);
                       } else {
                         startTimer(reset: false);
                       }
-                    }),
+                    },),
               ),
               const SizedBox(width: 12),
               SizedBox(
@@ -120,11 +119,12 @@ class _DisplayTimerPageState extends State<DisplayTimerPage> {
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 20,
-                          fontWeight: FontWeight.bold),
+                          fontWeight: FontWeight.bold,
+                          ),
                     ),
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.black26),
-                    onPressed: resetTimer),
+                        backgroundColor: Colors.black26,),
+                    onPressed: resetTimer,),
               ),
             ],
           )
@@ -140,7 +140,7 @@ class _DisplayTimerPageState extends State<DisplayTimerPage> {
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,
-                        fontWeight: FontWeight.bold),
+                        fontWeight: FontWeight.bold,),
                   ),
                   style:
                       ElevatedButton.styleFrom(backgroundColor: Colors.black26),
@@ -168,9 +168,9 @@ class _DisplayTimerPageState extends State<DisplayTimerPage> {
           ),
           Center(
             child: buildTime(),
-          )
+          ),
         ],
-      ));
+      ),);
 
   Widget buildTime() {
     return Text(

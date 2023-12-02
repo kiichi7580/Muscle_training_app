@@ -14,13 +14,12 @@ class Calendar {
 
   factory Calendar.fromFirestore(
       DocumentSnapshot<Map<String, dynamic>> snapshot,
-      [SnapshotOptions? options]) {
+      [SnapshotOptions? options,]) {
     final data = snapshot.data()!;
 
     final preDate = data['date'] as Timestamp;
 
     final date = preDate.toDate();
-    print(date);
 
     return Calendar(
       date: date,
@@ -32,9 +31,9 @@ class Calendar {
 
   Map<String, Object?> toFirestore() {
     return {
-      "date": Timestamp.fromDate(date).toDate(),
-      "title": title,
-      "description": description,
+      'date': Timestamp.fromDate(date).toDate(),
+      'title': title,
+      'description': description,
     };
   }
 }

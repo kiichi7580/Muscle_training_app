@@ -1,19 +1,17 @@
-import 'dart:ffi';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:muscle_training_app/domain/calendar.dart';
 
+
 class EditEventPage extends StatefulWidget {
+  const EditEventPage(
+      {super.key,
+      required this.firstDate,
+      required this.lastDate,
+      required this.event,});
   final DateTime firstDate;
   final DateTime lastDate;
   final Calendar event;
-  const EditEventPage(
-      {Key? key,
-      required this.firstDate,
-      required this.lastDate,
-      required this.event})
-      : super(key: key);
 
   @override
   State<EditEventPage> createState() => _EditEventState();
@@ -44,7 +42,6 @@ class _EditEventState extends State<EditEventPage> {
             initialDate: _selectedDate,
             fieldLabelText: '日付',
             onDateSubmitted: (date) {
-              print(date);
               setState(() {
                 _selectedDate = date;
               });
@@ -66,9 +63,7 @@ class _EditEventState extends State<EditEventPage> {
               height: 50,
               width: 120,
               child: ElevatedButton(
-                onPressed: () {
-                  _addEvent();
-                },
+                onPressed: _addEvent,
                 child: const Text(
                   '変更する',
                   style: TextStyle(
@@ -84,11 +79,11 @@ class _EditEventState extends State<EditEventPage> {
     );
   }
 
-  void _addEvent() async {
+  Future<void> _addEvent() async {
     final title = _titleController.text;
     final description = _descController.text;
     if (title.isEmpty) {
-      print('title cannot be empty');
+      print('予定が入力されていません');
       return;
     }
     await FirebaseFirestore.instance

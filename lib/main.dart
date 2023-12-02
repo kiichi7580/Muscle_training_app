@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:muscle_training_app/auth.dart';
-import 'package:muscle_training_app/view/login/login_page.dart';
 
-import 'myapp.dart';
 import 'firebase_options.dart';
 
 
@@ -17,31 +15,10 @@ void main() async {
   );
 
   // riverpodを使用するための記述 scope
-  final scope = ProviderScope(
+  const scope = ProviderScope(
     child: MaterialApp(
       home:  AuthPage(),),);
 
   // カレンダーパッケージを使用するための記述　initializeDateFormatting().then((_)
   await initializeDateFormatting().then((_) => runApp(scope));
 }
-
-//   const app = MaterialApp(home: MyPage());
-//   runApp(app);
-//
-// }
-//
-// class MyPage extends StatelessWidget {
-//   const MyPage({super.key});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     final button = ElevatedButton(
-//         onPressed: () {},
-//         child: const Text('サインインする'),
-//     );
-//   }
-//
-//   return Scaffold(
-//       body: Center(child: button),
-//   );
-// }

@@ -151,9 +151,9 @@ class _TimerPageState extends State<TimerPage> {
                 );
 
                 if (added != null && added) {
-                  final snackBar = SnackBar(
+                  const snackBar = SnackBar(
                     backgroundColor: Colors.green,
-                    content: const Text('タイマーを追加しました'),
+                    content: Text('タイマーを追加しました'),
                   );
                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
                 }

@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -5,11 +7,10 @@ import 'package:muscle_training_app/constant/colors.dart';
 import 'package:muscle_training_app/view/calendar/add_event.dart';
 import 'package:muscle_training_app/view/calendar/edit_event.dart';
 import 'package:muscle_training_app/view/calendar/event_item.dart';
-import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'dart:collection';
 
 import '../../domain/calendar.dart';
+import '../../myapp.dart';
 
 class CalendarPage extends StatefulWidget {
   const CalendarPage({super.key});
@@ -34,7 +35,6 @@ class _CalendarPageState extends State<CalendarPage> {
   }
 
   Future<void> _loadFirestoreEvents() async {
-    print('aaa');
     final firstDay = DateTime(_focusedDay.year, _focusedDay.month, 1);
     final lastDay = DateTime(_focusedDay.year, _focusedDay.month + 1, 31);
     // _events = {};
@@ -51,31 +51,16 @@ class _CalendarPageState extends State<CalendarPage> {
 
     // print(snap.docs[0]['title']);
 
-    for (var doc in snap.docs) {
+    for (final doc in snap.docs) {
       final event = doc;
-      print(event);
       final event1 = event.data();
-      print(event1);
-      //     final event = doc.data();
-      //     final day =
-      //         DateTime.utc(event.date.year, event.date.month, event.date.day);
-      //     final DateTime day1 = day as DateTime;
-      //     if (_events[day1] == null) {
-      //       _events[day1] = [];
-      //     }
-      //     _events[day1]!.add(event);
-      //   }
-      //   setState(() {});
-      // }
 
-      //     print(event1);
       final Timestamp dateEvent = event['date'] as Timestamp;
       final day = (
         dateEvent.toDate().year,
         dateEvent.toDate().month,
         dateEvent.toDate().day,
       );
-      print(day);
 
       _events.putIfAbsent(dateEvent.toDate(), () => []);
 
@@ -83,13 +68,9 @@ class _CalendarPageState extends State<CalendarPage> {
         _events[dateEvent.toDate()] = [];
       }
       _events[dateEvent.toDate()]!.add(event1);
-      print(event1.title);
-      print(event1.description);
 
       setState(() {});
-      print(_events[dateEvent.toDate()]);
     }
-    print(_events);
   }
 
   @override
@@ -108,22 +89,18 @@ class _CalendarPageState extends State<CalendarPage> {
   }
 
   List<Calendar> _getEventsForTheDay(DateTime day) {
-    // print(_events);
-    // print(_events[day]);
     return _events[day] ?? [];
   }
 
   @override
   Widget build(BuildContext context) {
-    // _loadFirestoreEvents();
 
     return Scaffold(
       backgroundColor: mainColor,
       body: ListView(
         children: [
-          // Text('{$user}さん、ようこそ！'),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8),
             child: Card(
               child: TableCalendar(
                 eventLoader: _getEventsForTheDay,
@@ -144,7 +121,6 @@ class _CalendarPageState extends State<CalendarPage> {
                 },
                 selectedDayPredicate: (day) => isSameDay(day, _selectedDay),
                 onDaySelected: (selectedDay, focusedDay) {
-                  print(_events[selectedDay]);
                   setState(() {
                     _selectedDay = selectedDay;
                     _focusedDay = focusedDay;
@@ -172,7 +148,8 @@ class _CalendarPageState extends State<CalendarPage> {
                     );
                   }
                   return null;
-                }),
+                },
+                ),
                 calendarStyle: const CalendarStyle(
                   weekendTextStyle: TextStyle(
                       // 週末の色を指定
@@ -206,29 +183,29 @@ class _CalendarPageState extends State<CalendarPage> {
                     ),
                   );
                   if (res ?? false) {
-                    _loadFirestoreEvents();
+                    await _loadFirestoreEvents();
                   }
                 },
                 onDelete: () async {
                   final delete = await showDialog<bool>(
                     context: context,
-                    builder: (_) => AlertDialog(
-                      title: const Text("Delete Event?"),
-                      content: const Text("Are you sure you want to delete?"),
+                    builder: (BuildContext context) => AlertDialog(
+                      title: const Text('削除の確認'),
+                      content: const Text('予定を削除しますか？'),
                       actions: [
                         TextButton(
                           onPressed: () => Navigator.pop(context, false),
                           style: TextButton.styleFrom(
                             foregroundColor: Colors.black,
                           ),
-                          child: const Text("No"),
+                          child: const Text('いいえ'),
                         ),
                         TextButton(
                           onPressed: () => Navigator.pop(context, true),
                           style: TextButton.styleFrom(
                             foregroundColor: Colors.red,
                           ),
-                          child: const Text("Yes"),
+                          child: const Text('削除'),
                         ),
                       ],
                     ),
@@ -236,32 +213,18 @@ class _CalendarPageState extends State<CalendarPage> {
                   if (delete ?? false) {
                     await FirebaseFirestore.instance
                         .collection('events')
-                        .doc(event.id.toString())
+                        .doc(event.id)
                         .delete();
-                    _loadFirestoreEvents();
+                    await Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute<void>(
+                        builder: (_) => const Myapp(),
+                      ),
+                      (_) => false,
+                    );
                   }
-                }),
+                },),
           ),
-          // SizedBox(
-          //   height: 300,
-          //   child: ListView.builder(
-          //     itemCount: _getEventsForTheDay(_selectedDay).length,
-          //     itemBuilder: (context, index) {
-          //       // _loadFirestoreEvents();
-          //       final event = _getEventsForTheDay(_selectedDay)[index];
-          //       return Card(
-          //         child: ListTile(
-          //           title: Text('$event'),
-                    // onTap: () {
-                    //   Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(builder: (context) => DetailEvent(event: ,))),
-                    // }
-          //         ),
-          //       );
-          //     },
-          //   ),
-          // ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -277,7 +240,6 @@ class _CalendarPageState extends State<CalendarPage> {
             ),
           );
           if (result ?? false) {
-            print(result);
             await _loadFirestoreEvents();
           }
         },

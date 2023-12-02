@@ -37,7 +37,7 @@ class EditTimerPage extends StatelessWidget {
                                   child: TextField(
                                     controller: model.minuteController,
                                     decoration: const InputDecoration(
-                                        border: OutlineInputBorder()),
+                                        border: OutlineInputBorder(),),
                                     onChanged: (text) {
                                       model.minute = text;
                                       model.setMinute(text);
@@ -63,7 +63,7 @@ class EditTimerPage extends StatelessWidget {
                                   child: TextField(
                                     controller: model.secondController,
                                     decoration: const InputDecoration(
-                                        border: OutlineInputBorder()),
+                                        border: OutlineInputBorder(),),
                                     onChanged: (text) {
                                       model.second = text;
                                       model.setSecond(text);
