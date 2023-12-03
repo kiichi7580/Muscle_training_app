@@ -1,15 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:muscle_training_app/constant/colors.dart';
 import 'package:muscle_training_app/myapp.dart';
 
-
 class AddEventPage extends StatefulWidget {
-  const AddEventPage(
-      {super.key,
-      required this.firstDate,
-      required this.lastDate,
-      this.selectedDate,});
+  const AddEventPage({
+    super.key,
+    required this.firstDate,
+    required this.lastDate,
+    this.selectedDate,
+  });
   final DateTime firstDate;
   final DateTime lastDate;
   final DateTime? selectedDate;
@@ -22,6 +23,19 @@ class _AddEventState extends State<AddEventPage> {
   late DateTime _selectedDate;
   final _titleController = TextEditingController();
   final _descController = TextEditingController();
+  late String color1;
+  late String color2;
+  late String eventColor;
+  String removeWords(String input, List<String> wordsToRemove) {
+    String result = input;
+    wordsToRemove.forEach((word) {
+      result = result.replaceAll(word, '');
+    });
+    return result;
+  }
+
+  List<String> removeStringList = ['MaterialColor(primary value: Color(', ')'];
+  late String preColor;
   @override
   void initState() {
     super.initState();
@@ -57,8 +71,40 @@ class _AddEventState extends State<AddEventPage> {
             maxLines: 5,
             decoration: const InputDecoration(labelText: '詳細'),
           ),
+          SizedBox(
+            height: 80,
+            child: TextButton(
+              onPressed: () {
+                showDialog(
+                  builder: (context) => AlertDialog(
+                    title: const Text('色を選択'),
+                    content: SingleChildScrollView(
+                      child: BlockPicker(
+                        pickerColor: Colors.red,
+                        onColorChanged: (color) {
+                          // TODO: 変更時処理
+                          color1 = color.toString();
+                          color2 = removeWords(color1, removeStringList);
+                          eventColor = color2;
+                          print(eventColor);
+                        },
+                      ),
+                    ),
+                  ),
+                  context: context,
+                );
+              },
+              child: const Text(
+                'カラーを選択する',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+          ),
           Padding(
-            padding: const EdgeInsets.all(64),
+            padding: const EdgeInsets.all(20),
             child: SizedBox(
               height: 50,
               width: 120,
@@ -86,14 +132,26 @@ class _AddEventState extends State<AddEventPage> {
       print('予定が入力されていません');
       return;
     }
+
+    // // カラー変換
+    // Color stringToColor(String colorString) {
+    //   // カラーコードを整数に変換
+    //   int value = int.parse(colorString.replaceAll('#', '0x'), radix: 16);
+    //   // Colorクラスに変換
+    //   return Color(value);
+    // }
+
+    // Color eventColor = stringToColor(preColor);
+    // print(eventColor);
+
     await FirebaseFirestore.instance.collection('events').add({
       'title': title,
       'description': description,
       'date': Timestamp.fromDate(_selectedDate).toDate(),
+      'eventColor': eventColor,
     });
 
     if (mounted) {
-      // Navigator.pop<bool>(context, true);
       await Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute<void>(

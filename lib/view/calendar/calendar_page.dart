@@ -94,7 +94,6 @@ class _CalendarPageState extends State<CalendarPage> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: mainColor,
       body: ListView(
@@ -102,6 +101,7 @@ class _CalendarPageState extends State<CalendarPage> {
           Padding(
             padding: const EdgeInsets.all(8),
             child: Card(
+              elevation: 8,
               child: TableCalendar(
                 eventLoader: _getEventsForTheDay,
                 calendarFormat: _calendarFormat,
@@ -129,26 +129,27 @@ class _CalendarPageState extends State<CalendarPage> {
                 //日本語化
                 locale: 'ja_JP',
                 //土・日曜日の色を変える
-                calendarBuilders: CalendarBuilders(dowBuilder: (_, day) {
-                  if (day.weekday == DateTime.sunday) {
-                    const text = '日';
-                    return const Center(
-                      child: Text(
-                        text,
-                        style: TextStyle(color: Colors.red),
-                      ),
-                    );
-                  } else if (day.weekday == DateTime.saturday) {
-                    const text = '土';
-                    return const Center(
-                      child: Text(
-                        text,
-                        style: TextStyle(color: Colors.blue),
-                      ),
-                    );
-                  }
-                  return null;
-                },
+                calendarBuilders: CalendarBuilders(
+                  dowBuilder: (_, day) {
+                    if (day.weekday == DateTime.sunday) {
+                      const text = '日';
+                      return const Center(
+                        child: Text(
+                          text,
+                          style: TextStyle(color: Colors.red),
+                        ),
+                      );
+                    } else if (day.weekday == DateTime.saturday) {
+                      const text = '土';
+                      return const Center(
+                        child: Text(
+                          text,
+                          style: TextStyle(color: Colors.blue),
+                        ),
+                      );
+                    }
+                    return null;
+                  },
                 ),
                 calendarStyle: const CalendarStyle(
                   weekendTextStyle: TextStyle(
@@ -171,59 +172,58 @@ class _CalendarPageState extends State<CalendarPage> {
           ),
           ..._getEventsForTheDay(_selectedDay).map(
             (event) => EventItem(
-                event: event,
-                onTap: () async {
-                  final res = await Navigator.push<bool>(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => EditEventPage(
-                          firstDate: _firstDay,
-                          lastDate: _lastDay,
-                          event: event),
-                    ),
-                  );
-                  if (res ?? false) {
-                    await _loadFirestoreEvents();
-                  }
-                },
-                onDelete: () async {
-                  final delete = await showDialog<bool>(
-                    context: context,
-                    builder: (BuildContext context) => AlertDialog(
-                      title: const Text('削除の確認'),
-                      content: const Text('予定を削除しますか？'),
-                      actions: [
-                        TextButton(
-                          onPressed: () => Navigator.pop(context, false),
-                          style: TextButton.styleFrom(
-                            foregroundColor: Colors.black,
-                          ),
-                          child: const Text('いいえ'),
+              event: event,
+              onTap: () async {
+                final res = await Navigator.push<bool>(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => EditEventPage(
+                        firstDate: _firstDay, lastDate: _lastDay, event: event,),
+                  ),
+                );
+                if (res ?? false) {
+                  await _loadFirestoreEvents();
+                }
+              },
+              onDelete: () async {
+                final delete = await showDialog<bool>(
+                  context: context,
+                  builder: (BuildContext context) => AlertDialog(
+                    title: const Text('削除の確認'),
+                    content: const Text('予定を削除しますか？'),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(context, false),
+                        style: TextButton.styleFrom(
+                          foregroundColor: Colors.black,
                         ),
-                        TextButton(
-                          onPressed: () => Navigator.pop(context, true),
-                          style: TextButton.styleFrom(
-                            foregroundColor: Colors.red,
-                          ),
-                          child: const Text('削除'),
-                        ),
-                      ],
-                    ),
-                  );
-                  if (delete ?? false) {
-                    await FirebaseFirestore.instance
-                        .collection('events')
-                        .doc(event.id)
-                        .delete();
-                    await Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute<void>(
-                        builder: (_) => const Myapp(),
+                        child: const Text('いいえ'),
                       ),
-                      (_) => false,
-                    );
-                  }
-                },),
+                      TextButton(
+                        onPressed: () => Navigator.pop(context, true),
+                        style: TextButton.styleFrom(
+                          foregroundColor: Colors.red,
+                        ),
+                        child: const Text('削除'),
+                      ),
+                    ],
+                  ),
+                );
+                if (delete ?? false) {
+                  await FirebaseFirestore.instance
+                      .collection('events')
+                      .doc(event.id)
+                      .delete();
+                  await Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute<void>(
+                      builder: (_) => const Myapp(),
+                    ),
+                    (_) => false,
+                  );
+                }
+              },
+            ),
           ),
         ],
       ),
