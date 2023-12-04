@@ -7,7 +7,7 @@
 ### Muscle Managerは、筋トレを効率化するいくつかの機能が入った筋トレ管理アプリです
 
 <div style="float: right; margin: 0 10px 10px 5px;">
-  <img src="/Users/nakasatokiichi/StudioProjects/Muscle_training_app/assets/icons/1024.png" width="180" height="180">
+  <img src="./assets/icons/1024.png" width="180" height="180">
 </div>
 
 自分は日々筋トレに励んでいる中で、ふとさまざまなアプリを行き来していることに気がつきました。
@@ -36,6 +36,30 @@
 <br>
 
 <img src="./images/Simulator Screenshot - iPhone 15 Pro Max - 2023-11-30 at 19.17.13.png" width="200"> <img src="./images/Simulator Screenshot - iPhone 15 Pro Max - 2023-11-30 at 19.17.50.png" width="200"> <img src="./images/Simulator Screenshot - iPhone 15 Pro Max - 2023-11-30 at 19.51.11.png" width="200">
+
+<br>
+<br>
+<br>
+<br>
+<br>
+
+***
+## 使い方
+
+### 1. Flutterの環境構築
+  - ↓↓こちらの記事を参考にしてください<br>
+  [Flutter環境構築](https://zenn.dev/kazutxt/books/flutter_practice_introduction/viewer/06_chapter1_environment)
+
+### 2. リポジトリのclone
+```
+git clone https://github.com/kiichi7580/Muscle_training_app.git
+```
+### 3. シュミレーターの起動
+```
+open -a Simulator
+```
+### 4. 「Muscle Manager」アプリを選択
+「Muscle Manager」のアイコンをタップしてアプリをご利用ください
 
 <br>
 <br>
