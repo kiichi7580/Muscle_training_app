@@ -47,17 +47,19 @@
 ## 使い方
 
 ### 1. Flutterの環境構築
-  - ↓↓こちらの記事を参考にしてください<br>
+↓↓こちらの記事を参考にしてください<br>
   [Flutter環境構築](https://zenn.dev/kazutxt/books/flutter_practice_introduction/viewer/06_chapter1_environment)
 
 ### 2. リポジトリのclone
 ```
 git clone https://github.com/kiichi7580/Muscle_training_app.git
 ```
+
 ### 3. シュミレーターの起動
 ```
 open -a Simulator
 ```
+
 ### 4. 「Muscle Manager」アプリを選択
 「Muscle Manager」のアイコンをタップしてアプリをご利用ください
 
