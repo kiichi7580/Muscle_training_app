@@ -4,17 +4,25 @@ import 'package:muscle_training_app/domain/timer.dart';
 
 class EditTimerModel extends ChangeNotifier {
   EditTimerModel(this.timer) {
+    timerNameController.text = timer.timerName;
     minuteController.text = timer.minute;
     secondController.text = timer.second;
   }
   final MyTimer timer;
 
+  final timerNameController = TextEditingController();
   final minuteController = TextEditingController();
   final secondController = TextEditingController();
 
+  String timerName = '';
   String minute = '';
   String second = '';
   int? totalSecond;
+
+  void setTimerName(String timerName) {
+    this.timerName = timerName;
+    notifyListeners();
+  }
 
   void setMinute(String minute) {
     this.minute = minute;
@@ -28,10 +36,11 @@ class EditTimerModel extends ChangeNotifier {
 
   bool isUpdated() {
     // ignore: unnecessary_null_comparison
-    return minute != null || second != null;
+    return timerName != null || minute != null || second != null;
   }
 
   Future<void> update() async {
+    this.timerName = timerNameController.text;
     this.minute = minuteController.text;
     this.second = secondController.text;
 
@@ -42,6 +51,7 @@ class EditTimerModel extends ChangeNotifier {
         .collection('myTimers')
         .doc(timer.id)
         .update({
+      'timerName': timerName,
       'minute': minute,
       'second': second,
       'totalSecond': totalSecond,

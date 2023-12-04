@@ -62,7 +62,7 @@ class _TimerPageState extends State<TimerPage> {
                           if (event != null) {
                             final snackBar = SnackBar(
                               backgroundColor: Colors.green,
-                              content: Text('$timerを編集しました'),
+                              content: Text('${timer.timerName}}のタイマーを編集しました'),
                             );
                             ScaffoldMessenger.of(context)
                                 .showSnackBar(snackBar);
@@ -89,11 +89,16 @@ class _TimerPageState extends State<TimerPage> {
                   child: Padding(
                     padding: const EdgeInsets.all(6),
                     child: Card(
+                      elevation: 3,
                       child: ListTile(
                         leading: const Icon(Icons.alarm_on),
-                        title: Text(
+                        title: Text(timer.timerName),
+                        subtitle: Text(
                           '${timer.minute}:${timer.second}',
-                          style: const TextStyle(fontSize: 40),
+                          style: const TextStyle(
+                            fontSize: 40,
+                            color: Colors.black,
+                          ),
                         ),
                         trailing: const SizedBox(
                           height: 50,
@@ -120,6 +125,7 @@ class _TimerPageState extends State<TimerPage> {
                             context,
                             MaterialPageRoute<void>(
                               builder: (context) => DisplayTimerPage(
+                                timerName: timer.timerName,
                                 maxSeconds: timer.totalSecond,
                                 seconds: timer.totalSecond,
                               ),

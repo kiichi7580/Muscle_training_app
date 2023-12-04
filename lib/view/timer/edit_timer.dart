@@ -26,6 +26,28 @@ class EditTimerPage extends StatelessWidget {
                       padding: const EdgeInsets.all(8),
                       child: Column(
                         children: [
+                          SizedBox(
+                            height: 60,
+                            width: 294,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: TextField(
+                                controller: model.timerNameController,
+                                decoration: const InputDecoration(
+                                  labelText: '名前',
+                                  border: OutlineInputBorder(),
+                                ),
+                                onChanged: (text) {
+                                  model
+                                    ..timerName = text
+                                    ..setTimerName(text);
+                                },
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 30,
+                          ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -38,10 +60,12 @@ class EditTimerPage extends StatelessWidget {
                                     controller: model.minuteController,
                                     decoration: const InputDecoration(
                                       labelText: '分数を入力',
-                                        border: OutlineInputBorder(),),
+                                      border: OutlineInputBorder(),
+                                    ),
                                     onChanged: (text) {
-                                      model.minute = text;
-                                      model.setMinute(text);
+                                      model
+                                        ..minute = text
+                                        ..setMinute(text);
                                     },
                                   ),
                                 ),
@@ -65,10 +89,12 @@ class EditTimerPage extends StatelessWidget {
                                     controller: model.secondController,
                                     decoration: const InputDecoration(
                                       labelText: '秒数を入力',
-                                        border: OutlineInputBorder(),),
+                                      border: OutlineInputBorder(),
+                                    ),
                                     onChanged: (text) {
-                                      model.second = text;
-                                      model.setSecond(text);
+                                      model
+                                        ..second = text
+                                        ..setSecond(text);
                                     },
                                   ),
                                 ),
@@ -79,59 +105,35 @@ class EditTimerPage extends StatelessWidget {
                             height: 50,
                             width: double.infinity,
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SizedBox(
-                                height: 50,
-                                width: 120,
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: const Text(
-                                    '閉じる',
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
+                          SizedBox(
+                            height: 50,
+                            width: 120,
+                            child: ElevatedButton(
+                              onPressed: model.isUpdated()
+                                  ? () async {
+                                      //処理の追加
+                                      try {
+                                        await model.update();
+                                        Navigator.of(context).pop();
+                                      } catch (e) {
+                                        print(e);
+                                        final snackBar = SnackBar(
+                                          backgroundColor: Colors.red,
+                                          content: Text(e.toString()),
+                                        );
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(snackBar);
+                                      }
+                                    }
+                                  : null,
+                              child: const Text(
+                                '変更する',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
                                 ),
                               ),
-                              const SizedBox(
-                                width: 30,
-                              ),
-                              SizedBox(
-                                height: 50,
-                                width: 120,
-                                child: ElevatedButton(
-                                  onPressed: model.isUpdated()
-                                      ? () async {
-                                          //処理の追加
-                                          try {
-                                            await model.update();
-                                            Navigator.of(context).pop();
-                                          } catch (e) {
-                                            print(e);
-                                            final snackBar = SnackBar(
-                                              backgroundColor: Colors.red,
-                                              content: Text(e.toString()),
-                                            );
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(snackBar);
-                                          }
-                                        }
-                                      : null,
-                                  child: const Text(
-                                    '変更する',
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
+                            ),
                           ),
                         ],
                       ),

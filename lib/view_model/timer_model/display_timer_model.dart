@@ -14,10 +14,11 @@ class DisplayTimerModel extends ChangeNotifier {
       final List<MyTimer> myTimers = snapshot.docs.map((DocumentSnapshot document) {
         Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
         final String id = document.id;
+        final String timerName = data['timerName'] as String;
         final int totalSecond = data['totalSecond'] as int;
         final String minute = data['minute'] as String;
         final String second = data['second'] as String;
-        return MyTimer(id, totalSecond, minute, second);
+        return MyTimer(id, timerName, totalSecond, minute, second);
       }).toList();
 
       this.myTimers = myTimers;

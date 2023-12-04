@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class AddTimerModel extends ChangeNotifier {
+  String? timerName;
   String? minute;
   String? second;
   int? totalSecond;
@@ -19,6 +20,7 @@ class AddTimerModel extends ChangeNotifier {
   }
 
   Future<void> addTimer() async {
+    timerName ??= '-';
     if (minute == null) {
       // ignore: only_throw_errors
       throw '分数が入力されていません';
@@ -36,12 +38,12 @@ class AddTimerModel extends ChangeNotifier {
     }
 
     final totalSecond = int.parse(minute!) * 60 + int.parse(second!);
-    
 
     final doc = FirebaseFirestore.instance.collection('myTimers').doc();
 
     // firestoreに追加
     await doc.set({
+      'timerName': timerName,
       'minute': minute,
       'second': second,
       'totalSecond': totalSecond,
