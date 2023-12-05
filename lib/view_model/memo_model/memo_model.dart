@@ -8,7 +8,7 @@ class MemoModel extends ChangeNotifier {
 
   final Stream<QuerySnapshot> _usersStream = FirebaseFirestore.instance
       .collection('memos')
-      // .orderBy('timeId', descending: true)
+      .orderBy('dateId', descending: true)
       .snapshots();
 
   Future<void> fetchMemo() async {

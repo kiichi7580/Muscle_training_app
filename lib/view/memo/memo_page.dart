@@ -28,6 +28,7 @@ class MemoPage extends StatelessWidget {
                 return Padding(
                   padding: const EdgeInsets.all(6),
                   child: Card(
+                    elevation: 3,
                     child: ListTile(
                       leading: const Icon(Icons.check_circle),
                       dense: true,
@@ -80,7 +81,7 @@ class MemoPage extends StatelessWidget {
                   );
                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
                 }
-                model.fetchMemo();
+                await model.fetchMemo();
               },
               tooltip: 'メモを追加する',
               child: const Icon(Icons.add),

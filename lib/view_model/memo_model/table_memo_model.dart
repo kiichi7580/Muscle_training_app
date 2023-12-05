@@ -10,6 +10,7 @@ class TableMemoModel extends ChangeNotifier {
     final Stream<QuerySnapshot> _usersStream = FirebaseFirestore.instance
         .collection('memos')
         .where('time', isEqualTo: date)
+        .orderBy('dateId', descending: true)
         .snapshots();
 
     _usersStream.listen((QuerySnapshot snapshot) {
@@ -17,11 +18,12 @@ class TableMemoModel extends ChangeNotifier {
         Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
         final String id = document.id;
         final dynamic time = data['time'] as dynamic;
-        final String event = data['event'] as String;
-        final String weight = data['weight'] as String;
-        final String set = data['set'] as String;
-        final String rep = data['rep'] as String;
-        return Memo(id, time, event, weight, set, rep);
+        final String event = data['event'].toString();
+        final int dateId = data['dateId'] as int;
+        final String weight = data['weight'].toString();
+        final String set = data['set'].toString();
+        final String rep = data['rep'].toString();
+        return Memo(id, dateId, time, event, weight, set, rep);
       }).toList();
 
       this.memos = memos;
