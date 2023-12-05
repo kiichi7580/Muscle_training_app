@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 
 class AddMemoModel extends ChangeNotifier {
@@ -8,6 +7,7 @@ class AddMemoModel extends ChangeNotifier {
   String? weight;
   String? set;
   String? rep;
+  String? time;
   bool isLoding = false;
 
   void startLoding() {
@@ -37,15 +37,16 @@ class AddMemoModel extends ChangeNotifier {
       // ignore: only_throw_errors
       throw '回数が入力されていません';
     }
+    if (time == null || time!.isEmpty) {
+      // ignore: only_throw_errors
+      throw '時間が入力されていません';
+    }
 
     final doc = FirebaseFirestore.instance.collection('memos').doc();
 
-    // timeのフォーマットを変更
-    final format1 = DateFormat('yyyy-MM-dd');
-    final now = DateTime.now();
-    final time1 = format1.format(now);
-    final time = time1;
-
+    // dateId生成
+    final preDateId = time!.replaceAll('-', '');
+    final int dateId = int.parse(preDateId);
 
     // firestoreに追加
     await doc.set({
@@ -54,6 +55,7 @@ class AddMemoModel extends ChangeNotifier {
       'set': set,
       'rep': rep,
       'time': time,
+      'dateId': dateId,
     });
   }
 }
