@@ -59,7 +59,14 @@ class _DisplayTimerPageState extends State<DisplayTimerPage> {
           DisplayTimerModel()..fetchDisplayTimer(maxSeconds, seconds),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('タイマー'),
+          title: Text(
+            'タイマー',
+            style: Theme.of(context)
+                .textTheme
+                .titleLarge!
+                .copyWith(fontWeight: FontWeight.w600, color: Colors.white),
+          ),
+          backgroundColor: Colors.black54,
           leading: IconButton(
             icon: const Icon(Icons.arrow_back_rounded),
             onPressed: () {
@@ -68,8 +75,18 @@ class _DisplayTimerPageState extends State<DisplayTimerPage> {
           ),
         ),
         body: Container(
+          height: double.infinity,
           width: double.infinity,
-          color: Colors.black12,
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Colors.black26,
+                Colors.black45,
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -81,7 +98,7 @@ class _DisplayTimerPageState extends State<DisplayTimerPage> {
                   child: Text(
                     timerName,
                     style: const TextStyle(
-                      fontSize: 20,
+                      fontSize: 23,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -109,14 +126,6 @@ class _DisplayTimerPageState extends State<DisplayTimerPage> {
                 height: 70,
                 width: 150,
                 child: ElevatedButton(
-                  child: Text(
-                    isRunning ? 'ストップ' : 'スタート',
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.black26,
                   ),
@@ -127,6 +136,14 @@ class _DisplayTimerPageState extends State<DisplayTimerPage> {
                       startTimer(reset: false);
                     }
                   },
+                  child: Text(
+                    isRunning ? 'ストップ' : 'スタート',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               ),
               const SizedBox(width: 12),
@@ -134,6 +151,10 @@ class _DisplayTimerPageState extends State<DisplayTimerPage> {
                 height: 70,
                 width: 150,
                 child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.black26,
+                  ),
+                  onPressed: resetTimer,
                   child: const Text(
                     'リセット',
                     style: TextStyle(
@@ -142,10 +163,6 @@ class _DisplayTimerPageState extends State<DisplayTimerPage> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.black26,
-                  ),
-                  onPressed: resetTimer,
                 ),
               ),
             ],
@@ -157,6 +174,12 @@ class _DisplayTimerPageState extends State<DisplayTimerPage> {
                 height: 70,
                 width: 150,
                 child: ElevatedButton(
+                  style:
+                      ElevatedButton.styleFrom(backgroundColor: Colors.black26),
+                  onPressed: () {
+                    seconds = maxSeconds;
+                    startTimer();
+                  },
                   child: const Text(
                     'スタート',
                     style: TextStyle(
@@ -165,12 +188,6 @@ class _DisplayTimerPageState extends State<DisplayTimerPage> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  style:
-                      ElevatedButton.styleFrom(backgroundColor: Colors.black26),
-                  onPressed: () {
-                    seconds = maxSeconds;
-                    startTimer();
-                  },
                 ),
               ),
             ],

@@ -52,27 +52,34 @@ class Myapp extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-          title: Text(
-            titles[index],
-            style: const TextStyle(fontWeight: FontWeight.w700),
-          ),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.logout),
-              onPressed: () async {
-                // ログアウト処理
-                // 内部で保持しているログイン情報等が初期化される
-                // （現時点ではログアウト時はこの処理を呼び出せばOKと、思うぐらいで大丈夫）
-                await FirebaseAuth.instance.signOut();
-                // ログイン画面に遷移＋チャット画面を破棄
-                await Navigator.of(context).pushReplacement(
-                  MaterialPageRoute<void>(builder: (context) {
+        backgroundColor: Colors.blue,
+        title: Text(
+          titles[index],
+          style: Theme.of(context)
+              .textTheme
+              .titleLarge!
+              .copyWith(fontWeight: FontWeight.w600, color: Colors.white),
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: () async {
+              // ログアウト処理
+              // 内部で保持しているログイン情報等が初期化される
+              // （現時点ではログアウト時はこの処理を呼び出せばOKと、思うぐらいで大丈夫）
+              await FirebaseAuth.instance.signOut();
+              // ログイン画面に遷移＋チャット画面を破棄
+              await Navigator.of(context).pushReplacement(
+                MaterialPageRoute<void>(
+                  builder: (context) {
                     return const LoginPage();
-                  },),
-                );
-              },
-            ),
-          ],),
+                  },
+                ),
+              );
+            },
+          ),
+        ],
+      ),
       body: pages[index],
       bottomNavigationBar: bar,
     );
