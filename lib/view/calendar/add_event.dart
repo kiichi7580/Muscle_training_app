@@ -45,7 +45,16 @@ class _AddEventState extends State<AddEventPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('予定を追加')),
+      appBar: AppBar(
+        title: Text(
+          '予定を追加',
+          style: Theme.of(context)
+              .textTheme
+              .titleLarge!
+              .copyWith(fontWeight: FontWeight.w600, color: Colors.white),
+        ),
+        backgroundColor: Colors.blue,
+      ),
       backgroundColor: mainColor,
       body: ListView(
         padding: const EdgeInsets.all(16),
@@ -132,17 +141,6 @@ class _AddEventState extends State<AddEventPage> {
       print('予定が入力されていません');
       return;
     }
-
-    // // カラー変換
-    // Color stringToColor(String colorString) {
-    //   // カラーコードを整数に変換
-    //   int value = int.parse(colorString.replaceAll('#', '0x'), radix: 16);
-    //   // Colorクラスに変換
-    //   return Color(value);
-    // }
-
-    // Color eventColor = stringToColor(preColor);
-    // print(eventColor);
 
     await FirebaseFirestore.instance.collection('events').add({
       'title': title,

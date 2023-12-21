@@ -15,9 +15,12 @@ void main() async {
   );
 
   // riverpodを使用するための記述 scope
-  const scope = ProviderScope(
+  final scope = ProviderScope(
     child: MaterialApp(
-      home:  AuthPage(),),);
+      theme: ThemeData(
+        useMaterial3: true,
+      ),
+      home:  const AuthPage(),),);
 
   // カレンダーパッケージを使用するための記述　initializeDateFormatting().then((_)
   await initializeDateFormatting().then((_) => runApp(scope));
