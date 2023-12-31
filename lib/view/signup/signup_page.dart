@@ -4,13 +4,25 @@ import 'package:muscle_training_app/view/login/login_page.dart';
 import 'package:provider/provider.dart';
 import '../../view_model/signup_model/signup_model.dart';
 
-class SignUpPage extends StatelessWidget {
+class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
 
   @override
+  State<SignUpPage> createState() => _SignUpPageState();
+}
+
+class _SignUpPageState extends State<SignUpPage> {
+  @override
   Widget build(BuildContext context) {
-    final emailEditingController = TextEditingController();
-    final passwordEditingController = TextEditingController();
+    final _emailEditingController = TextEditingController();
+    final _passwordEditingController = TextEditingController();
+
+    @override
+    void dispose() {
+      _emailEditingController;
+      _passwordEditingController;
+      super.dispose();
+    }
 
     return ChangeNotifierProvider<SignUpModel>(
       create: (_) => SignUpModel(),
@@ -28,7 +40,7 @@ class SignUpPage extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     TextField(
-                      controller: emailEditingController,
+                      controller: _emailEditingController,
                       decoration:
                           const InputDecoration(hintText: 'example@email.com'),
                       onChanged: (text) {
@@ -39,7 +51,7 @@ class SignUpPage extends StatelessWidget {
                       height: 8,
                     ),
                     TextField(
-                      controller: passwordEditingController,
+                      controller: _passwordEditingController,
                       decoration: const InputDecoration(hintText: 'パスワード'),
                       obscureText: true,
                       onChanged: (text) {
