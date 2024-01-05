@@ -89,28 +89,28 @@ class TableWidget extends StatelessWidget {
                                       padding: const EdgeInsets.all(4),
                                       child: Text(
                                         memo.event,
-                                        style: const TextStyle(fontSize: 20),
+                                        style: const TextStyle(fontSize: 18),
                                       ),
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.all(4),
                                       child: Text(
                                         '${memo.weight}kg',
-                                        style: const TextStyle(fontSize: 20),
+                                        style: const TextStyle(fontSize: 18),
                                       ),
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.all(4),
                                       child: Text(
                                         '${memo.set}set',
-                                        style: const TextStyle(fontSize: 20),
+                                        style: const TextStyle(fontSize: 18),
                                       ),
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.all(4),
                                       child: Text(
                                         '${memo.rep}rep',
-                                        style: const TextStyle(fontSize: 20),
+                                        style: const TextStyle(fontSize: 18),
                                       ),
                                     ),
                                   ],
@@ -153,7 +153,14 @@ class TableWidget extends StatelessWidget {
                 model.fetchTableMemo(date);
               },
               tooltip: 'メモを追加する',
-              child: const Icon(Icons.add),
+              backgroundColor: Colors.lightBlueAccent,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30),
+              ),
+              child: const Icon(
+                Icons.add,
+                color: Colors.white,
+              ),
             );
           },
         ),
