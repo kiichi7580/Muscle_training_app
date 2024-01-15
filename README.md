@@ -31,11 +31,18 @@
 
 <br>
 
-<img src="./images/Simulator Screenshot - iPhone 15 Pro Max - 2023-11-30 at 19.06.36.png" width="200"> <img src="./images/Simulator Screenshot - iPhone 15 Pro Max - 2023-11-30 at 19.08.57.png" width="200"> <img src="./images/Simulator Screenshot - iPhone 15 Pro Max - 2023-11-30 at 19.10.19.png" width="200">
+<img src="./images/Simulator Screenshot - iPhone 15 Pro - 2024-01-15 at 09.47.20.png" width="200"> <img src="./images/Simulator Screenshot - iPhone 15 Pro - 2024-01-15 at 09.40.43.png
+" width="200"> <img src="./images/Simulator Screenshot - iPhone 15 Pro - 2024-01-15 at 09.47.30.png" width="200">
 
 <br>
 
-<img src="./images/Simulator Screenshot - iPhone 15 Pro Max - 2023-11-30 at 19.17.13.png" width="200"> <img src="./images/Simulator Screenshot - iPhone 15 Pro Max - 2023-11-30 at 19.17.50.png" width="200"> <img src="./images/Simulator Screenshot - iPhone 15 Pro Max - 2023-11-30 at 19.51.11.png" width="200">
+<img src="./images/Simulator Screenshot - iPhone 15 Pro - 2024-01-15 at 09.40.30.png" width="200"> <img src="./images/Simulator Screenshot - iPhone 15 Pro - 2024-01-15 at 15.12.47.png" width="200"> <img src="./images/Simulator Screenshot - iPhone 15 Pro - 2024-01-15 at 09.33.04.png" width="200">
+
+<br>
+
+<img src="./images/Simulator Screenshot - iPhone 15 Pro - 2024-01-15 at 15.11.59.png" width="200"> <img src="./images/Simulator Screenshot - iPhone 15 Pro - 2024-01-15 at 15.12.30.png" width="200"> <img src="./images/Simulator Screenshot - iPhone 15 Pro - 2024-01-15 at 15.12.22.png" width="200">
+
+
 
 <br>
 <br>
@@ -102,21 +109,22 @@ open -a Simulator
 ***
 ## こだわったところ
 
-- ### カレンダー画面の下側に予定リスト表示
+- ### 🗓️ カレンダー画面
 
   - #### 予定リストをカレンダーの下側に表示して、その日の予定を確認できるようにした
+  - #### 筋トレした日は、その日の記録が見れるようにボトムシートでメニューが表示されるようにした
 
 <br>
 <br>
 
-- ### メモ入力欄
+- ### 📝 メモ画面
 
-  - #### メモを記入するときに、種目、重量、セット数、回数と細かいメモを記入できるように入力欄を作成した
+  - #### メモを記入するときに、種目、重量、セット数、回数と細かい記録を記入できるように入力欄を作成した
 
 <br>
 <br>
 
-- ### 円形のプログレスバーを表示
+- ### ⏰ タイマー画面
 
   - #### タイマーの進捗状況がわかるようにタイマー表示画面に円形のプログレスバーを表示させた
 
@@ -126,6 +134,7 @@ open -a Simulator
 - ### シンプルなデザイン
 
   - #### 全体的に青単色にして、初めてでも使いやすいシンプルなデザインを意識して作成した
+  - #### 全体的にリスト化して、みやすいUIを心がけた
 
 <br>
 <br>
@@ -137,9 +146,9 @@ open -a Simulator
 ## 追加予定の機能
 
 - ### 🗓️ カレンダー画面
-  - #### 筋トレした日は、その日の記録が見れるようにメニュー表示画面へ遷移させたり、もしくはダイアログ、ボトムシートなどでメニューが表示されるようにしたい
+  - #### 筋トレした日は、その日の記録が見れるようにメニュー表示画面へ遷移させたり、もしくはダイアログ、ボトムシートなどでメニューが表示されるようにしたい(追加済み)
 
-  - #### 予定リストの一つ一つに色をつけられる機能
+  - #### 予定リストの一つ一つに色をつけられる機能(追加済み)
 <br>
 <br>
 
@@ -147,12 +156,14 @@ open -a Simulator
 
   - #### メニュー表示画面のデザインがシンプルすぎるので、もう少し見やすいように表形式にしたい<br>例）Data-Table（パッケージ）を使用するなど
 
+  - #### トグルボタンを使用して、自重トレーニングとウエイトトレーニングでメモの仕方を分けられるようにする
+
 <br>
 <br>
 
 - ### ⏰ タイマー画面
 
-  - #### タイマーの用途を明確にするために、タイマーに名前をつけられるようにしたい
+  - #### タイマーの用途を明確にするために、タイマーに名前をつけられるようにしたい（追加済み）
 
   - #### 0秒になったら音が鳴るようにしたい
 
@@ -162,6 +173,7 @@ open -a Simulator
 - ### その他
 
   - #### 筋トレ始めてたの人をサポートするチュートリアル画面を作りたい
+  - #### １日で摂取したい栄養素(タンパク質量など)を記録できる機能
 
 <br>
 <br>
@@ -175,6 +187,8 @@ open -a Simulator
 - ### カレンダー機能
 
   - #### table_calendar:
+  - #### flutter_colorpicker:
+ 
 
 <br>
 
@@ -194,6 +208,8 @@ open -a Simulator
 - ### データ処理関連
 
   - #### intl:
+  - #### flutter_localization:
+  - #### flutter_localizations:
 
 <br>
 

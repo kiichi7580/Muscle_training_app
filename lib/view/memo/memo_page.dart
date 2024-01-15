@@ -84,7 +84,14 @@ class MemoPage extends StatelessWidget {
                 await model.fetchMemo();
               },
               tooltip: 'メモを追加する',
-              child: const Icon(Icons.add),
+              backgroundColor: Colors.lightBlueAccent,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30),
+              ),
+              child: const Icon(
+                Icons.add,
+                color: Colors.white,
+              ),
             );
           },
         ),

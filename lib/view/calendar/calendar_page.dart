@@ -3,6 +3,8 @@ import 'dart:collection';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+// import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:muscle_training_app/constant/colors.dart';
 import 'package:muscle_training_app/view/calendar/add_event.dart';
 import 'package:muscle_training_app/view/calendar/edit_event.dart';
@@ -11,6 +13,7 @@ import 'package:table_calendar/table_calendar.dart';
 
 import '../../domain/calendar.dart';
 import '../../myapp.dart';
+import 'bottom_sheet.dart';
 
 class CalendarPage extends StatefulWidget {
   const CalendarPage({super.key});
@@ -41,6 +44,7 @@ class _CalendarPageState extends State<CalendarPage> {
 
     final snap = await FirebaseFirestore.instance
         .collection('events')
+        // ここをコメントアウトすれば、他の月の予定も表示されるようになる
         .where('date', isGreaterThanOrEqualTo: firstDay)
         .where('date', isLessThanOrEqualTo: lastDay)
         .withConverter(
@@ -48,8 +52,6 @@ class _CalendarPageState extends State<CalendarPage> {
           toFirestore: (event, options) => event.toFirestore(),
         )
         .get();
-
-    // print(snap.docs[0]['title']);
 
     for (final doc in snap.docs) {
       final event = doc;
@@ -94,6 +96,18 @@ class _CalendarPageState extends State<CalendarPage> {
 
   @override
   Widget build(BuildContext context) {
+    Color _textColor(DateTime day) {
+      const _defaultTextColor = Colors.black87;
+
+      if (day.weekday == DateTime.sunday) {
+        return Colors.red;
+      }
+      if (day.weekday == DateTime.saturday) {
+        return Colors.blue[600]!;
+      }
+      return _defaultTextColor;
+    }
+
     return Scaffold(
       backgroundColor: mainColor,
       body: ListView(
@@ -130,13 +144,38 @@ class _CalendarPageState extends State<CalendarPage> {
                 locale: 'ja_JP',
                 //土・日曜日の色を変える
                 calendarBuilders: CalendarBuilders(
+                  defaultBuilder: (
+                    BuildContext context,
+                    DateTime day,
+                    DateTime focusedDay,
+                  ) {
+                    return AnimatedContainer(
+                      duration: const Duration(milliseconds: 250),
+                      // margin: EdgeInsets.zero,
+                      // decoration: BoxDecoration(
+                      //   border: Border.all(
+                      //     color: Colors.blueAccent,
+                      //     width: 0.5,
+                      //   ),
+                      // ),
+                      alignment: Alignment.center,
+                      child: Text(
+                        day.day.toString(),
+                        style: TextStyle(
+                          color: _textColor(day),
+                        ),
+                      ),
+                    );
+                  },
                   dowBuilder: (_, day) {
                     if (day.weekday == DateTime.sunday) {
                       const text = '日';
                       return const Center(
                         child: Text(
                           text,
-                          style: TextStyle(color: Colors.red),
+                          style: TextStyle(
+                            color: Colors.red,
+                          ),
                         ),
                       );
                     } else if (day.weekday == DateTime.saturday) {
@@ -144,7 +183,9 @@ class _CalendarPageState extends State<CalendarPage> {
                       return const Center(
                         child: Text(
                           text,
-                          style: TextStyle(color: Colors.blue),
+                          style: TextStyle(
+                            color: Colors.blue,
+                          ),
                         ),
                       );
                     }
@@ -166,6 +207,8 @@ class _CalendarPageState extends State<CalendarPage> {
                   formatButtonVisible: true,
                   // タイトルを中央にしたかったらこの行を追加
                   titleCentered: true,
+                  titleTextStyle:
+                      TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                 ),
               ),
             ),
@@ -178,7 +221,10 @@ class _CalendarPageState extends State<CalendarPage> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => EditEventPage(
-                        firstDate: _firstDay, lastDate: _lastDay, event: event,),
+                      firstDate: _firstDay,
+                      lastDate: _lastDay,
+                      event: event,
+                    ),
                   ),
                 );
                 if (res ?? false) {
@@ -227,23 +273,59 @@ class _CalendarPageState extends State<CalendarPage> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          final result = await Navigator.push<bool>(
-            context,
-            MaterialPageRoute(
-              builder: (context) => AddEventPage(
-                firstDate: _firstDay,
-                lastDate: _lastDay,
-                selectedDate: _selectedDay,
-              ),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            heroTag: '1',
+            tooltip: 'メニューを表示する',
+            onPressed: () {
+              final DateFormat format1 = DateFormat('yyyy-MM-dd');
+              final String sheetDate = format1.format(_selectedDay).toString();
+              print(sheetDate);
+              BottomSheetWidget(
+                context,
+                date: sheetDate,
+              );
+            },
+            backgroundColor: Colors.lightBlueAccent,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30),
             ),
-          );
-          if (result ?? false) {
-            await _loadFirestoreEvents();
-          }
-        },
-        child: const Icon(Icons.add),
+            child: const Icon(
+              Icons.fitness_center,
+              color: Colors.white,
+            ),
+          ),
+          const SizedBox(width: 16),
+          FloatingActionButton(
+            heroTag: '2',
+            tooltip: '予定を追加する',
+            onPressed: () async {
+              final result = await Navigator.push<bool>(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AddEventPage(
+                    firstDate: _firstDay,
+                    lastDate: _lastDay,
+                    selectedDate: _selectedDay,
+                  ),
+                ),
+              );
+              if (result ?? false) {
+                await _loadFirestoreEvents();
+              }
+            },
+            backgroundColor: Colors.lightBlueAccent,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30),
+            ),
+            child: const Icon(
+              Icons.add,
+              color: Colors.white,
+            ),
+          ),
+        ],
       ),
     );
   }

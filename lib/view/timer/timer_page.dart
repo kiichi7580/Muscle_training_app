@@ -92,7 +92,12 @@ class _TimerPageState extends State<TimerPage> {
                       elevation: 3,
                       child: ListTile(
                         leading: const Icon(Icons.alarm_on),
-                        title: Text(timer.timerName),
+                        title: Text(
+                          timer.timerName,
+                          style: const TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
                         subtitle: Text(
                           '${timer.minute}:${timer.second}',
                           style: const TextStyle(
@@ -166,7 +171,14 @@ class _TimerPageState extends State<TimerPage> {
                 model.fetchMyTimer();
               },
               tooltip: 'タイマーを追加する',
-              child: const Icon(Icons.add),
+              backgroundColor: Colors.lightBlueAccent,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30),
+              ),
+              child: const Icon(
+                Icons.add,
+                color: Colors.white,
+              ),
             );
           },
         ),
