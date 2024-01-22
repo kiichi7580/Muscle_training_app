@@ -4,8 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-// import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:muscle_training_app/constant/colors.dart';
 import 'package:muscle_training_app/view/calendar/add_event.dart';
 import 'package:muscle_training_app/view/calendar/edit_event.dart';
 import 'package:muscle_training_app/view/calendar/event_item.dart';
@@ -45,8 +43,8 @@ class _CalendarPageState extends State<CalendarPage> {
     final snap = await FirebaseFirestore.instance
         .collection('events')
         // ここをコメントアウトすれば、他の月の予定も表示されるようになる
-        .where('date', isGreaterThanOrEqualTo: firstDay)
-        .where('date', isLessThanOrEqualTo: lastDay)
+        // .where('date', isGreaterThanOrEqualTo: firstDay)
+        // .where('date', isLessThanOrEqualTo: lastDay)
         .withConverter(
           fromFirestore: Calendar.fromFirestore,
           toFirestore: (event, options) => event.toFirestore(),
@@ -109,7 +107,6 @@ class _CalendarPageState extends State<CalendarPage> {
     }
 
     return Scaffold(
-      backgroundColor: mainColor,
       body: ListView(
         children: [
           Padding(
