@@ -3,14 +3,20 @@ import 'package:muscle_training_app/domain/memo.dart';
 import 'package:muscle_training_app/view_model/memo_model/edit_memo_model.dart';
 import 'package:provider/provider.dart';
 
-class EditMemoPage extends StatelessWidget {
+class EditMemoPage extends StatefulWidget {
   const EditMemoPage(this.memo, {super.key});
   final Memo memo;
 
   @override
+  State<EditMemoPage> createState() => _EditMemoPageState();
+}
+
+class _EditMemoPageState extends State<EditMemoPage> {
+
+  @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<EditMemoModel>(
-      create: (_) => EditMemoModel(memo),
+      create: (_) => EditMemoModel(widget.memo),
       child: Scaffold(
         appBar: AppBar(
           title: const Text('メモを編集'),
@@ -28,8 +34,9 @@ class EditMemoPage extends StatelessWidget {
                         labelText: '種目',
                       ),
                       onChanged: (text) {
-                        model..event = text
-                        ..setEvent(text);
+                        model
+                          ..event = text
+                          ..setEvent(text);
                       },
                     ),
                     const SizedBox(
@@ -41,8 +48,9 @@ class EditMemoPage extends StatelessWidget {
                         labelText: '重量',
                       ),
                       onChanged: (text) {
-                        model..weight = text
-                        ..setEvent(text);
+                        model
+                          ..weight = text
+                          ..setEvent(text);
                       },
                     ),
                     const SizedBox(
@@ -54,8 +62,9 @@ class EditMemoPage extends StatelessWidget {
                         labelText: 'セット',
                       ),
                       onChanged: (text) {
-                        model..set = text
-                        ..setSet(text);
+                        model
+                          ..set = text
+                          ..setSet(text);
                       },
                     ),
                     const SizedBox(
@@ -67,8 +76,9 @@ class EditMemoPage extends StatelessWidget {
                         labelText: '回数',
                       ),
                       onChanged: (text) {
-                        model..rep = text
-                        ..setRep(text);
+                        model
+                          ..rep = text
+                          ..setRep(text);
                       },
                     ),
                     const SizedBox(
@@ -96,9 +106,11 @@ class EditMemoPage extends StatelessWidget {
                             : null,
                         child: const Text(
                           '更新する',
-                          style: TextStyle(fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                          ),),
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                       ),
                     ),
                   ],

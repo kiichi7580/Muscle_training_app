@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'myapp.dart';
 import 'view/login/login_page.dart';
@@ -10,6 +11,10 @@ class AuthPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => MaterialApp(
+    localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
         home: StreamBuilder<User?>(
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {
