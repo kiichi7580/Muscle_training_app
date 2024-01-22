@@ -19,8 +19,8 @@ class _SignUpPageState extends State<SignUpPage> {
 
     @override
     void dispose() {
-      _emailEditingController;
-      _passwordEditingController;
+      _emailEditingController.dispose();
+      _passwordEditingController.dispose();
       super.dispose();
     }
 
