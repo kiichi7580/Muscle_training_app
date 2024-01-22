@@ -277,8 +277,8 @@ class _CalendarPageState extends State<CalendarPage> {
             heroTag: '1',
             tooltip: 'メニューを表示する',
             onPressed: () {
-              final DateFormat format1 = DateFormat('yyyy-MM-dd');
-              final String sheetDate = format1.format(_selectedDay).toString();
+              final DateFormat format1 = DateFormat('yyyy年MM月dd日');
+              final String sheetDate = format1.format(_selectedDay);
               print(sheetDate);
               BottomSheetWidget(
                 context,
