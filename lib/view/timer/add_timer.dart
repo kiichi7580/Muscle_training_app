@@ -36,7 +36,7 @@ class AddTimerPage extends StatelessWidget {
                         child: Column(
                           children: [
                             SizedBox(
-                              height: 60,
+                              height: 90,
                               width: 294,
                               child: Padding(
                                 padding: const EdgeInsets.all(8),
@@ -52,7 +52,7 @@ class AddTimerPage extends StatelessWidget {
                               ),
                             ),
                             const SizedBox(
-                              height: 30,
+                              height: 8,
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,

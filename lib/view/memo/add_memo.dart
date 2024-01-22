@@ -170,7 +170,7 @@ class _AddMemoPageState extends State<AddMemoPage> {
     DateTime date = DateTime.now();
     late DateTime firstDay;
     late DateTime lastDay;
-    final format2 = DateFormat('yyyy-MM-dd');
+    final format2 = DateFormat('yyyy年MM月dd日');
 
     //DatePickerを表示し、選択されたら変数に格納する
     final _selectedDay = await showDatePicker(
