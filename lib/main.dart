@@ -6,7 +6,6 @@ import 'package:muscle_training_app/auth.dart';
 
 import 'firebase_options.dart';
 
-
 void main() async {
   // firebaseの初期化
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,9 +17,14 @@ void main() async {
   final scope = ProviderScope(
     child: MaterialApp(
       theme: ThemeData(
-        useMaterial3: true,
+        primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+        brightness: Brightness.light,
       ),
-      home:  const AuthPage(),),);
+      darkTheme: ThemeData.dark(),
+      home: const AuthPage(),
+    ),
+  );
 
   // カレンダーパッケージを使用するための記述　initializeDateFormatting().then((_)
   await initializeDateFormatting().then((_) => runApp(scope));

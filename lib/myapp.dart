@@ -55,10 +55,10 @@ class Myapp extends ConsumerWidget {
         backgroundColor: Colors.blue,
         title: Text(
           titles[index],
-          style: Theme.of(context)
-              .textTheme
-              .titleLarge!
-              .copyWith(fontWeight: FontWeight.w600, color: Colors.white),
+          style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                fontWeight: FontWeight.w500,
+                color: Colors.white,
+              ),
         ),
         actions: [
           IconButton(
