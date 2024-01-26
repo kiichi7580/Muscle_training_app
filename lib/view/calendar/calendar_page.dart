@@ -2,6 +2,7 @@ import 'dart:collection';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:muscle_training_app/view/calendar/add_event.dart';
@@ -40,11 +41,13 @@ class _CalendarPageState extends State<CalendarPage> {
     final lastDay = DateTime(_focusedDay.year, _focusedDay.month + 1, 31);
     // _events = {};
 
+    // final FirebaseAuth _auth = FirebaseAuth.instance;
     final snap = await FirebaseFirestore.instance
         .collection('events')
         // ここをコメントアウトすれば、他の月の予定も表示されるようになる
         // .where('date', isGreaterThanOrEqualTo: firstDay)
         // .where('date', isLessThanOrEqualTo: lastDay)
+        // .where('uid': _auth.currentUser!.uid)
         .withConverter(
           fromFirestore: Calendar.fromFirestore,
           toFirestore: (event, options) => event.toFirestore(),
