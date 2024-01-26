@@ -22,12 +22,11 @@ class _AddMemoPageState extends State<AddMemoPage> {
         appBar: AppBar(
           title: Text(
             'メモを追加',
-            style: Theme.of(context)
-                .textTheme
-                .titleLarge!
-                .copyWith(fontWeight: FontWeight.w600, color: Colors.white),
+            style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                  color: mainColor,
+                ),
           ),
-          backgroundColor: Colors.blue,
+          backgroundColor: blueColor,
         ),
         backgroundColor: mainColor,
         body: Center(

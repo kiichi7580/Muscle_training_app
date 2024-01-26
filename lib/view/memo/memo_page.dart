@@ -30,11 +30,13 @@ class MemoPage extends StatelessWidget {
                   child: Card(
                     elevation: 3,
                     child: ListTile(
-                      leading: const Icon(Icons.check_circle),
+                      leading: const Icon(Icons.fitness_center),
                       dense: true,
-                      tileColor: Colors.white,
+                      tileColor: mainColor,
                       shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
+                        ),
                       ),
                       title: Text(
                         memo.toString(),

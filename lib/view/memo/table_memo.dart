@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:muscle_training_app/constant/colors.dart';
 import 'package:muscle_training_app/domain/memo.dart';
 import 'package:muscle_training_app/view/memo/add_memo.dart';
 import 'package:muscle_training_app/view/memo/edit_memo.dart';
@@ -57,7 +58,7 @@ class TableWidget extends StatelessWidget {
                           model.fetchTableMemo(date);
                         },
                         backgroundColor: Colors.black45,
-                        foregroundColor: Colors.white,
+                        foregroundColor: mainColor,
                         icon: Icons.edit,
                         label: '編集',
                       ),
@@ -67,7 +68,7 @@ class TableWidget extends StatelessWidget {
                           await showConfirmDialog(context, memo, model);
                         },
                         backgroundColor: Colors.red,
-                        foregroundColor: Colors.white,
+                        foregroundColor: mainColor,
                         icon: Icons.delete,
                         label: '削除',
                       ),

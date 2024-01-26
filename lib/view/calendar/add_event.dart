@@ -58,9 +58,9 @@ class _AddEventState extends State<AddEventPage> {
           style: Theme.of(context)
               .textTheme
               .titleLarge!
-              .copyWith(fontWeight: FontWeight.w600, color: Colors.white),
+              .copyWith(color: mainColor),
         ),
-        backgroundColor: Colors.blue,
+        backgroundColor: blueColor,
       ),
       backgroundColor: mainColor,
       body: ListView(
