@@ -14,12 +14,11 @@ class AddTimerPage extends StatelessWidget {
         appBar: AppBar(
           title: Text(
             'タイマーを追加',
-            style: Theme.of(context)
-                .textTheme
-                .titleLarge!
-                .copyWith(fontWeight: FontWeight.w600, color: Colors.white),
+            style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                  color: mainColor,
+                ),
           ),
-          backgroundColor: Colors.blue,
+          backgroundColor: blueColor,
         ),
         backgroundColor: mainColor,
         body: Center(
@@ -36,7 +35,7 @@ class AddTimerPage extends StatelessWidget {
                         child: Column(
                           children: [
                             SizedBox(
-                              height: 60,
+                              height: 90,
                               width: 294,
                               child: Padding(
                                 padding: const EdgeInsets.all(8),
@@ -52,7 +51,7 @@ class AddTimerPage extends StatelessWidget {
                               ),
                             ),
                             const SizedBox(
-                              height: 30,
+                              height: 8,
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,

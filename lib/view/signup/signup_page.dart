@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:muscle_training_app/constant/colors.dart';
+import 'package:muscle_training_app/constant/utils.dart';
+import 'package:muscle_training_app/resources/auth_methods.dart';
+import 'package:muscle_training_app/resposive/mobile_screen_layout.dart';
+import 'package:muscle_training_app/resposive/resposive_layout.dart';
+import 'package:muscle_training_app/resposive/web_screen_layout.dart';
 import 'package:muscle_training_app/view/login/login_page.dart';
-import 'package:provider/provider.dart';
-import '../../view_model/signup_model/signup_model.dart';
+import 'package:muscle_training_app/view/signup/signup_page.dart';
+import 'package:muscle_training_app/widgets/text_field_input.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -14,94 +19,186 @@ class SignUpPage extends StatefulWidget {
 class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
-    final _emailEditingController = TextEditingController();
-    final _passwordEditingController = TextEditingController();
+    final TextEditingController _emailController = TextEditingController();
+    final TextEditingController _passwordController = TextEditingController();
+    bool _isLoading = false;
 
     @override
     void dispose() {
-      _emailEditingController;
-      _passwordEditingController;
       super.dispose();
+      _emailController.dispose();
+      _passwordController.dispose();
     }
 
-    return ChangeNotifierProvider<SignUpModel>(
-      create: (_) => SignUpModel(),
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('新規登録'),
+    void navigatorToLogin() {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => const LoginPage(),
         ),
-        backgroundColor: mainColor,
-        body: Consumer<SignUpModel>(
-          builder: (context, model, child) {
-            return Padding(
-              padding: const EdgeInsets.all(16),
-              child: Center(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    TextField(
-                      controller: _emailEditingController,
-                      decoration:
-                          const InputDecoration(hintText: 'example@email.com'),
-                      onChanged: (text) {
-                        model.email = text;
-                      },
+      );
+    }
+
+    void signupUser() async {
+      setState(() {
+        _isLoading = true;
+      });
+      String res = await AuthMethods().signUpUser(
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
+
+      if (res == 'success') {
+        res = '新規登録に成功しました。';
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => ResponsiveLayout(
+              webScreenLayout: WebScreenLayout(),
+              mobileScreenLayout: MobileScreenLayout(),
+            ),
+          ),
+        );
+        showSnackbar(res, context);
+      } else {
+        showSnackbar(res, context);
+      }
+      setState(() {
+        _isLoading = false;
+      });
+    }
+
+    return Scaffold(
+      backgroundColor: secondaryColor,
+      body: SafeArea(
+        child: Container(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 32,
+          ),
+          width: double.infinity,
+          child: Column(
+            children: [
+              Flexible(
+                flex: 2,
+                child: Container(),
+              ),
+              Image.asset(
+                '/Users/nakasatokiichi/StudioProjects/Muscle_training_app/assets/icons/1024.png',
+                height: 104,
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'MM',
+                    style: TextStyle(
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
                     ),
-                    const SizedBox(
-                      height: 8,
+                  ),
+                  Text(
+                    'に新規登録',
+                    style: TextStyle(
+                      fontSize: 30,
                     ),
-                    TextField(
-                      controller: _passwordEditingController,
-                      decoration: const InputDecoration(hintText: 'パスワード'),
-                      obscureText: true,
-                      onChanged: (text) {
-                        model.password = text;
-                      },
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 64,
+              ),
+              TextFieldInput(
+                textEditingController: _emailController,
+                hintText: 'example@email.com',
+                textInputType: TextInputType.emailAddress,
+              ),
+              const SizedBox(
+                height: 24,
+              ),
+              TextFieldInput(
+                textEditingController: _passwordController,
+                hintText: 'パスワード',
+                textInputType: TextInputType.text,
+                isPass: true,
+              ),
+              const SizedBox(
+                height: 24,
+              ),
+              InkWell(
+                onTap: signupUser,
+                child: Container(
+                  width: double.infinity,
+                  alignment: Alignment.center,
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 12,
+                  ),
+                  decoration: const ShapeDecoration(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(4),
+                      ),
                     ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    const SizedBox(
-                      height: 50,
-                    ),
-                    SizedBox(
-                      height: 50,
-                      width: 120,
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          //追加の処理
-                          try {
-                            await model.signup();
-                            await Navigator.of(context).pushReplacement(
-                              MaterialPageRoute<void>(
-                                builder: (context) {
-                                  return const LoginPage();
-                                },
-                              ),
-                            );
-                          } catch (e) {
-                            final snackBar = SnackBar(
-                              backgroundColor: Colors.red,
-                              content: Text(e.toString()),
-                            );
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(snackBar);
-                          }
-                        },
-                        child: const Text(
+                    color: heavyBlueColor,
+                  ),
+                  child: _isLoading
+                      ? const Center(
+                          child: CircularProgressIndicator(
+                            color: mainColor,
+                          ),
+                        )
+                      : const Text(
                           '新規登録',
                           style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600,
+                            color: mainColor,
                           ),
+                        ),
+                ),
+              ),
+              const SizedBox(
+                height: 32,
+              ),
+              Flexible(
+                flex: 2,
+                child: Container(),
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 8,
+                    ),
+                    child: const Text(
+                      'すでにアカウントをお持ちの方はこちら',
+                      style: TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: navigatorToLogin,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 8,
+                      ),
+                      child: const Text(
+                        'ログイン',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: linkBlue,
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                  const SizedBox(
+                    height: 40,
+                  ),
+                ],
               ),
-            );
-          },
+            ],
+          ),
         ),
       ),
     );

@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-
 class AddMemoModel extends ChangeNotifier {
   String? event;
   String? weight;
@@ -45,7 +44,21 @@ class AddMemoModel extends ChangeNotifier {
     final doc = FirebaseFirestore.instance.collection('memos').doc();
 
     // dateId生成
-    final preDateId = time!.replaceAll('-', '');
+    String removeWords(String input, List<String> wordsToRemove) {
+      String result = input;
+      wordsToRemove.forEach((word) {
+        result = result.replaceAll(word, '');
+      });
+      return result;
+    }
+
+    final List<String> removeStringList = [
+      '年',
+      '月',
+      '日',
+    ];
+
+    final preDateId = removeWords(time!, removeStringList);
     final int dateId = int.parse(preDateId);
 
     // firestoreに追加

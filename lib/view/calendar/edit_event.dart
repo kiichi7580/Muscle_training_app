@@ -49,6 +49,13 @@ class _EditEventState extends State<EditEventPage> {
   }
 
   @override
+  void dispose() {
+    _titleController.dispose();
+    _descController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('予定を編集')),

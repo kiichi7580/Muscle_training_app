@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:muscle_training_app/constant/colors.dart';
 import 'package:muscle_training_app/view/login/login_page.dart';
 import 'view/calendar/calendar_page.dart';
 import 'view/memo/memo_page.dart';
@@ -29,8 +30,8 @@ class Myapp extends ConsumerWidget {
 
     final bar = BottomNavigationBar(
       items: items,
-      backgroundColor: Colors.blue,
-      selectedItemColor: Colors.white,
+      backgroundColor: blueColor,
+      selectedItemColor: mainColor,
       unselectedItemColor: Colors.black45,
       currentIndex: index,
       onTap: (index) {
@@ -52,13 +53,12 @@ class Myapp extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blue,
+        backgroundColor: blueColor,
         title: Text(
           titles[index],
-          style: Theme.of(context)
-              .textTheme
-              .titleLarge!
-              .copyWith(fontWeight: FontWeight.w600, color: Colors.white),
+          style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                color: mainColor,
+              ),
         ),
         actions: [
           IconButton(
@@ -70,7 +70,7 @@ class Myapp extends ConsumerWidget {
               await FirebaseAuth.instance.signOut();
               // ログイン画面に遷移＋チャット画面を破棄
               await Navigator.of(context).pushReplacement(
-                MaterialPageRoute<void>(
+                MaterialPageRoute(
                   builder: (context) {
                     return const LoginPage();
                   },

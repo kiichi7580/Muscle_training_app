@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:muscle_training_app/constant/colors.dart';
 import 'package:muscle_training_app/view_model/timer_model/display_timer_model.dart';
 import 'package:provider/provider.dart';
 
@@ -64,7 +65,7 @@ class _DisplayTimerPageState extends State<DisplayTimerPage> {
             style: Theme.of(context)
                 .textTheme
                 .titleLarge!
-                .copyWith(fontWeight: FontWeight.w600, color: Colors.white),
+                .copyWith(color: mainColor),
           ),
           backgroundColor: Colors.black54,
           leading: IconButton(
@@ -139,7 +140,7 @@ class _DisplayTimerPageState extends State<DisplayTimerPage> {
                   child: Text(
                     isRunning ? 'ストップ' : 'スタート',
                     style: const TextStyle(
-                      color: Colors.white,
+                      color: mainColor,
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
@@ -158,7 +159,7 @@ class _DisplayTimerPageState extends State<DisplayTimerPage> {
                   child: const Text(
                     'リセット',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: mainColor,
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
@@ -174,8 +175,9 @@ class _DisplayTimerPageState extends State<DisplayTimerPage> {
                 height: 70,
                 width: 150,
                 child: ElevatedButton(
-                  style:
-                      ElevatedButton.styleFrom(backgroundColor: Colors.black26),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.black26,
+                  ),
                   onPressed: () {
                     seconds = maxSeconds;
                     startTimer();
@@ -183,7 +185,7 @@ class _DisplayTimerPageState extends State<DisplayTimerPage> {
                   child: const Text(
                     'スタート',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: mainColor,
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
@@ -195,15 +197,15 @@ class _DisplayTimerPageState extends State<DisplayTimerPage> {
   }
 
   Widget buildTimer() => SizedBox(
-        width: 200,
-        height: 200,
+        width: 240,
+        height: 240,
         child: Stack(
           fit: StackFit.expand,
           children: [
             CircularProgressIndicator(
               value: 1 - seconds / maxSeconds,
-              valueColor: const AlwaysStoppedAnimation(Colors.white),
-              strokeWidth: 12,
+              valueColor: const AlwaysStoppedAnimation(mainColor),
+              strokeWidth: 15,
               backgroundColor: Colors.greenAccent,
             ),
             Center(
@@ -220,7 +222,7 @@ class _DisplayTimerPageState extends State<DisplayTimerPage> {
         '$seconds',
         style: const TextStyle(
           fontWeight: FontWeight.bold,
-          color: Colors.white,
+          color: mainColor,
           fontSize: 80,
         ),
       );
@@ -229,7 +231,7 @@ class _DisplayTimerPageState extends State<DisplayTimerPage> {
         '$seconds',
         style: const TextStyle(
           fontWeight: FontWeight.bold,
-          color: Colors.white,
+          color: mainColor,
           fontSize: 80,
         ),
       );

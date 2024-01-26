@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Calendar {
   final String title;
@@ -18,6 +19,8 @@ class Calendar {
     DocumentSnapshot<Map<String, dynamic>> snapshot, [
     SnapshotOptions? options,
   ]) {
+    // final FirebaseAuth _auth = FirebaseAuth.instance;
+
     final data = snapshot.data()!;
 
     final preDate = data['date'] as Timestamp;
@@ -34,11 +37,14 @@ class Calendar {
   }
 
   Map<String, Object?> toFirestore() {
+    // final FirebaseAuth _auth = FirebaseAuth.instance;
+
     return {
       'date': Timestamp.fromDate(date).toDate(),
       'title': title,
       'description': description,
       'eventColor': eventColor,
+      // 'uid': _auth.currentUser!.uid,
     };
   }
 }

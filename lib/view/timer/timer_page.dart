@@ -69,8 +69,8 @@ class _TimerPageState extends State<TimerPage> {
                           }
                           model.fetchMyTimer();
                         },
-                        backgroundColor: Colors.black45,
-                        foregroundColor: Colors.white,
+                        backgroundColor: blackColor,
+                        foregroundColor: mainColor,
                         icon: Icons.edit,
                         label: '編集',
                       ),
@@ -80,7 +80,7 @@ class _TimerPageState extends State<TimerPage> {
                           await showConfirmDialog(context, timer, model);
                         },
                         backgroundColor: Colors.red,
-                        foregroundColor: Colors.white,
+                        foregroundColor: mainColor,
                         icon: Icons.delete,
                         label: '削除',
                       ),
