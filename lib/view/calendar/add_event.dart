@@ -1,8 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:muscle_training_app/constant/colors.dart';
+import 'package:muscle_training_app/constant/utils.dart';
 import 'package:muscle_training_app/myapp.dart';
+import 'package:muscle_training_app/widgets/add_button.dart';
 
 class AddEventPage extends StatefulWidget {
   const AddEventPage({
@@ -53,12 +56,11 @@ class _AddEventState extends State<AddEventPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           '予定を追加',
-          style: Theme.of(context)
-              .textTheme
-              .titleLarge!
-              .copyWith(color: mainColor),
+          style: TextStyle(
+            color: blackColor,
+          ),
         ),
         backgroundColor: blueColor,
       ),
@@ -89,7 +91,7 @@ class _AddEventState extends State<AddEventPage> {
           ),
           SizedBox(
             height: 80,
-            child: TextButton(
+            child: TextButton.icon(
               onPressed: () {
                 showDialog(
                   builder: (context) => AlertDialog(
@@ -98,7 +100,6 @@ class _AddEventState extends State<AddEventPage> {
                       child: BlockPicker(
                         pickerColor: Colors.red,
                         onColorChanged: (color) {
-                          // TODO: 変更時処理
                           color1 = color.toString();
                           color2 = removeWords(color1, removeStringList);
                           eventColor = color2;
@@ -110,7 +111,10 @@ class _AddEventState extends State<AddEventPage> {
                   context: context,
                 );
               },
-              child: const Text(
+              icon: const Icon(
+                Icons.color_lens,
+              ),
+              label: const Text(
                 'カラーを選択する',
                 style: TextStyle(
                   fontSize: 16,
@@ -119,22 +123,9 @@ class _AddEventState extends State<AddEventPage> {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(20),
-            child: SizedBox(
-              height: 50,
-              width: 120,
-              child: ElevatedButton(
-                onPressed: _addEvent,
-                child: const Text(
-                  '追加する',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-            ),
+          AddButton(
+            buttonText: '追加する',
+            buttonOnPressed: _addEvent,
           ),
         ],
       ),
@@ -144,9 +135,18 @@ class _AddEventState extends State<AddEventPage> {
   Future<void> _addEvent() async {
     final title = _titleController.text;
     final description = _descController.text;
+
     if (title.isEmpty) {
-      print('予定が入力されていません');
-      return;
+      String res = '予定が入力されていません。';
+      return showSnackbar(res, context);
+    }
+    if (description.isEmpty) {
+      String res = '詳細が入力されていません。';
+      return showSnackbar(res, context);
+    }
+    if (eventColor == '') {
+      String res = 'カラーが選択されていません。';
+      return showSnackbar(res, context);
     }
 
     await FirebaseFirestore.instance.collection('events').add({
