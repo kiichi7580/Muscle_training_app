@@ -6,7 +6,6 @@ import 'package:muscle_training_app/resposive/mobile_screen_layout.dart';
 import 'package:muscle_training_app/resposive/resposive_layout.dart';
 import 'package:muscle_training_app/resposive/web_screen_layout.dart';
 import 'package:muscle_training_app/view/login/login_page.dart';
-import 'package:muscle_training_app/view/signup/signup_page.dart';
 import 'package:muscle_training_app/widgets/text_field_input.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -51,7 +50,7 @@ class _SignUpPageState extends State<SignUpPage> {
         res = '新規登録に成功しました。';
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (context) => ResponsiveLayout(
+            builder: (context) => const ResponsiveLayout(
               webScreenLayout: WebScreenLayout(),
               mobileScreenLayout: MobileScreenLayout(),
             ),

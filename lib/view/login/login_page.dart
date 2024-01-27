@@ -43,7 +43,7 @@ class _LoginPageState extends State<LoginPage> {
         res = 'ログインに成功しました。';
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (context) => ResponsiveLayout(
+            builder: (context) => const ResponsiveLayout(
               webScreenLayout: WebScreenLayout(),
               mobileScreenLayout: MobileScreenLayout(),
             ),
