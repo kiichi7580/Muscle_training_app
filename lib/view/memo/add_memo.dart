@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:muscle_training_app/constant/colors.dart';
 import 'package:muscle_training_app/view_model/memo_model/add_memo_model.dart';
+import 'package:muscle_training_app/widgets/add_button.dart';
 import 'package:provider/provider.dart';
 
 class AddMemoPage extends StatefulWidget {
@@ -23,7 +25,7 @@ class _AddMemoPageState extends State<AddMemoPage> {
           title: Text(
             'メモを追加',
             style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                  color: mainColor,
+                  color: blackColor,
                 ),
           ),
           backgroundColor: blueColor,
@@ -78,9 +80,12 @@ class _AddMemoPageState extends State<AddMemoPage> {
                         SizedBox(
                           height: 70,
                           child: Center(
-                            child: TextButton(
+                            child: TextButton.icon(
                               onPressed: () => _pickDate(context, model),
-                              child: const Text(
+                              icon: const Icon(
+                                Icons.date_range,
+                              ),
+                              label: const Text(
                                 '日付を選択する',
                                 style: TextStyle(
                                   fontSize: 16,
@@ -95,17 +100,21 @@ class _AddMemoPageState extends State<AddMemoPage> {
                         ),
                         SizedBox(
                           height: 50,
-                          width: 350,
-                          child: ElevatedButton(
+                          width: 200,
+                          child: CupertinoButton(
+                            color: blueColor,
                             onPressed: () async {
                               //追加の処理
                               try {
+                                model.startLoding;
                                 await model.addMemo();
                                 Navigator.pop(context);
                               } catch (e) {
                                 final snackBar = SnackBar(
-                                  backgroundColor: Colors.red,
-                                  content: Text(e.toString()),
+                                  backgroundColor: blackColor,
+                                  content: Text(
+                                    e.toString(),
+                                  ),
                                 );
                                 ScaffoldMessenger.of(context)
                                     .showSnackBar(snackBar);
@@ -146,16 +155,20 @@ class _AddMemoPageState extends State<AddMemoPage> {
     AddMemoModel model,
   ) {
     if (model.time != null) {
-      return Text('${model.time}');
+      return Text(
+        '${model.time}',
+        style: const TextStyle(
+          fontSize: 18,
+        ),
+      );
     } else {
       final date = DateTime.now();
       final format1 = DateFormat('yyyy年MM月dd日');
       final formatdate = format1.format(date);
       return Text(
-        '$formatdate',
-        style: TextStyle(
+        formatdate,
+        style: const TextStyle(
           fontSize: 18,
-          fontWeight: FontWeight.w500,
         ),
       );
     }
