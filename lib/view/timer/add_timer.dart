@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:muscle_training_app/constant/colors.dart';
 import 'package:muscle_training_app/view_model/timer_model/add_timer_model.dart';
@@ -12,11 +13,11 @@ class AddTimerPage extends StatelessWidget {
       create: (_) => AddTimerModel(),
       child: Scaffold(
         appBar: AppBar(
-          title: Text(
+          title: const Text(
             'タイマーを追加',
-            style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                  color: mainColor,
-                ),
+            style: TextStyle(
+              color: blackColor,
+            ),
           ),
           backgroundColor: blueColor,
         ),
@@ -106,8 +107,9 @@ class AddTimerPage extends StatelessWidget {
                             ),
                             SizedBox(
                               height: 50,
-                              width: 140,
-                              child: ElevatedButton(
+                              width: 200,
+                              child: CupertinoButton(
+                                color: blueColor,
                                 onPressed: () async {
                                   try {
                                     model.startLoding();
@@ -116,8 +118,10 @@ class AddTimerPage extends StatelessWidget {
                                   } catch (e) {
                                     print(e);
                                     final snackBar = SnackBar(
-                                      backgroundColor: Colors.red,
-                                      content: Text(e.toString()),
+                                      backgroundColor: blackColor,
+                                      content: Text(
+                                        e.toString(),
+                                      ),
                                     );
                                     ScaffoldMessenger.of(context)
                                         .showSnackBar(snackBar);
