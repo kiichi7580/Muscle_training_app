@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:muscle_training_app/constant/colors.dart';
-import 'package:muscle_training_app/view/login/login_page.dart';
+import 'package:muscle_training_app/widgets/main_drawer.dart';
 import 'view/calendar/calendar_page.dart';
 import 'view/memo/memo_page.dart';
 import 'view/timer/timer_page.dart';
@@ -32,7 +32,7 @@ class Myapp extends ConsumerWidget {
       items: items,
       backgroundColor: blueColor,
       selectedItemColor: mainColor,
-      unselectedItemColor: Colors.black45,
+      unselectedItemColor: blackColor,
       currentIndex: index,
       onTap: (index) {
         ref.read(indexProvider.notifier).state = index;
@@ -54,32 +54,47 @@ class Myapp extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: blueColor,
+        // Drawerのアイコンの色を変える方法
+        iconTheme: const IconThemeData(color: blackColor),
         title: Text(
           titles[index],
           style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                color: mainColor,
+                color: blackColor,
               ),
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () async {
-              // ログアウト処理
-              // 内部で保持しているログイン情報等が初期化される
-              // （現時点ではログアウト時はこの処理を呼び出せばOKと、思うぐらいで大丈夫）
-              await FirebaseAuth.instance.signOut();
-              // ログイン画面に遷移＋チャット画面を破棄
-              await Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) {
-                    return const LoginPage();
-                  },
-                ),
-              );
-            },
-          ),
-        ],
+        // actions: [
+        //   IconButton(
+        //     icon: const Icon(Icons.add),
+        //     onPressed: () {
+        //       if (index == 0) {
+        //         Navigator.of(context).push(
+        //           MaterialPageRoute(
+        //             builder: (context) => const AddMemoPage(),
+        //             fullscreenDialog: true,
+        //           ),
+        //         );
+        //       }
+        //       if (index == 1) {
+        //         Navigator.of(context).push(
+        //           MaterialPageRoute(
+        //             builder: (context) => const AddMemoPage(),
+        //             fullscreenDialog: true,
+        //           ),
+        //         );
+        //       }
+        //       if (index == 2) {
+        //         Navigator.of(context).push(
+        //           MaterialPageRoute(
+        //             builder: (context) => const AddTimerPage(),
+        //             fullscreenDialog: true,
+        //           ),
+        //         );
+        //       }
+        //     },
+        //   ),
+        // ],
       ),
+      drawer: const MainDrawer(),
       body: pages[index],
       bottomNavigationBar: bar,
     );

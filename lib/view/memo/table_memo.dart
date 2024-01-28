@@ -19,8 +19,13 @@ class TableWidget extends StatelessWidget {
     return ChangeNotifierProvider<TableMemoModel>(
       create: (_) => TableMemoModel()..fetchTableMemo(date),
       child: Scaffold(
+        backgroundColor: mainColor,
         appBar: AppBar(
-          title: const Text('メニュー'),
+          title: const Text(
+            'メニュー',
+            style: TextStyle(color: blackColor),
+          ),
+          backgroundColor: blueColor,
         ),
         body: Center(
           child: Consumer<TableMemoModel>(

@@ -11,7 +11,8 @@ class MyTimerModel extends ChangeNotifier {
 
   void fetchMyTimer() {
     _usersStream.listen((QuerySnapshot snapshot) {
-      final List<MyTimer> myTimers = snapshot.docs.map((DocumentSnapshot document) {
+      final List<MyTimer> myTimers =
+          snapshot.docs.map((DocumentSnapshot document) {
         Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
         final String id = document.id;
         final String timerName = data['timerName'].toString();
@@ -27,6 +28,9 @@ class MyTimerModel extends ChangeNotifier {
   }
 
   Future<void> delete(MyTimer myTimer) {
-    return FirebaseFirestore.instance.collection('myTimers').doc(myTimer.id).delete();
+    return FirebaseFirestore.instance
+        .collection('myTimers')
+        .doc(myTimer.id)
+        .delete();
   }
 }

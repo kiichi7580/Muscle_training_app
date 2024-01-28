@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:muscle_training_app/constant/colors.dart';
@@ -19,11 +20,13 @@ class _AddMemoPageState extends State<AddMemoPage> {
     return ChangeNotifierProvider<AddMemoModel>(
       create: (_) => AddMemoModel(),
       child: Scaffold(
+        // キーボードの警告を消す
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: Text(
             'メモを追加',
             style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                  color: mainColor,
+                  color: blackColor,
                 ),
           ),
           backgroundColor: blueColor,
@@ -39,7 +42,10 @@ class _AddMemoPageState extends State<AddMemoPage> {
                     child: Column(
                       children: [
                         TextField(
-                          decoration: const InputDecoration(labelText: '種目'),
+                          keyboardType: TextInputType.text,
+                          decoration: const InputDecoration(
+                            labelText: '種目',
+                          ),
                           onChanged: (text) {
                             model.event = text;
                           },
@@ -48,7 +54,10 @@ class _AddMemoPageState extends State<AddMemoPage> {
                           height: 8,
                         ),
                         TextField(
-                          decoration: const InputDecoration(labelText: '重量'),
+                          keyboardType: TextInputType.number,
+                          decoration: const InputDecoration(
+                            labelText: '重量',
+                          ),
                           onChanged: (text) {
                             model.weight = text;
                           },
@@ -57,7 +66,10 @@ class _AddMemoPageState extends State<AddMemoPage> {
                           height: 8,
                         ),
                         TextField(
-                          decoration: const InputDecoration(labelText: 'セット数'),
+                          keyboardType: TextInputType.number,
+                          decoration: const InputDecoration(
+                            labelText: 'セット数',
+                          ),
                           onChanged: (text) {
                             model.set = text;
                           },
@@ -66,21 +78,29 @@ class _AddMemoPageState extends State<AddMemoPage> {
                           height: 8,
                         ),
                         TextField(
-                          decoration: const InputDecoration(labelText: '回数'),
+                          keyboardType: TextInputType.number,
+                          decoration: const InputDecoration(
+                            labelText: '回数',
+                          ),
                           onChanged: (text) {
                             model.rep = text;
                           },
                         ),
                         SizedBox(
                           height: 70,
-                          child: Center(child: displayDate(context, model)),
+                          child: Center(
+                            child: displayDate(context, model),
+                          ),
                         ),
                         SizedBox(
                           height: 70,
                           child: Center(
-                            child: TextButton(
+                            child: TextButton.icon(
                               onPressed: () => _pickDate(context, model),
-                              child: const Text(
+                              icon: const Icon(
+                                Icons.date_range,
+                              ),
+                              label: const Text(
                                 '日付を選択する',
                                 style: TextStyle(
                                   fontSize: 16,
@@ -95,17 +115,21 @@ class _AddMemoPageState extends State<AddMemoPage> {
                         ),
                         SizedBox(
                           height: 50,
-                          width: 350,
-                          child: ElevatedButton(
+                          width: 200,
+                          child: CupertinoButton(
+                            color: blueColor,
                             onPressed: () async {
                               //追加の処理
                               try {
+                                model.startLoding;
                                 await model.addMemo();
                                 Navigator.pop(context);
                               } catch (e) {
                                 final snackBar = SnackBar(
-                                  backgroundColor: Colors.red,
-                                  content: Text(e.toString()),
+                                  backgroundColor: blackColor,
+                                  content: Text(
+                                    e.toString(),
+                                  ),
                                 );
                                 ScaffoldMessenger.of(context)
                                     .showSnackBar(snackBar);
@@ -146,16 +170,20 @@ class _AddMemoPageState extends State<AddMemoPage> {
     AddMemoModel model,
   ) {
     if (model.time != null) {
-      return Text('${model.time}');
+      return Text(
+        '${model.time}',
+        style: const TextStyle(
+          fontSize: 18,
+        ),
+      );
     } else {
       final date = DateTime.now();
       final format1 = DateFormat('yyyy年MM月dd日');
       final formatdate = format1.format(date);
       return Text(
-        '$formatdate',
-        style: TextStyle(
+        formatdate,
+        style: const TextStyle(
           fontSize: 18,
-          fontWeight: FontWeight.w500,
         ),
       );
     }

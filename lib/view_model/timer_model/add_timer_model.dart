@@ -20,7 +20,9 @@ class AddTimerModel extends ChangeNotifier {
   }
 
   Future<void> addTimer() async {
-    timerName ??= '-';
+    if (timerName == '' || timerName == null) {
+      timerName = '-';
+    }
     if (minute == null) {
       // ignore: only_throw_errors
       throw '分数が入力されていません';

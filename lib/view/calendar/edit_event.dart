@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:muscle_training_app/constant/colors.dart';
 import 'package:muscle_training_app/domain/calendar.dart';
 
 import '../../myapp.dart';
@@ -58,7 +60,15 @@ class _EditEventState extends State<EditEventPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('予定を編集')),
+      appBar: AppBar(
+        title: const Text(
+          '予定を編集',
+          style: TextStyle(
+            color: blackColor,
+          ),
+        ),
+        backgroundColor: blueColor,
+      ),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
@@ -74,18 +84,20 @@ class _EditEventState extends State<EditEventPage> {
             },
           ),
           TextField(
+            keyboardType: TextInputType.text,
             controller: _titleController,
             maxLines: 1,
             decoration: const InputDecoration(labelText: '予定'),
           ),
           TextField(
+            keyboardType: TextInputType.text,
             controller: _descController,
             maxLines: 5,
             decoration: const InputDecoration(labelText: '詳細'),
           ),
           SizedBox(
             height: 80,
-            child: TextButton(
+            child: TextButton.icon(
               onPressed: () {
                 showDialog(
                   builder: (context) => AlertDialog(
@@ -94,7 +106,6 @@ class _EditEventState extends State<EditEventPage> {
                       child: BlockPicker(
                         pickerColor: Colors.red,
                         onColorChanged: (color) {
-                          // TODO: 変更時処理
                           color1 = color.toString();
                           color2 = removeWords(color1, removeStringList);
                           color3 = color2;
@@ -107,7 +118,10 @@ class _EditEventState extends State<EditEventPage> {
                   context: context,
                 );
               },
-              child: const Text(
+              icon: const Icon(
+                Icons.color_lens,
+              ),
+              label: const Text(
                 'カラーを選択する',
                 style: TextStyle(
                   fontSize: 16,
@@ -120,8 +134,9 @@ class _EditEventState extends State<EditEventPage> {
             padding: const EdgeInsets.all(64),
             child: SizedBox(
               height: 50,
-              width: 120,
-              child: ElevatedButton(
+              width: 200,
+              child: CupertinoButton(
+                color: blueColor,
                 onPressed: _addEvent,
                 child: const Text(
                   '変更する',

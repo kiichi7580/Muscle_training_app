@@ -2,9 +2,9 @@ import 'dart:collection';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:muscle_training_app/constant/colors.dart';
 import 'package:muscle_training_app/view/calendar/add_event.dart';
 import 'package:muscle_training_app/view/calendar/edit_event.dart';
 import 'package:muscle_training_app/view/calendar/event_item.dart';
@@ -110,6 +110,7 @@ class _CalendarPageState extends State<CalendarPage> {
     }
 
     return Scaffold(
+      backgroundColor: mainColor,
       body: ListView(
         children: [
           Padding(

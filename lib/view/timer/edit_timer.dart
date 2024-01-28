@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:muscle_training_app/constant/colors.dart';
 import 'package:muscle_training_app/view_model/timer_model/edit_timer_model.dart';
 import 'package:provider/provider.dart';
 import '../../domain/timer.dart';
@@ -12,8 +14,15 @@ class EditTimerPage extends StatelessWidget {
     return ChangeNotifierProvider<EditTimerModel>(
       create: (_) => EditTimerModel(timer),
       child: Scaffold(
+        backgroundColor: mainColor,
         appBar: AppBar(
-          title: const Text('タイマーを編集'),
+          title: const Text(
+            'タイマーを編集',
+            style: TextStyle(
+              color: blackColor,
+            ),
+          ),
+          backgroundColor: blueColor,
         ),
         body: Center(
           child: Consumer<EditTimerModel>(
@@ -27,11 +36,12 @@ class EditTimerPage extends StatelessWidget {
                       child: Column(
                         children: [
                           SizedBox(
-                            height: 60,
+                            height: 90,
                             width: 294,
                             child: Padding(
                               padding: const EdgeInsets.all(8),
                               child: TextField(
+                                keyboardType: TextInputType.text,
                                 controller: model.timerNameController,
                                 decoration: const InputDecoration(
                                   labelText: '名前',
@@ -57,6 +67,7 @@ class EditTimerPage extends StatelessWidget {
                                 child: Padding(
                                   padding: const EdgeInsets.all(8),
                                   child: TextField(
+                                    keyboardType: TextInputType.number,
                                     controller: model.minuteController,
                                     decoration: const InputDecoration(
                                       labelText: '分数を入力',
@@ -86,6 +97,7 @@ class EditTimerPage extends StatelessWidget {
                                 child: Padding(
                                   padding: const EdgeInsets.all(8),
                                   child: TextField(
+                                    keyboardType: TextInputType.number,
                                     controller: model.secondController,
                                     decoration: const InputDecoration(
                                       labelText: '秒数を入力',
@@ -107,8 +119,9 @@ class EditTimerPage extends StatelessWidget {
                           ),
                           SizedBox(
                             height: 50,
-                            width: 120,
-                            child: ElevatedButton(
+                            width: 200,
+                            child: CupertinoButton(
+                              color: blueColor,
                               onPressed: model.isUpdated()
                                   ? () async {
                                       //処理の追加
