@@ -41,6 +41,7 @@ class AddTimerPage extends StatelessWidget {
                               child: Padding(
                                 padding: const EdgeInsets.all(8),
                                 child: TextField(
+                                  keyboardType: TextInputType.text,
                                   decoration: const InputDecoration(
                                     labelText: '名前',
                                     border: OutlineInputBorder(),
@@ -63,6 +64,7 @@ class AddTimerPage extends StatelessWidget {
                                   child: Padding(
                                     padding: const EdgeInsets.all(8),
                                     child: TextField(
+                                      keyboardType: TextInputType.number,
                                       decoration: const InputDecoration(
                                         hintText: '分数を入力',
                                         border: OutlineInputBorder(),
@@ -89,6 +91,7 @@ class AddTimerPage extends StatelessWidget {
                                   child: Padding(
                                     padding: const EdgeInsets.all(8),
                                     child: TextField(
+                                      keyboardType: TextInputType.number,
                                       decoration: const InputDecoration(
                                         hintText: '秒数を入力',
                                         border: OutlineInputBorder(),

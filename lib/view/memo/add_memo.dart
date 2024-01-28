@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:muscle_training_app/constant/colors.dart';
 import 'package:muscle_training_app/view_model/memo_model/add_memo_model.dart';
-import 'package:muscle_training_app/widgets/add_button.dart';
 import 'package:provider/provider.dart';
 
 class AddMemoPage extends StatefulWidget {
@@ -21,6 +20,8 @@ class _AddMemoPageState extends State<AddMemoPage> {
     return ChangeNotifierProvider<AddMemoModel>(
       create: (_) => AddMemoModel(),
       child: Scaffold(
+        // キーボードの警告を消す
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: Text(
             'メモを追加',
@@ -41,7 +42,10 @@ class _AddMemoPageState extends State<AddMemoPage> {
                     child: Column(
                       children: [
                         TextField(
-                          decoration: const InputDecoration(labelText: '種目'),
+                          keyboardType: TextInputType.text,
+                          decoration: const InputDecoration(
+                            labelText: '種目',
+                          ),
                           onChanged: (text) {
                             model.event = text;
                           },
@@ -50,7 +54,10 @@ class _AddMemoPageState extends State<AddMemoPage> {
                           height: 8,
                         ),
                         TextField(
-                          decoration: const InputDecoration(labelText: '重量'),
+                          keyboardType: TextInputType.number,
+                          decoration: const InputDecoration(
+                            labelText: '重量',
+                          ),
                           onChanged: (text) {
                             model.weight = text;
                           },
@@ -59,7 +66,10 @@ class _AddMemoPageState extends State<AddMemoPage> {
                           height: 8,
                         ),
                         TextField(
-                          decoration: const InputDecoration(labelText: 'セット数'),
+                          keyboardType: TextInputType.number,
+                          decoration: const InputDecoration(
+                            labelText: 'セット数',
+                          ),
                           onChanged: (text) {
                             model.set = text;
                           },
@@ -68,14 +78,19 @@ class _AddMemoPageState extends State<AddMemoPage> {
                           height: 8,
                         ),
                         TextField(
-                          decoration: const InputDecoration(labelText: '回数'),
+                          keyboardType: TextInputType.number,
+                          decoration: const InputDecoration(
+                            labelText: '回数',
+                          ),
                           onChanged: (text) {
                             model.rep = text;
                           },
                         ),
                         SizedBox(
                           height: 70,
-                          child: Center(child: displayDate(context, model)),
+                          child: Center(
+                            child: displayDate(context, model),
+                          ),
                         ),
                         SizedBox(
                           height: 70,

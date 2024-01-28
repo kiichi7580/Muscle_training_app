@@ -80,11 +80,13 @@ class _AddEventState extends State<AddEventPage> {
             },
           ),
           TextField(
+            keyboardType: TextInputType.text,
             controller: _titleController,
             maxLines: 1,
             decoration: const InputDecoration(labelText: '予定'),
           ),
           TextField(
+            keyboardType: TextInputType.text,
             controller: _descController,
             maxLines: 5,
             decoration: const InputDecoration(labelText: '詳細'),
