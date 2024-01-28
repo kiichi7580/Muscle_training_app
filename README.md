@@ -27,21 +27,24 @@
 
 ***
 ## イメージ画像
-<img src="./images/Simulator Screenshot - iPhone 15 Pro Max - 2023-11-30 at 18.53.47.png" width="200"> <img src="./images/Simulator Screenshot - iPhone 15 Pro Max - 2023-11-30 at 18.54.36.png" width="200"> <img src="./images/Simulator Screenshot - iPhone 15 Pro Max - 2023-11-30 at 18.57.19.png" width="200">
+<img src="./images/スプラッシュ画面.png" width="200"> <img src="./images/ログイン画面.png" width="200"> <img src="./images/新規登録画面.png" width="200">
 
 <br>
 
-<img src="./images/Simulator Screenshot - iPhone 15 Pro - 2024-01-15 at 09.47.20.png" width="200"> <img src="./images/Simulator Screenshot - iPhone 15 Pro - 2024-01-15 at 09.40.43.png
-" width="200"> <img src="./images/Simulator Screenshot - iPhone 15 Pro - 2024-01-15 at 09.47.30.png" width="200">
+<img src="./images/カレンダー画面.png" width="200"> <img src="./images/予定追加画面.png
+" width="200"> <img src="./images/予定編集画面.png" width="200"> <img src="./images/カレンダー＿メニュー画面.png" width="200">
 
 <br>
 
-<img src="./images/Simulator Screenshot - iPhone 15 Pro - 2024-01-15 at 09.40.30.png" width="200"> <img src="./images/Simulator Screenshot - iPhone 15 Pro - 2024-01-15 at 15.12.47.png" width="200"> <img src="./images/Simulator Screenshot - iPhone 15 Pro - 2024-01-15 at 09.33.04.png" width="200">
+<img src="./images/メモ一覧画面.png" width="200"> <img src="./images/メニュー表示画面.png" width="200"> <img src="./images/メモ追加記入画面.png" width="200"> <img src="./images/メニュー追加後画面.png" width="200"> <img src="./images/メニュー編集途中画面.png" width="200">
 
 <br>
 
-<img src="./images/Simulator Screenshot - iPhone 15 Pro - 2024-01-15 at 15.11.59.png" width="200"> <img src="./images/Simulator Screenshot - iPhone 15 Pro - 2024-01-15 at 15.12.30.png" width="200"> <img src="./images/Simulator Screenshot - iPhone 15 Pro - 2024-01-15 at 15.12.22.png" width="200">
+<img src="./images/タイマー一覧画面.png" width="200"> <img src="./images/タイマー追加記入画面.png" width="200"> <img src="./images/タイマー追加後画面.png" width="200"> <img src="./images/タイマー編集途中画面.png" width="200">
 
+<br>
+
+<img src="./images/タイマー詳細画面.png" width="200"> <img src="./images/タイマー進行画面.png" width="200">
 
 
 <br>
@@ -103,6 +106,16 @@ open -a Simulator
 <br>
 <br>
 <br>
+<br>
+<br>
+
+***
+## 画面遷移図
+
+<br>
+
+<img src="./images/筋トレ管理アプリ＿画面遷移図.png" width="1000">
+
 <br>
 <br>
 
