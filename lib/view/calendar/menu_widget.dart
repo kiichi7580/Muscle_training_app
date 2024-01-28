@@ -17,98 +17,102 @@ class _MenuWidgetState extends State<MenuWidget> {
     return ChangeNotifierProvider<TableMemoModel>(
       create: (_) => TableMemoModel()..fetchTableMemo(widget.date),
       child: Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: 32,
-            horizontal: 16,
-          ),
-          child: Center(
-            child: Consumer<TableMemoModel>(
-              builder: (context, model, child) {
-                final List<Memo>? memos = model.memos;
+        body: Center(
+          child: Consumer<TableMemoModel>(
+            builder: (context, model, child) {
+              final List<Memo>? memos = model.memos;
 
-                if (memos == null) {
-                  return const CircularProgressIndicator();
-                }
+              if (memos == null) {
+                return const CircularProgressIndicator();
+              }
 
-                if (memos.isEmpty) {
-                  return const Center(
-                    child: Text('メニューがありません'),
-                  );
-                }
-
-                final List<Widget> widgets = memos
-                    .map((memo) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 8,
-                          horizontal: 16,
-                        ),
-                        child: SafeArea(
-                          top: false,
-                          child: Column(
-                            children: [
-                              SizedBox(
-                                width: double.infinity,
-                                child: Table(
-                                  defaultColumnWidth:
-                                      const IntrinsicColumnWidth(),
-                                  children: <TableRow>[
-                                    TableRow(
-                                      children: <Widget>[
-                                        Padding(
-                                          padding: const EdgeInsets.all(4),
-                                          child: Text(
-                                            memo.event,
-                                            style: const TextStyle(
-                                              fontSize: 18,
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(4),
-                                          child: Text(
-                                            '${memo.weight}kg',
-                                            style: const TextStyle(
-                                              fontSize: 18,
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(4),
-                                          child: Text(
-                                            '${memo.set}set',
-                                            style: const TextStyle(
-                                              fontSize: 18,
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(4),
-                                          child: Text(
-                                            '${memo.rep}rep',
-                                            style: const TextStyle(
-                                              fontSize: 18,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    })
-                    .cast<Widget>()
-                    .toList();
-                return ListView(
-                  children: widgets,
+              if (memos.isEmpty) {
+                return const Center(
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      bottom: 150,
+                    ),
+                    child: Text(
+                      'メニューがありません',
+                      style: TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
                 );
-              },
-            ),
+              }
+
+              final List<Widget> widgets = memos
+                  .map((memo) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 4,
+                        horizontal: 16,
+                      ),
+                      child: SafeArea(
+                        top: false,
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              width: double.infinity,
+                              child: Table(
+                                defaultColumnWidth:
+                                    const IntrinsicColumnWidth(),
+                                children: <TableRow>[
+                                  TableRow(
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: const EdgeInsets.all(4),
+                                        child: Text(
+                                          memo.event,
+                                          style: const TextStyle(
+                                            fontSize: 18,
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(4),
+                                        child: Text(
+                                          '${memo.weight}kg',
+                                          style: const TextStyle(
+                                            fontSize: 18,
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(4),
+                                        child: Text(
+                                          '${memo.set}set',
+                                          style: const TextStyle(
+                                            fontSize: 18,
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(4),
+                                        child: Text(
+                                          '${memo.rep}rep',
+                                          style: const TextStyle(
+                                            fontSize: 18,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  })
+                  .cast<Widget>()
+                  .toList();
+              return ListView(
+                children: widgets,
+              );
+            },
           ),
         ),
       ),
