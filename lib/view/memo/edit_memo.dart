@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:muscle_training_app/constant/colors.dart';
 import 'package:muscle_training_app/domain/memo.dart';
 import 'package:muscle_training_app/view_model/memo_model/edit_memo_model.dart';
 import 'package:provider/provider.dart';
@@ -12,14 +14,22 @@ class EditMemoPage extends StatefulWidget {
 }
 
 class _EditMemoPageState extends State<EditMemoPage> {
-
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<EditMemoModel>(
       create: (_) => EditMemoModel(widget.memo),
       child: Scaffold(
+        // キーボードの警告を消す
+        resizeToAvoidBottomInset: false,
+        backgroundColor: mainColor,
         appBar: AppBar(
-          title: const Text('メモを編集'),
+          title: const Text(
+            'メモを編集',
+            style: TextStyle(
+              color: blackColor,
+            ),
+          ),
+          backgroundColor: blueColor,
         ),
         body: Center(
           child: Consumer<EditMemoModel>(
@@ -29,6 +39,7 @@ class _EditMemoPageState extends State<EditMemoPage> {
                 child: Column(
                   children: [
                     TextField(
+                      keyboardType: TextInputType.text,
                       controller: model.eventController,
                       decoration: const InputDecoration(
                         labelText: '種目',
@@ -43,6 +54,7 @@ class _EditMemoPageState extends State<EditMemoPage> {
                       height: 8,
                     ),
                     TextField(
+                      keyboardType: TextInputType.number,
                       controller: model.weightController,
                       decoration: const InputDecoration(
                         labelText: '重量',
@@ -57,6 +69,7 @@ class _EditMemoPageState extends State<EditMemoPage> {
                       height: 8,
                     ),
                     TextField(
+                      keyboardType: TextInputType.number,
                       controller: model.setController,
                       decoration: const InputDecoration(
                         labelText: 'セット',
@@ -71,6 +84,7 @@ class _EditMemoPageState extends State<EditMemoPage> {
                       height: 8,
                     ),
                     TextField(
+                      keyboardType: TextInputType.number,
                       controller: model.repController,
                       decoration: const InputDecoration(
                         labelText: '回数',
@@ -82,28 +96,28 @@ class _EditMemoPageState extends State<EditMemoPage> {
                       },
                     ),
                     const SizedBox(
-                      height: 16,
+                      height: 50,
                     ),
                     SizedBox(
                       height: 50,
-                      width: 120,
-                      child: ElevatedButton(
-                        onPressed: model.isUpdated()
-                            ? () async {
-                                //処理の追加
-                                try {
-                                  await model.update();
-                                  Navigator.of(context).pop(model.event);
-                                } catch (e) {
-                                  final snackBar = SnackBar(
-                                    backgroundColor: Colors.red,
-                                    content: Text(e.toString()),
-                                  );
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(snackBar);
-                                }
-                              }
-                            : null,
+                      width: 200,
+                      child: CupertinoButton(
+                        color: blueColor,
+                        onPressed: () async {
+                          //処理の追加
+                          try {
+                            model.isUpdated();
+                            await model.update();
+                            Navigator.of(context).pop(model.event);
+                          } catch (e) {
+                            final snackBar = SnackBar(
+                              backgroundColor: blackColor,
+                              content: Text(e.toString()),
+                            );
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                          }
+                        },
                         child: const Text(
                           '更新する',
                           style: TextStyle(
