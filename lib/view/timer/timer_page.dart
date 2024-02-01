@@ -8,7 +8,7 @@ import 'package:muscle_training_app/domain/timer.dart';
 import 'package:muscle_training_app/view/timer/add_timer.dart';
 import 'package:muscle_training_app/view/timer/display_timer.dart';
 import 'package:muscle_training_app/view/timer/edit_timer.dart';
-import 'package:muscle_training_app/view_model/timer_model/timer_model.dart';
+import 'package:muscle_training_app/models/timer_model/timer_model.dart';
 import 'package:provider/provider.dart';
 
 class TimerPage extends StatefulWidget {
