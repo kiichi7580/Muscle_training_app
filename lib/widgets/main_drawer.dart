@@ -1,8 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:muscle_training_app/constant/colors.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:muscle_training_app/myapp.dart';
 import 'package:muscle_training_app/view/drawer/beginner_tutorial.dart';
 import 'package:muscle_training_app/view/login/login_page.dart';
 
