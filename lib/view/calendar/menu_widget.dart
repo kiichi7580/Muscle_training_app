@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:muscle_training_app/domain/memo.dart';
-import 'package:muscle_training_app/view_model/memo_model/table_memo_model.dart';
+import 'package:muscle_training_app/models/memo_model/table_memo_model.dart';
 import 'package:provider/provider.dart';
 
 class MenuWidget extends StatefulWidget {

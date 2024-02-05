@@ -33,12 +33,10 @@ class _LoginPageState extends State<LoginPage> {
       setState(() {
         _isLoading = true;
       });
-
       String res = await AuthMethods().loginUser(
         email: _emailController.text,
         password: _passwordController.text,
       );
-
       if (res == 'success') {
         res = 'ログインに成功しました。';
         Navigator.of(context).pushReplacement(
@@ -49,14 +47,16 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
         );
+        setState(() {
+          _isLoading = false;
+        });
         showSnackbar(res, context);
       } else {
+        setState(() {
+          _isLoading = false;
+        });
         showSnackbar(res, context);
       }
-
-      setState(() {
-        _isLoading = false;
-      });
     }
 
     void navigatorToSignup() {
@@ -142,17 +142,15 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     color: heavyBlueColor,
                   ),
-                  child: _isLoading
-                      ? const Center(
-                          child: CircularProgressIndicator(
-                            color: mainColor,
-                          ),
-                        )
-                      : const Text(
+                  child: !_isLoading
+                      ? const Text(
                           'ログイン',
                           style: TextStyle(
                             color: mainColor,
                           ),
+                        )
+                      : const CircularProgressIndicator(
+                          color: mainColor,
                         ),
                 ),
               ),

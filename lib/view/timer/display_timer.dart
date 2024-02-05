@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:muscle_training_app/constant/colors.dart';
-import 'package:muscle_training_app/view_model/timer_model/display_timer_model.dart';
+import 'package:muscle_training_app/models/timer_model/display_timer_model.dart';
 import 'package:provider/provider.dart';
 
 class DisplayTimerPage extends StatefulWidget {

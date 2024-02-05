@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:muscle_training_app/constant/colors.dart';
-import 'package:muscle_training_app/view_model/memo_model/add_memo_model.dart';
+import 'package:muscle_training_app/models/memo_model/add_memo_model.dart';
 import 'package:provider/provider.dart';
 
 class AddMemoPage extends StatefulWidget {
