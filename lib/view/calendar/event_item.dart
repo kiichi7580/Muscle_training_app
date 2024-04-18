@@ -33,7 +33,7 @@ class EventItem extends StatelessWidget {
           ),
         ),
         subtitle: Text(
-          FormatedDate,
+          event.description ?? '',
           style: const TextStyle(
             color: mainColor,
             fontSize: 15,
