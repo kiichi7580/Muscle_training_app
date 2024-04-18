@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class Calendar {
   final String title;
@@ -7,12 +6,14 @@ class Calendar {
   late DateTime date;
   final String eventColor;
   final String id;
+  final String uid;
   Calendar({
     required this.title,
     this.description,
     required this.date,
     required this.eventColor,
     required this.id,
+    required this.uid,
   });
 
   factory Calendar.fromFirestore(
@@ -32,7 +33,8 @@ class Calendar {
       title: data['title'].toString(),
       description: data['description'].toString(),
       eventColor: data['eventColor'].toString(),
-      id: snapshot.id,
+      id: data['id'].toString(),
+      uid: data['uid'].toString(),
     );
   }
 
