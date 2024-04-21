@@ -3,19 +3,18 @@ import 'dart:async';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:muscle_training_app/constant/colors.dart';
-import 'package:muscle_training_app/models/timer_model/display_timer_model.dart';
-import 'package:provider/provider.dart';
+
 
 class DisplayTimerPage extends StatefulWidget {
   const DisplayTimerPage({
     super.key,
     required this.timerName,
-    required this.maxSeconds,
-    required this.seconds,
+    required this.totalSeconds,
+    required this.dynamicSeconds,
   });
   final String timerName;
-  final int maxSeconds;
-  final int seconds;
+  final int totalSeconds;
+  final int dynamicSeconds;
 
   @override
   State<DisplayTimerPage> createState() => _DisplayTimerPageState();
@@ -23,8 +22,8 @@ class DisplayTimerPage extends StatefulWidget {
 
 class _DisplayTimerPageState extends State<DisplayTimerPage> {
   late String timerName;
-  late int maxSeconds;
-  late int seconds;
+  late int totalSeconds;
+  late int dynamicSeconds;
   Timer? timer;
   final audioCache = AudioCache();
   final audioPlayer = AudioPlayer();
@@ -35,16 +34,16 @@ class _DisplayTimerPageState extends State<DisplayTimerPage> {
     }
     // seconds: 1
     timer = Timer.periodic(const Duration(seconds: 1), (_) {
-      if (seconds > 0) {
-        setState(() => seconds--);
+      if (dynamicSeconds > 0) {
+        setState(() => dynamicSeconds--);
       } else {
         stopTimer(reset: false);
-        seconds = maxSeconds;
+        dynamicSeconds = totalSeconds;
       }
     });
   }
 
-  void resetTimer() => setState(() => seconds = maxSeconds);
+  void resetTimer() => setState(() => dynamicSeconds = totalSeconds);
 
   void stopTimer({bool reset = true}) {
     if (reset) {
@@ -55,61 +54,57 @@ class _DisplayTimerPageState extends State<DisplayTimerPage> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<DisplayTimerModel>(
-      create: (_) =>
-          DisplayTimerModel()..fetchDisplayTimer(maxSeconds, seconds),
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            'タイマー',
-            style: Theme.of(context)
-                .textTheme
-                .titleLarge!
-                .copyWith(color: mainColor),
-          ),
-          backgroundColor: Colors.black54,
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back_rounded),
-            onPressed: () {
-              Navigator.pop(context);
-            },
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'タイマー',
+          style: Theme.of(context)
+              .textTheme
+              .titleLarge!
+              .copyWith(color: mainColor),
+        ),
+        backgroundColor: Colors.black54,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_rounded),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
+      body: Container(
+        height: double.infinity,
+        width: double.infinity,
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Colors.black26,
+              Colors.black45,
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
           ),
         ),
-        body: Container(
-          height: double.infinity,
-          width: double.infinity,
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Colors.black26,
-                Colors.black45,
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                alignment: Alignment.center,
-                height: 60,
-                child: Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: Text(
-                    timerName,
-                    style: const TextStyle(
-                      fontSize: 23,
-                      fontWeight: FontWeight.w600,
-                    ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              alignment: Alignment.center,
+              height: 60,
+              child: Padding(
+                padding: const EdgeInsets.all(8),
+                child: Text(
+                  timerName,
+                  style: const TextStyle(
+                    fontSize: 23,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ),
-              buildTimer(),
-              const SizedBox(height: 80),
-              buildButtons(),
-            ],
-          ),
+            ),
+            buildTimer(),
+            const SizedBox(height: 80),
+            buildButtons(),
+          ],
         ),
       ),
     );
@@ -117,7 +112,7 @@ class _DisplayTimerPageState extends State<DisplayTimerPage> {
 
   Widget buildButtons() {
     final isRunning = timer == null ? false : timer!.isActive;
-    final isCompleted = seconds == maxSeconds || seconds == 0;
+    final isCompleted = dynamicSeconds == totalSeconds || dynamicSeconds == 0;
 
     return isRunning || !isCompleted
         ? Row(
@@ -179,7 +174,7 @@ class _DisplayTimerPageState extends State<DisplayTimerPage> {
                     backgroundColor: Colors.black26,
                   ),
                   onPressed: () {
-                    seconds = maxSeconds;
+                    dynamicSeconds = totalSeconds;
                     startTimer();
                   },
                   child: const Text(
@@ -203,7 +198,7 @@ class _DisplayTimerPageState extends State<DisplayTimerPage> {
           fit: StackFit.expand,
           children: [
             CircularProgressIndicator(
-              value: 1 - seconds / maxSeconds,
+              value: 1 - dynamicSeconds / totalSeconds,
               valueColor: const AlwaysStoppedAnimation(mainColor),
               strokeWidth: 15,
               backgroundColor: Colors.greenAccent,
@@ -216,10 +211,10 @@ class _DisplayTimerPageState extends State<DisplayTimerPage> {
       );
 
   Widget buildTime() {
-    if (seconds == 0) {
+    if (dynamicSeconds == 0) {
       playSound();
       return Text(
-        '$seconds',
+        '$dynamicSeconds',
         style: const TextStyle(
           fontWeight: FontWeight.bold,
           color: mainColor,
@@ -228,7 +223,7 @@ class _DisplayTimerPageState extends State<DisplayTimerPage> {
       );
     } else {
       return Text(
-        '$seconds',
+        '$dynamicSeconds',
         style: const TextStyle(
           fontWeight: FontWeight.bold,
           color: mainColor,
@@ -241,7 +236,7 @@ class _DisplayTimerPageState extends State<DisplayTimerPage> {
   // 音が鳴るはずの関数
   Future<void> playSound() async {
     await audioCache.load('assets/Clock-Alarm02-4(Button).mp3');
-    await audioCache.play('assets/Clock-Alarm02-4(Button).mp3');
+    await audioPlayer.play(UrlSource('assets/Clock-Alarm02-4(Button).mp3'));
   }
 
   // ウィジェットが作成された際に受け取る値を初期化
@@ -249,8 +244,8 @@ class _DisplayTimerPageState extends State<DisplayTimerPage> {
   void initState() {
     super.initState();
     timerName = widget.timerName;
-    maxSeconds = widget.maxSeconds;
-    seconds = widget.seconds;
+    totalSeconds = widget.totalSeconds;
+    dynamicSeconds = widget.dynamicSeconds;
     audioCache.load('assets/Clock-Alarm02-4(Button).mp3');
   }
 }
