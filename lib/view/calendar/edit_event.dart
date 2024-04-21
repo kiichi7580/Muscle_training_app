@@ -167,11 +167,11 @@ class _EditEventState extends State<EditEventPage> {
         .update({
       'title': title,
       'description': description,
-      'date': Timestamp.fromDate(_selectedDate).toDate(),
+      'date': _selectedDate,
       'eventColor': eventColor
     });
     if (mounted) {
-      // Navigator.pop<bool>(context, true);
+      Navigator.pop<bool>(context, true);
       await Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute<void>(

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:muscle_training_app/constant/colors.dart';
-import 'package:muscle_training_app/view/calendar/menu_widget.dart';
 
 void BottomSheetWidget(BuildContext context, {required String date}) async {
   final result = await showBarModalBottomSheet<dynamic>(
@@ -16,7 +15,8 @@ void BottomSheetWidget(BuildContext context, {required String date}) async {
 }
 
 class _buildBottomSheetContent extends StatefulWidget {
-  const _buildBottomSheetContent({super.key, required this.date});
+  const _buildBottomSheetContent({Key? key, required this.date})
+      : super(key: key);
   final String date;
 
   @override
@@ -61,9 +61,9 @@ class _buildBottomSheetContentState extends State<_buildBottomSheetContent> {
                   minHeight: 0, // 任意の最小の高さ
                   maxHeight: 670, // 任意の最大の高さ
                 ),
-                child: MenuWidget(
-                  date: widget.date,
-                ), // YourWidgetは実際のウィジェットに置き換えてください
+                // child: MenuWidget(
+                //   date: widget.date,
+                // ),
               ),
             ],
           ),

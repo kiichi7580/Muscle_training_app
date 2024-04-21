@@ -1,18 +1,49 @@
 import 'package:flutter/cupertino.dart';
+import 'package:muscle_training_app/widgets/show_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:muscle_training_app/constant/colors.dart';
 import 'package:muscle_training_app/models/timer_model/edit_timer_model.dart';
 import 'package:provider/provider.dart';
-import '../../domain/timer.dart';
 
-class EditTimerPage extends StatelessWidget {
-  const EditTimerPage(this.timer, {super.key});
-  final MyTimer timer;
+
+class EditTimerPage extends StatefulWidget {
+  const EditTimerPage({super.key, required this.timer});
+  final dynamic timer;
+
+  @override
+  State<EditTimerPage> createState() => _EditTimerPageState();
+}
+
+class _EditTimerPageState extends State<EditTimerPage> {
+  bool _isLoading = false;
+
+  void upDate(EditTimerModel model) async {
+    try {
+      setState(() {
+        _isLoading = true;
+      });
+      String res = await model.update();
+
+      if (res == 'success') {
+        setState(() {
+          _isLoading = false;
+        });
+        showSnackBar(res, context);
+      } else {
+        setState(() {
+          _isLoading = false;
+        });
+        showSnackBar(res, context);
+      }
+    } catch (e) {
+      showSnackBar(e.toString(), context);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<EditTimerModel>(
-      create: (_) => EditTimerModel(timer),
+      create: (_) => EditTimerModel(widget.timer),
       child: Scaffold(
         backgroundColor: mainColor,
         appBar: AppBar(
@@ -42,7 +73,7 @@ class EditTimerPage extends StatelessWidget {
                               padding: const EdgeInsets.all(8),
                               child: TextField(
                                 keyboardType: TextInputType.text,
-                                controller: model.timerNameController,
+                                controller: model.nameController,
                                 decoration: const InputDecoration(
                                   labelText: '名前',
                                   border: OutlineInputBorder(),
@@ -122,23 +153,10 @@ class EditTimerPage extends StatelessWidget {
                             width: 200,
                             child: CupertinoButton(
                               color: blueColor,
-                              onPressed: model.isUpdated()
-                                  ? () async {
-                                      //処理の追加
-                                      try {
-                                        await model.update();
-                                        Navigator.of(context).pop();
-                                      } catch (e) {
-                                        print(e);
-                                        final snackBar = SnackBar(
-                                          backgroundColor: Colors.red,
-                                          content: Text(e.toString()),
-                                        );
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(snackBar);
-                                      }
-                                    }
-                                  : null,
+                              onPressed: () {
+                                upDate(model);
+                                Navigator.of(context).pop();
+                              },
                               child: const Text(
                                 '変更する',
                                 style: TextStyle(

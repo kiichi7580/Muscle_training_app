@@ -1,19 +1,44 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:muscle_training_app/constant/colors.dart';
-import 'package:muscle_training_app/domain/memo.dart';
+import 'package:muscle_training_app/widgets/show_snackbar.dart';
 import 'package:muscle_training_app/models/memo_model/edit_memo_model.dart';
 import 'package:provider/provider.dart';
 
 class EditMemoPage extends StatefulWidget {
-  const EditMemoPage(this.memo, {super.key});
-  final Memo memo;
+  const EditMemoPage({super.key, required this.memo});
+  final dynamic memo;
 
   @override
   State<EditMemoPage> createState() => _EditMemoPageState();
 }
 
 class _EditMemoPageState extends State<EditMemoPage> {
+  bool _isLoading = false;
+
+  void upDate(EditMemoModel model) async {
+    try {
+      setState(() {
+        _isLoading = true;
+      });
+      String res = await model.update();
+
+      if (res == 'success') {
+        setState(() {
+          _isLoading = false;
+        });
+        showSnackBar(res, context);
+      } else {
+        setState(() {
+          _isLoading = false;
+        });
+        showSnackBar(res, context);
+      }
+    } catch (e) {
+      showSnackBar(e.toString(), context);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<EditMemoModel>(
@@ -103,20 +128,9 @@ class _EditMemoPageState extends State<EditMemoPage> {
                       width: 200,
                       child: CupertinoButton(
                         color: blueColor,
-                        onPressed: () async {
-                          //処理の追加
-                          try {
-                            model.isUpdated();
-                            await model.update();
-                            Navigator.of(context).pop(model.event);
-                          } catch (e) {
-                            final snackBar = SnackBar(
-                              backgroundColor: blackColor,
-                              content: Text(e.toString()),
-                            );
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(snackBar);
-                          }
+                        onPressed: () {
+                          upDate(model);
+                          Navigator.of(context).pop();
                         },
                         child: const Text(
                           '更新する',

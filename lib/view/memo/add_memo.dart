@@ -2,222 +2,242 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:muscle_training_app/constant/colors.dart';
-import 'package:muscle_training_app/models/memo_model/add_memo_model.dart';
+import 'package:muscle_training_app/domain/user.dart';
+import 'package:muscle_training_app/providers/user_provider.dart';
+import 'package:muscle_training_app/resources/memo_firestore_methods.dart';
+import 'package:muscle_training_app/widgets/date_picker_item.dart';
+import 'package:muscle_training_app/widgets/show_snackbar.dart';
+import 'package:muscle_training_app/widgets/text_field_input.dart';
 import 'package:provider/provider.dart';
 
 class AddMemoPage extends StatefulWidget {
-  const AddMemoPage({
-    super.key,
-  });
+  const AddMemoPage({super.key});
 
   @override
   State<AddMemoPage> createState() => _AddMemoPageState();
 }
 
 class _AddMemoPageState extends State<AddMemoPage> {
+  final TextEditingController _eventController = TextEditingController();
+  final TextEditingController _weightController = TextEditingController();
+  final TextEditingController _setController = TextEditingController();
+  final TextEditingController _repController = TextEditingController();
+  bool _isLoading = false;
+  var now = DateTime.now();
+  late DateTime date;
+  DateFormat format = DateFormat('yyyy年MM月dd日');
+
+  Future<void> addMemo(
+    BuildContext context,
+    String event,
+    String weight,
+    String set,
+    String rep,
+    String uid,
+    String time,
+  ) async {
+    try {
+      setState(() {
+        _isLoading = true;
+      });
+      String res = await MemoFireStoreMethods().addMemo(
+        event,
+        weight,
+        set,
+        rep,
+        uid,
+        time,
+      );
+
+      if (res == 'success') {
+        setState(() {
+          _isLoading = false;
+        });
+        showSnackBar('メモを追加しました！', context);
+      } else {
+        setState(() {
+          _isLoading = false;
+        });
+        showSnackBar(res, context);
+      }
+    } catch (e) {
+      showSnackBar(e.toString(), context);
+    }
+  }
+
   @override
-  Widget build(BuildContext context) {
-    return ChangeNotifierProvider<AddMemoModel>(
-      create: (_) => AddMemoModel(),
-      child: Scaffold(
-        // キーボードの警告を消す
-        resizeToAvoidBottomInset: false,
-        appBar: AppBar(
-          title: Text(
-            'メモを追加',
-            style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                  color: blackColor,
-                ),
-          ),
-          backgroundColor: blueColor,
+  void initState() {
+    super.initState();
+    date = now;
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _eventController.dispose();
+    _weightController.dispose();
+    _setController.dispose();
+    _repController.dispose();
+  }
+
+  // クパチーノデイトピッカーの関数
+  void _showDialog(Widget child) {
+    showCupertinoModalPopup<void>(
+      context: context,
+      builder: (BuildContext context) => Container(
+        height: 216,
+        padding: const EdgeInsets.only(top: 6.0),
+        margin: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
         ),
-        backgroundColor: mainColor,
-        body: Center(
-          child: Consumer<AddMemoModel>(
-            builder: (context, model, child) {
-              return Stack(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      children: [
-                        TextField(
-                          keyboardType: TextInputType.text,
-                          decoration: const InputDecoration(
-                            labelText: '種目',
-                          ),
-                          onChanged: (text) {
-                            model.event = text;
-                          },
-                        ),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        TextField(
-                          keyboardType: TextInputType.number,
-                          decoration: const InputDecoration(
-                            labelText: '重量',
-                          ),
-                          onChanged: (text) {
-                            model.weight = text;
-                          },
-                        ),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        TextField(
-                          keyboardType: TextInputType.number,
-                          decoration: const InputDecoration(
-                            labelText: 'セット数',
-                          ),
-                          onChanged: (text) {
-                            model.set = text;
-                          },
-                        ),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        TextField(
-                          keyboardType: TextInputType.number,
-                          decoration: const InputDecoration(
-                            labelText: '回数',
-                          ),
-                          onChanged: (text) {
-                            model.rep = text;
-                          },
-                        ),
-                        SizedBox(
-                          height: 70,
-                          child: Center(
-                            child: displayDate(context, model),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 70,
-                          child: Center(
-                            child: TextButton.icon(
-                              onPressed: () => _pickDate(context, model),
-                              icon: const Icon(
-                                Icons.date_range,
-                              ),
-                              label: const Text(
-                                '日付を選択する',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        SizedBox(
-                          height: 50,
-                          width: 200,
-                          child: CupertinoButton(
-                            color: blueColor,
-                            onPressed: () async {
-                              //追加の処理
-                              try {
-                                model.startLoding;
-                                await model.addMemo();
-                                Navigator.pop(context);
-                              } catch (e) {
-                                final snackBar = SnackBar(
-                                  backgroundColor: blackColor,
-                                  content: Text(
-                                    e.toString(),
-                                  ),
-                                );
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackBar);
-                              } finally {
-                                model.endLoding();
-                              }
-                            },
-                            child: const Text(
-                              '追加する',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  if (model.isLoding)
-                    Container(
-                      color: Colors.black54,
-                      child: const Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                    ),
-                ],
-              );
-            },
-          ),
+        color: CupertinoColors.systemBackground.resolveFrom(context),
+        child: SafeArea(
+          top: false,
+          child: child,
         ),
       ),
     );
   }
 
-  Widget displayDate(
-    BuildContext context,
-    AddMemoModel model,
-  ) {
-    if (model.time != null) {
-      return Text(
-        '${model.time}',
-        style: const TextStyle(
-          fontSize: 18,
-        ),
-      );
-    } else {
-      final date = DateTime.now();
-      final format1 = DateFormat('yyyy年MM月dd日');
-      final formatdate = format1.format(date);
-      return Text(
-        formatdate,
-        style: const TextStyle(
-          fontSize: 18,
-        ),
-      );
-    }
-  }
+  @override
+  Widget build(BuildContext context) {
+    final User user = Provider.of<UserProvider>(context).getUser;
 
-  Future<void> _pickDate(
-    BuildContext context,
-    AddMemoModel model,
-  ) async {
-    //DatePickerの初期値
-    DateTime date = DateTime.now();
-    late DateTime firstDay;
-    late DateTime lastDay;
-    final format2 = DateFormat('yyyy年MM月dd日');
-
-    //DatePickerを表示し、選択されたら変数に格納する
-    final _selectedDay = await showDatePicker(
-      locale: const Locale('ja'),
-      context: context,
-      initialDate: date,
-      firstDate: firstDay = DateTime.now().subtract(const Duration(days: 1000)),
-      lastDate: lastDay = DateTime.now().add(const Duration(days: 1000)),
+    return CupertinoPageScaffold(
+      backgroundColor: mainColor,
+      // キーボードの警告を消す
+      resizeToAvoidBottomInset: false,
+      navigationBar: CupertinoNavigationBar(
+        middle: Text(
+          'メモを追加',
+          style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                color: blackColor,
+              ),
+        ),
+        backgroundColor: blueColor,
+      ),
+      child: Center(
+        child: Padding(
+          padding: EdgeInsets.all(16),
+          child: Column(
+            children: [
+              DatePickerItem(
+                children: <Widget>[
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.date_range,
+                        size: 22,
+                        color: blackColor,
+                      ),
+                      Text(
+                        '日付',
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: blackColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                  CupertinoButton(
+                    onPressed: () => _showDialog(
+                      CupertinoDatePicker(
+                        initialDateTime: date,
+                        mode: CupertinoDatePickerMode.date,
+                        use24hFormat: true,
+                        showDayOfWeek: true,
+                        onDateTimeChanged: (DateTime newDate) {
+                          setState(() => date = newDate);
+                        },
+                      ),
+                    ),
+                    child: Text(
+                      '${date.year}年${date.month}月${date.day}日(${date.weekday})',
+                      style: const TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              Material(
+                child: MemoTextField(
+                  labelText: '種目',
+                  textInputType: TextInputType.text,
+                  textEditingController: _eventController,
+                ),
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              Material(
+                child: MemoTextField(
+                  labelText: '重量',
+                  textInputType: TextInputType.text,
+                  textEditingController: _weightController,
+                ),
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              Material(
+                child: MemoTextField(
+                  labelText: 'セット数',
+                  textInputType: TextInputType.text,
+                  textEditingController: _setController,
+                ),
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              Material(
+                child: MemoTextField(
+                  labelText: '回数',
+                  textInputType: TextInputType.text,
+                  textEditingController: _repController,
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              SizedBox(
+                height: 50,
+                width: 200,
+                child: CupertinoButton(
+                  color: blueColor,
+                  onPressed: () async {
+                    String formattedDate = format.format(date).toString();
+                    await addMemo(
+                      context,
+                      _eventController.text,
+                      _weightController.text,
+                      _setController.text,
+                      _repController.text,
+                      user.uid,
+                      formattedDate,
+                    );
+                    Navigator.of(context).pop();
+                  },
+                  child: _isLoading
+                      ? CircularProgressIndicator(
+                        color: linkBlue,
+                      )
+                      : Text(
+                          '追加する',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
-
-    //nullチェック
-    if (_selectedDay != null) {
-      //選択された日付を変数に格納
-      setState(() {
-        date = _selectedDay;
-        model.time = format2.format(date);
-      });
-    } else {
-      //nullならば何もしない
-      return;
-    }
   }
 }

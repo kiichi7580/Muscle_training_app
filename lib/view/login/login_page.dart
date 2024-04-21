@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:muscle_training_app/constant/colors.dart';
-import 'package:muscle_training_app/constant/utils.dart';
+import 'package:muscle_training_app/providers/user_provider.dart';
+import 'package:muscle_training_app/widgets/show_snackbar.dart';
 import 'package:muscle_training_app/resources/auth_methods.dart';
 import 'package:muscle_training_app/resposive/mobile_screen_layout.dart';
 import 'package:muscle_training_app/resposive/resposive_layout.dart';
 import 'package:muscle_training_app/resposive/web_screen_layout.dart';
 import 'package:muscle_training_app/view/signup/signup_page.dart';
 import 'package:muscle_training_app/widgets/text_field_input.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -20,7 +22,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     final TextEditingController _emailController = TextEditingController();
     final TextEditingController _passwordController = TextEditingController();
-    bool _isLoading = false;
+    final userProvider = Provider.of<UserProvider>(context);
 
     @override
     void dispose() {
@@ -29,10 +31,11 @@ class _LoginPageState extends State<LoginPage> {
       _passwordController.dispose();
     }
 
-    void loginUser() async {
-      setState(() {
-        _isLoading = true;
-      });
+    void loginUser(
+      BuildContext context,
+      UserProvider userProvider,
+    ) async {
+      userProvider.startLoading();
       String res = await AuthMethods().loginUser(
         email: _emailController.text,
         password: _passwordController.text,
@@ -47,15 +50,11 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
         );
-        setState(() {
-          _isLoading = false;
-        });
-        showSnackbar(res, context);
+        userProvider.endLoading();
+        showSnackBar(res, context);
       } else {
-        setState(() {
-          _isLoading = false;
-        });
-        showSnackbar(res, context);
+        userProvider.endLoading();
+        showSnackBar(res, context);
       }
     }
 
@@ -127,7 +126,10 @@ class _LoginPageState extends State<LoginPage> {
                 height: 24,
               ),
               InkWell(
-                onTap: loginUser,
+                onTap: () => loginUser(
+                  context,
+                  userProvider,
+                ),
                 child: Container(
                   width: double.infinity,
                   alignment: Alignment.center,
@@ -142,15 +144,15 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     color: heavyBlueColor,
                   ),
-                  child: !_isLoading
-                      ? const Text(
+                  child: userProvider.getLoading
+                      ? const CircularProgressIndicator(
+                          color: mainColor,
+                        )
+                      : const Text(
                           'ログイン',
                           style: TextStyle(
                             color: mainColor,
                           ),
-                        )
-                      : const CircularProgressIndicator(
-                          color: mainColor,
                         ),
                 ),
               ),

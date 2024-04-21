@@ -1,11 +1,13 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:muscle_training_app/constant/colors.dart';
-import 'package:muscle_training_app/constant/utils.dart';
+import 'package:muscle_training_app/domain/user.dart';
+import 'package:muscle_training_app/providers/user_provider.dart';
+import 'package:muscle_training_app/resources/calendar_firestore_methods.dart';
 import 'package:muscle_training_app/myapp.dart';
 import 'package:muscle_training_app/widgets/add_button.dart';
+import 'package:muscle_training_app/widgets/show_snackbar.dart';
+import 'package:provider/provider.dart';
 
 class AddEventPage extends StatefulWidget {
   const AddEventPage({
@@ -24,21 +26,49 @@ class AddEventPage extends StatefulWidget {
 
 class _AddEventState extends State<AddEventPage> {
   late DateTime _selectedDate;
-  final _titleController = TextEditingController();
-  final _descController = TextEditingController();
-  late String color1;
-  late String color2;
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _descController = TextEditingController();
   late String eventColor;
-  String removeWords(String input, List<String> wordsToRemove) {
-    String result = input;
-    wordsToRemove.forEach((word) {
-      result = result.replaceAll(word, '');
-    });
-    return result;
+  late DateTime setDate;
+
+  bool _isLoading = false;
+
+  Future<void> addCalendar(
+    BuildContext context,
+    String title,
+    String description,
+    String eventColor,
+    DateTime date,
+    String uid,
+  ) async {
+    try {
+      setState(() {
+        _isLoading = true;
+      });
+      String res = await CalendarFireStoreMethods().addCalendar(
+        title,
+        description,
+        eventColor,
+        date,
+        uid,
+      );
+
+      if (res == 'success') {
+        setState(() {
+          _isLoading = false;
+        });
+        showSnackBar('予定を追加しました！', context);
+      } else {
+        setState(() {
+          _isLoading = false;
+        });
+        showSnackBar(res, context);
+      }
+    } catch (e) {
+      showSnackBar(e.toString(), context);
+    }
   }
 
-  List<String> removeStringList = ['MaterialColor(primary value: Color(', ')'];
-  late String preColor;
   @override
   void initState() {
     super.initState();
@@ -54,6 +84,9 @@ class _AddEventState extends State<AddEventPage> {
 
   @override
   Widget build(BuildContext context) {
+    final User user = Provider.of<UserProvider>(context).getUser;
+    print('user: $user');
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -102,10 +135,7 @@ class _AddEventState extends State<AddEventPage> {
                       child: BlockPicker(
                         pickerColor: Colors.red,
                         onColorChanged: (color) {
-                          color1 = color.toString();
-                          color2 = removeWords(color1, removeStringList);
-                          eventColor = color2;
-                          print(eventColor);
+                          eventColor = color.toString();
                         },
                       ),
                     ),
@@ -127,45 +157,28 @@ class _AddEventState extends State<AddEventPage> {
           ),
           AddButton(
             buttonText: '追加する',
-            buttonOnPressed: _addEvent,
+            buttonOnPressed: () async {
+              await addCalendar(
+                context,
+                _titleController.text,
+                _descController.text,
+                eventColor,
+                _selectedDate,
+                user.uid,
+              );
+              if (mounted) {
+                await Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (_) => const Myapp(),
+                  ),
+                  (_) => false,
+                );
+              }
+            },
           ),
         ],
       ),
     );
-  }
-
-  Future<void> _addEvent() async {
-    final title = _titleController.text;
-    final description = _descController.text;
-
-    if (title.isEmpty) {
-      String res = '予定が入力されていません。';
-      return showSnackbar(res, context);
-    }
-    if (description.isEmpty) {
-      String res = '詳細が入力されていません。';
-      return showSnackbar(res, context);
-    }
-    if (eventColor == '') {
-      String res = 'カラーが選択されていません。';
-      return showSnackbar(res, context);
-    }
-
-    await FirebaseFirestore.instance.collection('events').add({
-      'title': title,
-      'description': description,
-      'date': Timestamp.fromDate(_selectedDate).toDate(),
-      'eventColor': eventColor,
-    });
-
-    if (mounted) {
-      await Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute<void>(
-          builder: (_) => const Myapp(),
-        ),
-        (_) => false,
-      );
-    }
   }
 }

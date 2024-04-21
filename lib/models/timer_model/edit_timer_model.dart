@@ -1,23 +1,22 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:muscle_training_app/domain/timer.dart';
+import 'package:muscle_training_app/resources/timer_firestore_methods.dart';
 
 class EditTimerModel extends ChangeNotifier {
   EditTimerModel(this.timer) {
-    timerNameController.text = timer.timerName;
-    minuteController.text = timer.minute;
-    secondController.text = timer.second;
+    nameController.text = timer['timerName'];
+    minuteController.text = timer['minute'];
+    secondController.text = timer['second'];
   }
-  final MyTimer timer;
+  final dynamic timer;
 
-  final timerNameController = TextEditingController();
+  final nameController = TextEditingController();
   final minuteController = TextEditingController();
   final secondController = TextEditingController();
 
   String timerName = '';
   String minute = '';
   String second = '';
-  int? totalSecond;
+  int? totalSeconds;
 
   void setTimerName(String timerName) {
     this.timerName = timerName;
@@ -34,27 +33,14 @@ class EditTimerModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  bool isUpdated() {
-    // ignore: unnecessary_null_comparison
-    return timerName != null || minute != null || second != null;
-  }
-
-  Future<void> update() async {
-    this.timerName = timerNameController.text;
+  Future<String> update() async {
+    this.timerName = nameController.text;
     this.minute = minuteController.text;
     this.second = secondController.text;
 
-    final int totalSecond = int.parse(minute) * 60 + int.parse(second);
+    String res = await TimerFireStoreMethods()
+        .upDateTimer(timerName, minute, second, timer.id);
 
-    // firestoreに追加
-    await FirebaseFirestore.instance
-        .collection('myTimers')
-        .doc(timer.id)
-        .update({
-      'timerName': timerName,
-      'minute': minute,
-      'second': second,
-      'totalSecond': totalSecond,
-    });
+    return res;
   }
 }

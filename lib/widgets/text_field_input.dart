@@ -35,3 +35,30 @@ class TextFieldInput extends StatelessWidget {
     );
   }
 }
+
+class MemoTextField extends StatelessWidget {
+  const MemoTextField({
+    super.key,
+    required this.labelText,
+    required this.textInputType,
+    required this.textEditingController,
+    this.initialValue = '',
+  });
+  final String labelText;
+  final TextInputType textInputType;
+  final TextEditingController textEditingController;
+  final String initialValue;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      controller: initialValue == ''
+          ? textEditingController
+          : TextEditingController(text: initialValue),
+      keyboardType: textInputType,
+      decoration: InputDecoration(
+        labelText: labelText,
+      ),
+    );
+  }
+}

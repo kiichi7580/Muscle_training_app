@@ -1,11 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:muscle_training_app/constant/colors.dart';
-import 'package:muscle_training_app/widgets/main_drawer.dart';
-import 'view/calendar/calendar_page.dart';
-import 'view/memo/memo_page.dart';
-import 'view/timer/timer_page.dart';
+import 'package:muscle_training_app/constant/globalvariavle.dart';
 
 // プロバイダー
 final indexProvider = StateProvider((ref) {
@@ -39,62 +35,10 @@ class Myapp extends ConsumerWidget {
       },
     );
 
-    final pages = [
-      const CalendarPage(),
-      const MemoPage(),
-      const TimerPage(),
-    ];
-
-    final titles = [
-      'カレンダー',
-      'メモ',
-      'タイマー',
-    ];
+    final pages = homeScreenItems;
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: blueColor,
-        // Drawerのアイコンの色を変える方法
-        iconTheme: const IconThemeData(color: blackColor),
-        title: Text(
-          titles[index],
-          style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                color: blackColor,
-              ),
-        ),
-        // actions: [
-        //   IconButton(
-        //     icon: const Icon(Icons.add),
-        //     onPressed: () {
-        //       if (index == 0) {
-        //         Navigator.of(context).push(
-        //           MaterialPageRoute(
-        //             builder: (context) => const AddMemoPage(),
-        //             fullscreenDialog: true,
-        //           ),
-        //         );
-        //       }
-        //       if (index == 1) {
-        //         Navigator.of(context).push(
-        //           MaterialPageRoute(
-        //             builder: (context) => const AddMemoPage(),
-        //             fullscreenDialog: true,
-        //           ),
-        //         );
-        //       }
-        //       if (index == 2) {
-        //         Navigator.of(context).push(
-        //           MaterialPageRoute(
-        //             builder: (context) => const AddTimerPage(),
-        //             fullscreenDialog: true,
-        //           ),
-        //         );
-        //       }
-        //     },
-        //   ),
-        // ],
-      ),
-      drawer: const MainDrawer(),
+    //   drawer: const MainDrawer(),
       body: pages[index],
       bottomNavigationBar: bar,
     );

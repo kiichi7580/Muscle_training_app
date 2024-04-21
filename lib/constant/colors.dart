@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 // 白縹（しろはなだ） → R:223, G:242, B:252
 
 const mainColor = Color.fromRGBO(255, 255, 255, 1);
-const blackColor = Colors.black45;
+const blackColor = Colors.black54;
 const secondaryColor = Color.fromRGBO(155, 218, 242, 1);
 const blueColor = Color.fromRGBO(33, 150, 243, 1);
 const heavyBlueColor = Color.fromRGBO(23, 102, 166, 1);
