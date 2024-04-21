@@ -8,6 +8,7 @@ import 'package:muscle_training_app/constant/colors.dart';
 import 'package:muscle_training_app/view/calendar/add_event.dart';
 import 'package:muscle_training_app/view/calendar/edit_event.dart';
 import 'package:muscle_training_app/view/calendar/event_item.dart';
+import 'package:muscle_training_app/widgets/main_drawer.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../../domain/calendar.dart';
@@ -15,8 +16,9 @@ import '../../myapp.dart';
 import 'bottom_sheet.dart';
 
 class CalendarPage extends StatefulWidget {
-  const CalendarPage({super.key});
-  // const CalendarPage(User user, {super.key});
+  const CalendarPage({super.key, required this.uid});
+
+  final String uid;
 
   @override
   State<CalendarPage> createState() => _CalendarPageState();
@@ -41,13 +43,12 @@ class _CalendarPageState extends State<CalendarPage> {
     final lastDay = DateTime(_focusedDay.year, _focusedDay.month + 1, 31);
     // _events = {};
 
-    // final FirebaseAuth _auth = FirebaseAuth.instance;
     final snap = await FirebaseFirestore.instance
         .collection('events')
         // ここをコメントアウトすれば、他の月の予定も表示されるようになる
         // .where('date', isGreaterThanOrEqualTo: firstDay)
         // .where('date', isLessThanOrEqualTo: lastDay)
-        // .where('uid': _auth.currentUser!.uid)
+        .where('uid', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
         .withConverter(
           fromFirestore: Calendar.fromFirestore,
           toFirestore: (event, options) => event.toFirestore(),
@@ -110,7 +111,38 @@ class _CalendarPageState extends State<CalendarPage> {
     }
 
     return Scaffold(
+      drawer: const MainDrawer(),
       backgroundColor: mainColor,
+      appBar: AppBar(
+        title: const Text(
+          'カレンダー',
+          style: TextStyle(color: blackColor),
+        ),
+        actions: [
+          IconButton(
+            onPressed: () async {
+              final result = await Navigator.push<bool>(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AddEventPage(
+                    firstDate: _firstDay,
+                    lastDate: _lastDay,
+                    selectedDate: _selectedDay,
+                  ),
+                  fullscreenDialog: true,
+                ),
+              );
+              if (result ?? false) {
+                await _loadFirestoreEvents();
+              }
+            },
+            icon: Icon(
+              Icons.add,
+            ),
+          ),
+        ],
+        backgroundColor: blueColor,
+      ),
       body: ListView(
         children: [
           Padding(
@@ -274,59 +306,26 @@ class _CalendarPageState extends State<CalendarPage> {
           ),
         ],
       ),
-      floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          FloatingActionButton(
-            heroTag: '1',
-            tooltip: 'メニューを表示する',
-            onPressed: () {
-              final DateFormat format1 = DateFormat('yyyy年MM月dd日');
-              final String sheetDate = format1.format(_selectedDay);
-              print(sheetDate);
-              BottomSheetWidget(
-                context,
-                date: sheetDate,
-              );
-            },
-            backgroundColor: Colors.lightBlueAccent,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30),
-            ),
-            child: const Icon(
-              Icons.fitness_center,
-              color: Colors.white,
-            ),
-          ),
-          const SizedBox(width: 16),
-          FloatingActionButton(
-            heroTag: '2',
-            tooltip: '予定を追加する',
-            onPressed: () async {
-              final result = await Navigator.push<bool>(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => AddEventPage(
-                    firstDate: _firstDay,
-                    lastDate: _lastDay,
-                    selectedDate: _selectedDay,
-                  ),
-                ),
-              );
-              if (result ?? false) {
-                await _loadFirestoreEvents();
-              }
-            },
-            backgroundColor: Colors.lightBlueAccent,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30),
-            ),
-            child: const Icon(
-              Icons.add,
-              color: Colors.white,
-            ),
-          ),
-        ],
+      floatingActionButton: FloatingActionButton(
+        heroTag: '1',
+        tooltip: 'メニューを表示する',
+        onPressed: () {
+          final DateFormat format1 = DateFormat('yyyy年MM月dd日');
+          final String sheetDate = format1.format(_selectedDay);
+          print(sheetDate);
+          BottomSheetWidget(
+            context,
+            date: sheetDate,
+          );
+        },
+        backgroundColor: Colors.lightBlueAccent,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30),
+        ),
+        child: const Icon(
+          Icons.fitness_center,
+          color: Colors.white,
+        ),
       ),
     );
   }
