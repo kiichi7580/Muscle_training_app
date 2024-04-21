@@ -1,10 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:muscle_training_app/domain/user.dart' as model;
+import 'package:muscle_training_app/domain/user.dart' as userModel;
+
 
 class AuthMethods {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  // ユーザー詳細データ取得
+  Future<userModel.User> getUserDetails() async {
+    User currentUser = _auth.currentUser!;
+
+    DocumentSnapshot documentSnapshot =
+        await _firestore.collection('users').doc(currentUser.uid).get();
+
+    return userModel.User.fromSnap(documentSnapshot);
+  }
+
 
   Future<String> signUpUser({
     required String email,
@@ -19,8 +31,11 @@ class AuthMethods {
         );
         print(cred.user!.uid);
 
-        model.User user = model.User(
-            email: email, uid: cred.user!.uid, createAt: DateTime.now());
+        userModel.User user = userModel.User(
+          email: email,
+          uid: cred.user!.uid,
+          createAt: DateTime.now(),
+        );
 
         await _firestore.collection('users').doc(cred.user!.uid).set(
               user.toJson(),
