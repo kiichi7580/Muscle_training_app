@@ -63,7 +63,7 @@ class MyApp extends StatelessWidget {
           brightness: Brightness.light,
         ),
         darkTheme: ThemeData.dark(),
-        home: StreamBuilder(
+        home: StreamBuilder<User?>(
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.active) {
@@ -77,6 +77,9 @@ class MyApp extends StatelessWidget {
                 return Center(
                   child: Text('${snapshot.error}'),
                 );
+              } else {
+                // User がnullの場合、ログイン画面へ
+                  return LoginPage();
               }
             }
             if (snapshot.connectionState == ConnectionState.waiting) {
