@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class User {
   final String email;
   final String uid;
-  final Timestamp createAt;
+  final DateTime createAt;
 
   const User({
     required this.email,
@@ -12,12 +12,14 @@ class User {
   });
 
   static User fromSnap(DocumentSnapshot snap) {
-    var snapshot = (snap.data() as Map<String, dynamic>);
+    var snapshot = snap.data() as Map<String, dynamic>;
+
+    DateTime createdAt = (snapshot['createAt'] as Timestamp).toDate();
 
     return User(
       email: snapshot['email'],
       uid: snapshot['uid'],
-      createAt: snapshot['createAt'],
+      createAt: createdAt,
     );
   }
 
