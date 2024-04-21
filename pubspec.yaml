@@ -28,8 +28,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  audioplayers: ^0.20.1
-  build_runner: ^2.4.7
+  audioplayers: ^5.2.1
   circular_countdown_timer: ^0.2.3
   cloud_firestore: ^4.13.0
   cupertino_icons: ^1.0.2
@@ -48,27 +47,22 @@ dependencies:
   flutter_svg: ^2.0.9
   freezed: ^2.4.5
   freezed_annotation: ^2.4.1
+  hooks_riverpod: ^2.4.10
   intl: ^0.18.1
   json_annotation: ^4.8.1
   json_serializable: ^6.7.1
   modal_bottom_sheet: ^3.0.0-pre
   provider: ^6.1.1
+  riverpod_annotation: ^2.3.4
   table_calendar: ^3.0.9
+  uuid: ^4.3.3
 
 dev_dependencies:
-
-  # The "flutter_lints" package below contains a set of recommended lints to
-  # encourage good coding practices. The lint set provided by the package is
-  # activated in the `analysis_options.yaml` file located at the root of your
-  # package. See that file for information about deactivating specific lint
-  # rules and activating additional ones.
+  build_runner: ^2.4.7
+  riverpod_generator: ^2.3.11
   flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
-
-  # コードチェック
-  pedantic_mono: any
-
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 # The following section is specific to Flutter packages.

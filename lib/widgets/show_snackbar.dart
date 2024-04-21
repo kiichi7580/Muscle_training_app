@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:muscle_training_app/constant/colors.dart';
 
-showSnackbar(String content, BuildContext context) {
+showSnackBar(
+  String content,
+  BuildContext context, {
+  Color? backgroundColor,
+}) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
-      backgroundColor: blackColor,
+      backgroundColor: backgroundColor ?? blackColor,
       content: Text(content),
     ),
   );

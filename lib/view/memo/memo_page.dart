@@ -1,20 +1,66 @@
 import 'package:flutter/material.dart';
 import 'package:muscle_training_app/constant/colors.dart';
-import 'package:muscle_training_app/domain/memo.dart';
+import 'package:muscle_training_app/models/memo_model/memo_model.dart';
 import 'package:muscle_training_app/view/memo/add_memo.dart';
 import 'package:muscle_training_app/view/memo/table_memo.dart';
-import 'package:muscle_training_app/models/memo_model/memo_model.dart';
 import 'package:provider/provider.dart';
 
-class MemoPage extends StatelessWidget {
-  const MemoPage({super.key});
+class MemoPage extends StatefulWidget {
+  const MemoPage({
+    super.key,
+    required this.uid,
+  });
+
+  final String uid;
+
+  @override
+  State<MemoPage> createState() => _MemoPageState();
+}
+
+class _MemoPageState extends State<MemoPage> {
+  late final MemoModel _memoModel;
+
+  @override
+  void initState() {
+    super.initState();
+    _memoModel = MemoModel()..fetchMemo();
+  }
+
+  // @override
+  // void dispose() {
+  //   _memoModel.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<MemoModel>(
-      create: (_) => MemoModel()..fetchMemo(),
+      create: (_) => _memoModel,
       child: Scaffold(
         backgroundColor: mainColor,
+        appBar: AppBar(
+          title: const Text(
+            'メモ',
+            style: TextStyle(color: blackColor),
+          ),
+          actions: [
+            IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const AddMemoPage(),
+                    fullscreenDialog: true,
+                  ),
+                );
+              },
+              icon: Icon(
+                Icons.add,
+              ),
+            ),
+          ],
+          backgroundColor: blueColor,
+        ),
         body: Center(
           child: Consumer<MemoModel>(
             builder: (context, model, child) {
@@ -22,6 +68,30 @@ class MemoPage extends StatelessWidget {
 
               if (memos == null) {
                 return const CircularProgressIndicator();
+              }
+
+              if (memos.isEmpty) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.post_add,
+                        color: blackColor,
+                        size: 45,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        'メモを追加しましょう',
+                        style: TextStyle(
+                          color: blackColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
               }
 
               final List<Widget> widgets = memos.map((memo) {
@@ -48,8 +118,10 @@ class MemoPage extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute<void>(
-                            builder: (context) =>
-                                TableWidget(date: memo.toString()),
+                            builder: (context) => TableWidget(
+                              date: memo.toString(),
+                              uid: widget.uid,
+                            ),
                           ),
                         );
                       },
@@ -63,80 +135,7 @@ class MemoPage extends StatelessWidget {
             },
           ),
         ),
-        floatingActionButton: Consumer<MemoModel>(
-          builder: (context, model, child) {
-            return FloatingActionButton(
-              onPressed: () async {
-                //画面遷移
-                final bool? added = await Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const AddMemoPage(),
-                    fullscreenDialog: true,
-                  ),
-                );
-
-                if (added != null && added) {
-                  const snackBar = SnackBar(
-                    backgroundColor: Colors.green,
-                    content: Text('メモを追加しました'),
-                  );
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                }
-                await model.fetchMemo();
-              },
-              tooltip: 'メモを追加する',
-              backgroundColor: Colors.lightBlueAccent,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30),
-              ),
-              child: const Icon(
-                Icons.add,
-                color: Colors.white,
-              ),
-            );
-          },
-        ),
       ),
-    );
-  }
-
-  Future<void> showConfirmDialog(
-    BuildContext context,
-    Memo memo,
-    MemoModel model,
-  ) {
-    return showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('削除の確認'),
-          content: Text('$memoのメニューを削除しますか？'),
-          actions: [
-            TextButton(
-              child: const Text('いいえ'),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-            TextButton(
-              child: const Text('はい'),
-              onPressed: () async {
-                //modelで削除
-                await model.delete(memo);
-                Navigator.pop(context);
-                final snackBar = SnackBar(
-                  backgroundColor: Colors.red,
-                  content: Text('$memoのメニューを削除しました'),
-                );
-                await model.fetchMemo();
-                ScaffoldMessenger.of(context).showSnackBar(snackBar);
-              },
-            ),
-          ],
-        );
-      },
     );
   }
 }

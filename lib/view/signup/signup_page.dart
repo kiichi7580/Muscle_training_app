@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:muscle_training_app/constant/colors.dart';
-import 'package:muscle_training_app/constant/utils.dart';
+import 'package:muscle_training_app/providers/user_provider.dart';
+import 'package:muscle_training_app/widgets/show_snackbar.dart';
 import 'package:muscle_training_app/resources/auth_methods.dart';
 import 'package:muscle_training_app/resposive/mobile_screen_layout.dart';
 import 'package:muscle_training_app/resposive/resposive_layout.dart';
 import 'package:muscle_training_app/resposive/web_screen_layout.dart';
 import 'package:muscle_training_app/view/login/login_page.dart';
 import 'package:muscle_training_app/widgets/text_field_input.dart';
+import 'package:provider/provider.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -20,7 +22,7 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context) {
     final TextEditingController _emailController = TextEditingController();
     final TextEditingController _passwordController = TextEditingController();
-    bool _isLoading = false;
+    final userProvider = Provider.of<UserProvider>(context);
 
     @override
     void dispose() {
@@ -37,10 +39,11 @@ class _SignUpPageState extends State<SignUpPage> {
       );
     }
 
-    void signupUser() async {
-      setState(() {
-        _isLoading = true;
-      });
+    void signUpUser(
+      BuildContext context,
+      UserProvider userProvider,
+    ) async {
+      userProvider.startLoading();
       String res = await AuthMethods().signUpUser(
         email: _emailController.text,
         password: _passwordController.text,
@@ -56,13 +59,12 @@ class _SignUpPageState extends State<SignUpPage> {
             ),
           ),
         );
-        showSnackbar(res, context);
+        userProvider.endLoading();
+        showSnackBar(res, context);
       } else {
-        showSnackbar(res, context);
+        showSnackBar(res, context);
       }
-      setState(() {
-        _isLoading = false;
-      });
+      userProvider.endLoading();
     }
 
     return Scaffold(
@@ -125,7 +127,10 @@ class _SignUpPageState extends State<SignUpPage> {
                 height: 24,
               ),
               InkWell(
-                onTap: signupUser,
+                onTap: () => signUpUser(
+                  context,
+                  userProvider,
+                ),
                 child: Container(
                   width: double.infinity,
                   alignment: Alignment.center,
@@ -140,7 +145,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                     color: heavyBlueColor,
                   ),
-                  child: _isLoading
+                  child: userProvider.getLoading
                       ? const Center(
                           child: CircularProgressIndicator(
                             color: mainColor,
