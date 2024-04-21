@@ -20,11 +20,10 @@ class Calendar {
     DocumentSnapshot<Map<String, dynamic>> snapshot, [
     SnapshotOptions? options,
   ]) {
-    // final FirebaseAuth _auth = FirebaseAuth.instance;
 
     final data = snapshot.data()!;
 
-    final preDate = data['date'] as Timestamp;
+    final preDate = data['date'];
 
     final date = preDate.toDate();
 
@@ -38,15 +37,15 @@ class Calendar {
     );
   }
 
-  Map<String, Object?> toFirestore() {
-    // final FirebaseAuth _auth = FirebaseAuth.instance;
+    Map<String, dynamic> toFirestore() {
 
     return {
-      'date': Timestamp.fromDate(date).toDate(),
+      'date': date,
       'title': title,
       'description': description,
       'eventColor': eventColor,
-      // 'uid': _auth.currentUser!.uid,
+      'id': id,
+      'uid': uid,
     };
   }
 }
