@@ -34,7 +34,12 @@ class AuthMethods {
         userModel.User user = userModel.User(
           email: email,
           uid: cred.user!.uid,
+          username: 'unknown',
+          photoUrl: 'assets/icons/1024 1.png',
+          description: '',
           createAt: DateTime.now(),
+          followers: [],
+          following: [],
         );
 
         await _firestore.collection('users').doc(cred.user!.uid).set(
