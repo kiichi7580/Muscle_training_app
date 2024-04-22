@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:muscle_training_app/constant/colors.dart';
-import 'package:muscle_training_app/view/drawer/beginner_menu/beginner_menu.dart';
-import 'package:muscle_training_app/view/drawer/beginner_tutorial/beginner_points.dart';
+import 'package:muscle_training_app/view/profile/beginner_menu/menu/beginner_menu.dart';
+import 'package:muscle_training_app/view/profile/beginner_tutorial/beginner_points.dart';
 
 class BeginnerTutorial extends StatefulWidget {
   const BeginnerTutorial({super.key});

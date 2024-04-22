@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
-import 'package:muscle_training_app/view/drawer/beginner_menu/menu/menu_1.dart';
-import 'package:muscle_training_app/view/drawer/beginner_menu/menu/menu_2.dart';
-import 'package:muscle_training_app/view/drawer/beginner_menu/menu/menu_3.dart';
-import 'package:muscle_training_app/view/drawer/beginner_menu/menu/menu_4.dart';
-import 'package:muscle_training_app/view/drawer/beginner_menu/menu/menu_5.dart';
-import 'package:muscle_training_app/view/drawer/beginner_menu/menu/menu_6.dart';
-import 'package:muscle_training_app/view/drawer/beginner_menu/menu/menu_7.dart';
+import 'package:muscle_training_app/view/profile/beginner_menu/menu/menu_1.dart';
+import 'package:muscle_training_app/view/profile/beginner_menu/menu/menu_2.dart';
+import 'package:muscle_training_app/view/profile/beginner_menu/menu/menu_3.dart';
+import 'package:muscle_training_app/view/profile/beginner_menu/menu/menu_4.dart';
+import 'package:muscle_training_app/view/profile/beginner_menu/menu/menu_5.dart';
+import 'package:muscle_training_app/view/profile/beginner_menu/menu/menu_6.dart';
+import 'package:muscle_training_app/view/profile/beginner_menu/menu/menu_7.dart';
 
 class BeginnerMenu extends StatelessWidget {
   const BeginnerMenu({super.key});
