@@ -26,6 +26,7 @@ class _ProfileScreenState extends State<ProfilePage> {
   int postLen = 0;
   int followers = 0;
   int following = 0;
+  int consecutiveLoginDays = 0;
   bool isFollowing = false;
   bool isLoading = false;
 
@@ -57,6 +58,22 @@ class _ProfileScreenState extends State<ProfilePage> {
       isFollowing = userSnap
           .data()!['followers']
           .contains(FirebaseAuth.instance.currentUser!.uid);
+
+      DateTime lastLogin = (userData['lastLogin'] as Timestamp).toDate();
+      DateTime now = DateTime.now();
+
+      // 連続ログイン日数を計算
+      if (lastLogin.year == now.year &&
+          lastLogin.month == now.month &&
+          lastLogin.day == now.day - 1) {
+        setState(() {
+          consecutiveLoginDays = (userData['consecutiveLoginDays'] as int) + 1;
+        });
+      } else {
+        setState(() {
+          consecutiveLoginDays = 1; // 前日以降のログインがない場合はリセットして1日目とする
+        });
+      }
       setState(() {});
     } catch (e) {
       showSnackBar(
@@ -71,47 +88,49 @@ class _ProfileScreenState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return isLoading
-        ? const Center(
-            child: CircularProgressIndicator(),
-          )
-        : Scaffold(
-            appBar: AppBar(
-              title: Text(
-                'MM',
-                style: TextStyle(color: blackColor),
-              ),
-              actions: [
-                IconButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const UserSearchPage(),
-                      ),
-                    );
-                  },
-                  icon: Icon(
-                    Icons.person_add,
-                  ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'MM',
+          style: TextStyle(color: blackColor),
+        ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const UserSearchPage(),
                 ),
-                IconButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const AccountSettingPage(),
-                      ),
-                    );
-                  },
-                  icon: Icon(
-                    Icons.menu,
-                  ),
-                ),
-              ],
-              backgroundColor: blueColor,
+              );
+            },
+            icon: Icon(
+              Icons.person_add,
             ),
-            body: ListView(
+          ),
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const AccountSettingPage(),
+                ),
+              );
+            },
+            icon: Icon(
+              Icons.menu,
+            ),
+          ),
+        ],
+        backgroundColor: blueColor,
+      ),
+      body: isLoading
+          ? const Center(
+              child: CircularProgressIndicator(
+                color: linkBlue,
+              ),
+            )
+          : ListView(
               children: [
                 Container(
                   child: Padding(
@@ -140,7 +159,8 @@ class _ProfileScreenState extends State<ProfilePage> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceEvenly,
                                     children: [
-                                      // buildStateColumn(postLen, "posts"),
+                                      buildStateColumn(
+                                          consecutiveLoginDays, '連続ログイン'),
                                       buildStateColumn(followers, 'フォロワー'),
                                       buildStateColumn(following, 'フォロー中'),
                                     ],
@@ -240,7 +260,7 @@ class _ProfileScreenState extends State<ProfilePage> {
                 const Divider(),
               ],
             ),
-          );
+    );
   }
 
   Column buildStateColumn(int num, String label) {
