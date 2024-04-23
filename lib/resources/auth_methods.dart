@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:muscle_training_app/constant/text_resorce.dart';
 import 'package:muscle_training_app/domain/user.dart' as userModel;
 
 
@@ -34,7 +35,14 @@ class AuthMethods {
         userModel.User user = userModel.User(
           email: email,
           uid: cred.user!.uid,
+          username: 'unknown',
+          photoUrl: defaultPhotoUrlString,
+          description: '',
           createAt: DateTime.now(),
+          lastLogin: DateTime.now(),
+          consecutiveLoginDays: 1,
+          followers: [],
+          following: [],
         );
 
         await _firestore.collection('users').doc(cred.user!.uid).set(

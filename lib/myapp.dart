@@ -22,6 +22,8 @@ class Myapp extends ConsumerWidget {
       BottomNavigationBarItem(icon: Icon(Icons.calendar_month), label: 'カレンダー'),
       BottomNavigationBarItem(icon: Icon(Icons.edit_note), label: 'メモ'),
       BottomNavigationBarItem(icon: Icon(Icons.timer), label: 'タイマー'),
+      BottomNavigationBarItem(
+          icon: Icon(Icons.account_circle), label: 'プロフィール'),
     ];
 
     final bar = BottomNavigationBar(
@@ -33,12 +35,13 @@ class Myapp extends ConsumerWidget {
       onTap: (index) {
         ref.read(indexProvider.notifier).state = index;
       },
+      // この設定がないとボトムナビゲーターバーの色がつかない
+      type: BottomNavigationBarType.fixed,
     );
 
     final pages = homeScreenItems;
 
     return Scaffold(
-    //   drawer: const MainDrawer(),
       body: pages[index],
       bottomNavigationBar: bar,
     );

@@ -8,7 +8,6 @@ import 'package:muscle_training_app/constant/colors.dart';
 import 'package:muscle_training_app/view/calendar/add_event.dart';
 import 'package:muscle_training_app/view/calendar/edit_event.dart';
 import 'package:muscle_training_app/view/calendar/event_item.dart';
-import 'package:muscle_training_app/widgets/main_drawer.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../../domain/calendar.dart';
@@ -111,7 +110,6 @@ class _CalendarPageState extends State<CalendarPage> {
     }
 
     return Scaffold(
-      drawer: const MainDrawer(),
       backgroundColor: mainColor,
       appBar: AppBar(
         title: const Text(
