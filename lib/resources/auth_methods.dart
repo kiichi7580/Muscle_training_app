@@ -38,6 +38,8 @@ class AuthMethods {
           photoUrl: 'assets/icons/1024 1.png',
           description: '',
           createAt: DateTime.now(),
+          lastLogin: DateTime.now(),
+          consecutiveLoginDays: 1,
           followers: [],
           following: [],
         );
