@@ -7,6 +7,8 @@ class User {
   final String photoUrl;
   final String description;
   final DateTime createAt;
+  final DateTime lastLogin;
+  final int consecutiveLoginDays;
   final List followers;
   final List following;
 
@@ -17,6 +19,8 @@ class User {
     required this.photoUrl,
     required this.description,
     required this.createAt,
+    required this.lastLogin,
+    required this.consecutiveLoginDays,
     required this.followers,
     required this.following,
   });
@@ -25,6 +29,7 @@ class User {
     var snapshot = snap.data() as Map<String, dynamic>;
 
     DateTime createdAt = (snapshot['createAt'] as Timestamp).toDate();
+    DateTime lastLogin = (snapshot['lastLogin'] as Timestamp).toDate();
 
     return User(
       email: snapshot['email'],
@@ -33,6 +38,8 @@ class User {
       photoUrl: snapshot['photoUrl'],
       description: snapshot['description'],
       createAt: createdAt,
+      lastLogin: lastLogin,
+      consecutiveLoginDays: snapshot['consecutiveLoginDays'],
       followers: snapshot['followers'],
       following: snapshot['following'],
     );
@@ -45,6 +52,8 @@ class User {
         'photoUrl': photoUrl,
         'description': description,
         'createAt': createAt,
+        'lastLogin': lastLogin,
+        'consecutiveLoginDays': consecutiveLoginDays,
         'followers': followers,
         'following': following,
       };
