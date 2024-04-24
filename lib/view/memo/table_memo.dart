@@ -115,7 +115,6 @@ class _TableWidgetState extends State<TableWidget> {
                           memo,
                           MemoFireStoreMethods().deleteMemo,
                         );
-                        Navigator.of(context).pop();
                       },
                       backgroundColor: Colors.red,
                       foregroundColor: mainColor,
