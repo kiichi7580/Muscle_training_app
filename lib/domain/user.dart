@@ -5,7 +5,8 @@ class User {
   final String uid;
   final String username;
   final String photoUrl;
-  final String description;
+  final String shortTermGoals;
+  final String longTermGoals;
   final DateTime createAt;
   final DateTime lastLogin;
   final int consecutiveLoginDays;
@@ -17,7 +18,8 @@ class User {
     required this.uid,
     required this.username,
     required this.photoUrl,
-    required this.description,
+    required this.shortTermGoals,
+    required this.longTermGoals,
     required this.createAt,
     required this.lastLogin,
     required this.consecutiveLoginDays,
@@ -36,7 +38,8 @@ class User {
       uid: snapshot['uid'],
       username: snapshot['username'],
       photoUrl: snapshot['photoUrl'],
-      description: snapshot['description'],
+      shortTermGoals: snapshot['shortTermGoals'],
+      longTermGoals: snapshot['longTermGoals'],
       createAt: createdAt,
       lastLogin: lastLogin,
       consecutiveLoginDays: snapshot['consecutiveLoginDays'],
@@ -50,7 +53,8 @@ class User {
         'uid': uid,
         'username': username,
         'photoUrl': photoUrl,
-        'description': description,
+        'shortTermGoals': shortTermGoals,
+        'longTermGoals': longTermGoals,
         'createAt': createAt,
         'lastLogin': lastLogin,
         'consecutiveLoginDays': consecutiveLoginDays,
