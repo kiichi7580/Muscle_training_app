@@ -8,19 +8,19 @@ class ProfileFireStoreMethods {
   // プロフィール変更処理
   Future<String> upDateProfile(
     String username,
-    String photoUrl,
-    String description,
+    String shortTermGoals,
+    String longTermGoals,
     String uid,
   ) async {
     String res = '問題が発生しました。もう一度やり直してください。';
     try {
       if (username.isNotEmpty ||
-          photoUrl.isNotEmpty ||
-          description.isNotEmpty) {
+          shortTermGoals.isNotEmpty ||
+          longTermGoals.isNotEmpty) {
         _firestore.collection('users').doc(uid).update({
           'username': username,
-          'photoUrl': photoUrl,
-          'description': description,
+          'shortTermGoals': shortTermGoals,
+          'longTermGoals': longTermGoals,
         });
         res = 'success';
       } else {

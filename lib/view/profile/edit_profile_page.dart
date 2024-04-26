@@ -32,7 +32,7 @@ class _EditMemoPageState extends State<EditProfilePage> {
         setState(() {
           _isLoading = false;
         });
-        showSnackBar(res, context);
+        showSnackBar('プロフィールを更新しました', context);
       }
     } catch (e) {
       showSnackBar(e.toString(), context);
@@ -80,14 +80,14 @@ class _EditMemoPageState extends State<EditProfilePage> {
                     ),
                     TextField(
                       keyboardType: TextInputType.text,
-                      controller: model.photoUrlController,
+                      controller: model.shortTermGoalsController,
                       decoration: const InputDecoration(
-                        labelText: 'アイコン画像',
+                        labelText: '短期目標',
                       ),
                       onChanged: (text) {
                         model
-                          ..photoUrl = text
-                          ..setPhotoUrl(text);
+                          ..shortTermGoals = text
+                          ..setShortTermGoals(text);
                       },
                     ),
                     const SizedBox(
@@ -95,14 +95,14 @@ class _EditMemoPageState extends State<EditProfilePage> {
                     ),
                     TextField(
                       keyboardType: TextInputType.text,
-                      controller: model.descriptionController,
+                      controller: model.longTermGoalsController,
                       decoration: const InputDecoration(
-                        labelText: '紹介文',
+                        labelText: '長期目標',
                       ),
                       onChanged: (text) {
                         model
-                          ..description = text
-                          ..setDescription(text);
+                          ..longTermGoals = text
+                          ..setLongTermGoals(text);
                       },
                     ),
                     const SizedBox(
