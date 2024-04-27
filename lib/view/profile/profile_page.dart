@@ -1,14 +1,18 @@
+import 'dart:typed_data';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:muscle_training_app/constant/colors.dart';
-import 'package:muscle_training_app/resources/auth_methods.dart';
 import 'package:muscle_training_app/resources/profile_firestore_methods.dart';
+import 'package:muscle_training_app/util/pickImage.dart';
 import 'package:muscle_training_app/view/profile/account_setting_page.dart';
 import 'package:muscle_training_app/view/profile/edit_profile_page.dart';
+import 'package:muscle_training_app/view/profile/training_frequency_visualization.dart';
 import 'package:muscle_training_app/view/profile/user_search_page.dart';
 import 'package:muscle_training_app/widgets/follow_button.dart';
-import 'package:muscle_training_app/widgets/show_snackbar.dart';
+import 'package:muscle_training_app/util/show_snackbar.dart';
 
 class ProfilePage extends StatefulWidget {
   final String uid;
@@ -29,11 +33,55 @@ class _ProfileScreenState extends State<ProfilePage> {
   int consecutiveLoginDays = 0;
   bool isFollowing = false;
   bool isLoading = false;
+  Uint8List? _image;
+  DateTime today = DateTime.now();
+  late int kMaxDaysInMonth;
+  late List<String> targetMonthDateList = [];
+  var userTrainingData = {};
+  late List<String> trainingDays = [];
+  List<int> amountOfTraining = [];
 
   @override
   void initState() {
     super.initState();
     getData();
+    getNumberOfDaysInThisMonth();
+  }
+
+  void selectImage() async {
+    Uint8List? image = await pickImage(ImageSource.gallery);
+    if (image != null) {
+      setState(() {
+        _image = image;
+      });
+    }
+    await upDateUserIcon();
+  }
+
+  upDateUserIcon() async {
+    try {
+      String res = await ProfileFireStoreMethods().upDateUserIcon(
+        file: _image!,
+        uid: widget.uid,
+      );
+      if (res == 'success') {
+        res = '写真の更新に成功しました！';
+        showSnackBar(
+          res.toString(),
+          context,
+        );
+      } else {
+        showSnackBar(
+          res.toString(),
+          context,
+        );
+      }
+    } catch (err) {
+      showSnackBar(
+        err.toString(),
+        context,
+      );
+    }
   }
 
   getData() async {
@@ -46,6 +94,12 @@ class _ProfileScreenState extends State<ProfilePage> {
           .doc(widget.uid)
           .get();
 
+      var trainingSnap = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(widget.uid)
+          .collection('trainingDays')
+          .get();
+
       var postSnap = await FirebaseFirestore.instance
           .collection('posts')
           .where('uid', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
@@ -53,6 +107,28 @@ class _ProfileScreenState extends State<ProfilePage> {
 
       // postLen = postSnap.docs.length;
       userData = userSnap.data()!;
+
+      // trainingSnapからデータをMap<String, dynamic>に変換する
+      trainingSnap.docs.forEach((doc) {
+        userTrainingData[doc.id] = doc.data();
+      });
+      print('userTrainingData: $userTrainingData');
+
+      String day = '';
+      userTrainingData.forEach((documentId, data) {
+        if (data.containsKey('trainingDay')) {
+          // トレーニングした日付を取得
+          Timestamp trainingDayTimestamp = data['trainingDay'];
+          DateTime trainingDay = trainingDayTimestamp.toDate();
+          day = '${trainingDay.month}/${trainingDay.day}';
+          trainingDays.add(day);
+
+          // トレーニング量を取得
+          int _amountOfTraining = data['amountOfTraining'];
+          amountOfTraining.add(_amountOfTraining);
+        }
+      });
+
       followers = userSnap.data()!['followers'].length;
       following = userSnap.data()!['following'].length;
       isFollowing = userSnap
@@ -86,13 +162,34 @@ class _ProfileScreenState extends State<ProfilePage> {
     });
   }
 
+  getNumberOfDaysInThisMonth() {
+    kMaxDaysInMonth = DateTime(today.year, today.month + 1, 0).day;
+    String day = '';
+    final selectedDate = DateTime(today.year, today.month);
+    List<String> _targetMonthDateList = [];
+    for (var i = 0; i < kMaxDaysInMonth; i++) {
+      final date = selectedDate.add(Duration(days: i));
+      if (date.month != selectedDate.month) break;
+      day = '${date.month}/${date.day}';
+      _targetMonthDateList.add(day);
+    }
+    setState(() {
+      targetMonthDateList = _targetMonthDateList;
+    });
+    print(targetMonthDateList);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'MM',
-          style: TextStyle(color: blackColor),
+          userData['username'] != null ? userData['username'] : 'unknown',
+          style: TextStyle(
+            color: blackColor,
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         actions: [
           IconButton(
@@ -139,16 +236,56 @@ class _ProfileScreenState extends State<ProfilePage> {
                       children: [
                         Row(
                           children: [
-                            CircleAvatar(
-                              backgroundColor: Colors.grey,
-                              // backgroundImage: NetworkImage(
-                              //     // userData['photoUrl'],
-                              //     ''),
-                              // radius: 40,
-                              backgroundImage: AssetImage(
-                                userData['photoUrl'],
-                              ),
-                              radius: 40,
+                            Stack(
+                              children: [
+                                _image != null
+                                    ? CircleAvatar(
+                                        radius: 40,
+                                        backgroundImage: MemoryImage(_image!),
+                                      )
+                                    : CircleAvatar(
+                                        radius: 40,
+                                        backgroundImage: NetworkImage(
+                                          userData['photoUrl'],
+                                        ),
+                                      ),
+                                Positioned(
+                                  bottom: 2,
+                                  left: 54,
+                                  child: Container(
+                                    height: 25,
+                                    width: 25,
+                                    decoration: BoxDecoration(
+                                      color: mainColor,
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                  ),
+                                ),
+                                Positioned(
+                                  bottom: 3,
+                                  left: 56,
+                                  child: Container(
+                                    height: 22,
+                                    width: 22,
+                                    decoration: BoxDecoration(
+                                      color: linkBlue,
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                  ),
+                                ),
+                                Positioned(
+                                  left: 43,
+                                  bottom: -10,
+                                  child: IconButton(
+                                    icon: const Icon(
+                                      Icons.add,
+                                      color: mainColor,
+                                      size: 16,
+                                    ),
+                                    onPressed: selectImage,
+                                  ),
+                                ),
+                              ],
                             ),
                             Expanded(
                               flex: 1,
@@ -244,20 +381,27 @@ class _ProfileScreenState extends State<ProfilePage> {
                             ),
                           ),
                         ),
-                        Container(
-                          alignment: Alignment.centerLeft,
-                          padding: const EdgeInsets.only(
-                            top: 1,
-                          ),
-                          child: Text(
-                            userData['description'],
-                          ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        buildTermGoals(
+                          userData['shortTermGoals'],
+                          userData['longTermGoals'],
                         ),
                       ],
                     ),
                   ),
                 ),
                 const Divider(),
+                SizedBox(
+                  height: 32,
+                ),
+                TrainingFrequencyVisualization().buildBody(
+                  today,
+                  targetMonthDateList,
+                  trainingDays,
+                  amountOfTraining,
+                ),
               ],
             ),
     );
@@ -280,7 +424,7 @@ class _ProfileScreenState extends State<ProfilePage> {
           child: Text(
             label,
             style: const TextStyle(
-              fontSize: 15,
+              fontSize: 14,
               fontWeight: FontWeight.w400,
               color: Colors.grey,
             ),
@@ -289,4 +433,37 @@ class _ProfileScreenState extends State<ProfilePage> {
       ],
     );
   }
+}
+
+Container buildTermGoals(
+  String shortTermGoals,
+  String longTermGoals,
+) {
+  return Container(
+    alignment: Alignment.centerLeft,
+    padding: const EdgeInsets.only(
+      top: 1,
+    ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Text('短期目標: '),
+            Text(
+              shortTermGoals,
+            ),
+          ],
+        ),
+        Row(
+          children: [
+            Text('長期目標: '),
+            Text(
+              longTermGoals,
+            ),
+          ],
+        ),
+      ],
+    ),
+  );
 }
