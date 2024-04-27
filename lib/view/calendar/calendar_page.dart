@@ -146,7 +146,8 @@ class _CalendarPageState extends State<CalendarPage> {
           Padding(
             padding: const EdgeInsets.all(8),
             child: Card(
-              elevation: 8,
+              elevation: 4,
+              color: mainColor,
               child: TableCalendar(
                 eventLoader: _getEventsForTheDay,
                 calendarFormat: _calendarFormat,
@@ -223,7 +224,10 @@ class _CalendarPageState extends State<CalendarPage> {
                     return null;
                   },
                 ),
-                calendarStyle: const CalendarStyle(
+                calendarStyle: CalendarStyle(
+                  defaultTextStyle: TextStyle(
+                    color: Colors.green, // デフォルトの文字色を赤色に設定
+                  ),
                   weekendTextStyle: TextStyle(
                       // 週末の色を指定
                       // 土日両方同じ色になってしまうため、改善策を模索中
@@ -233,13 +237,15 @@ class _CalendarPageState extends State<CalendarPage> {
                     color: Colors.orange,
                   ),
                 ),
-                headerStyle: const HeaderStyle(
+                headerStyle: HeaderStyle(
                   // カレンダーの表示範囲を変えないようにする場合はfalse
                   formatButtonVisible: true,
                   // タイトルを中央にしたかったらこの行を追加
                   titleCentered: true,
-                  titleTextStyle:
-                      TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                  titleTextStyle: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ),
