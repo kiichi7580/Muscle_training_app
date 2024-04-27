@@ -4,43 +4,43 @@ import 'package:muscle_training_app/resources/profile_firestore_methods.dart';
 class EditProfileModel extends ChangeNotifier {
   EditProfileModel(this.user) {
     userNameController.text = user['username'];
-    photoUrlController.text = user['photoUrl'];
-    descriptionController.text = user['description'];
+    shortTermGoalsController.text = user['shortTermGoals'];
+    longTermGoalsController.text = user['longTermGoals'];
   }
   final dynamic user;
 
   final userNameController = TextEditingController();
-  final photoUrlController = TextEditingController();
-  final descriptionController = TextEditingController();
+  final shortTermGoalsController = TextEditingController();
+  final longTermGoalsController = TextEditingController();
 
   String username = '';
-  String photoUrl = '';
-  String description = '';
+  String shortTermGoals = '';
+  String longTermGoals = '';
 
   void setUsername(String username) {
     this.username = username;
     notifyListeners();
   }
 
-  void setPhotoUrl(String photoUrl) {
-    this.photoUrl = photoUrl;
+  void setShortTermGoals(String shortTermGoals) {
+    this.shortTermGoals = shortTermGoals;
     notifyListeners();
   }
 
-  void setDescription(String description) {
-    this.description = description;
+    void setLongTermGoals(String longTermGoals) {
+    this.longTermGoals = longTermGoals;
     notifyListeners();
   }
 
   Future<String> update() async {
     this.username = userNameController.text;
-    this.photoUrl = photoUrlController.text;
-    this.description = descriptionController.text;
+    this.shortTermGoals = shortTermGoalsController.text;
+    this.longTermGoals = longTermGoalsController.text;
 
     String res = await ProfileFireStoreMethods().upDateProfile(
       username,
-      photoUrl,
-      description,
+      shortTermGoals,
+      longTermGoals,
       user['uid'],
     );
     return res;

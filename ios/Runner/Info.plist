@@ -51,5 +51,13 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<!-- image_pickerの設定 -->
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Photo Library Usage</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Mic Usage</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Privacy Camera Usage</string>
+	<!-- image_pickerの設定 -->
 </dict>
 </plist>

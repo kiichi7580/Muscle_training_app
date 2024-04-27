@@ -144,13 +144,6 @@ Widget buildBody(BuildContext context, dynamic timer) {
                       .collection('timers')
                       .doc(timer.id)
                       .delete();
-                  await Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute<void>(
-                      builder: (_) => TimerPage(uid: user.uid),
-                    ),
-                    (_) => false,
-                  );
                 }
           },
           backgroundColor: Colors.red,

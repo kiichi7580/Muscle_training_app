@@ -6,7 +6,7 @@ import 'package:muscle_training_app/providers/user_provider.dart';
 import 'package:muscle_training_app/resources/calendar_firestore_methods.dart';
 import 'package:muscle_training_app/myapp.dart';
 import 'package:muscle_training_app/widgets/add_button.dart';
-import 'package:muscle_training_app/widgets/show_snackbar.dart';
+import 'package:muscle_training_app/util/show_snackbar.dart';
 import 'package:provider/provider.dart';
 
 class AddEventPage extends StatefulWidget {

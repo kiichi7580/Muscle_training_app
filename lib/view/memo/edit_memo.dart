@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:muscle_training_app/constant/colors.dart';
-import 'package:muscle_training_app/widgets/show_snackbar.dart';
+import 'package:muscle_training_app/util/show_snackbar.dart';
 import 'package:muscle_training_app/models/memo_model/edit_memo_model.dart';
 import 'package:provider/provider.dart';
 

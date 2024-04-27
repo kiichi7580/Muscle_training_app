@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
+import 'package:muscle_training_app/resources/storage_methods.dart';
 import 'package:uuid/uuid.dart';
 
 class ProfileFireStoreMethods {
@@ -8,23 +9,45 @@ class ProfileFireStoreMethods {
   // プロフィール変更処理
   Future<String> upDateProfile(
     String username,
-    String photoUrl,
-    String description,
+    String shortTermGoals,
+    String longTermGoals,
     String uid,
   ) async {
     String res = '問題が発生しました。もう一度やり直してください。';
     try {
       if (username.isNotEmpty ||
-          photoUrl.isNotEmpty ||
-          description.isNotEmpty) {
+          shortTermGoals.isNotEmpty ||
+          longTermGoals.isNotEmpty) {
         _firestore.collection('users').doc(uid).update({
           'username': username,
-          'photoUrl': photoUrl,
-          'description': description,
+          'shortTermGoals': shortTermGoals,
+          'longTermGoals': longTermGoals,
         });
         res = 'success';
       } else {
         res = 'すべての項目を入力してください';
+      }
+    } catch (err) {
+      res = err.toString();
+    }
+    return res;
+  }
+
+  Future<String> upDateUserIcon({
+    required Uint8List? file,
+    required String uid,
+  }) async {
+    String res = '問題が発生しました。もう一度やり直してください。';
+    try {
+      if (file != null) {
+        String photoUrl = await StorageMethods()
+            .uploadImageToStorage('profilePics', file, false);
+        _firestore.collection('users').doc(uid).update({
+          'photoUrl': photoUrl,
+        });
+        res = 'success';
+      } else {
+        res = '写真を選択し直してください';
       }
     } catch (err) {
       res = err.toString();

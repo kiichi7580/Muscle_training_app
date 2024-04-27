@@ -45,7 +45,7 @@ android {
     defaultConfig {
         multiDexEnabled true
         applicationId "com.example.muscle_training_app"
-        minSdkVersion flutter.minSdkVersion
+        minSdkVersion 21
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName

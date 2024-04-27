@@ -5,8 +5,8 @@ import 'package:muscle_training_app/constant/colors.dart';
 import 'package:muscle_training_app/domain/user.dart';
 import 'package:muscle_training_app/providers/user_provider.dart';
 import 'package:muscle_training_app/resources/memo_firestore_methods.dart';
-import 'package:muscle_training_app/widgets/date_picker_item.dart';
-import 'package:muscle_training_app/widgets/show_snackbar.dart';
+import 'package:muscle_training_app/util/date_picker_item.dart';
+import 'package:muscle_training_app/util/show_snackbar.dart';
 import 'package:muscle_training_app/widgets/text_field_input.dart';
 import 'package:provider/provider.dart';
 
