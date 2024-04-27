@@ -236,6 +236,9 @@ class _DisplayTimerPageState extends State<DisplayTimerPage> {
 
   Widget buildTime() {
     if (dynamicSeconds == 0) {
+      setState(() {
+        _isRunning = false;
+      });
       playSoundTimeUp();
       return Text(
         '$dynamicSeconds',
