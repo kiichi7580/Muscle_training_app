@@ -225,9 +225,6 @@ class _CalendarPageState extends State<CalendarPage> {
                   },
                 ),
                 calendarStyle: CalendarStyle(
-                  defaultTextStyle: TextStyle(
-                    color: Colors.green, // デフォルトの文字色を赤色に設定
-                  ),
                   weekendTextStyle: TextStyle(
                       // 週末の色を指定
                       // 土日両方同じ色になってしまうため、改善策を模索中
