@@ -1,9 +1,8 @@
 import 'dart:async';
 
-import 'package:audioplayers/audioplayers.dart';
+import 'package:audioplayers/audioplayers.dart' as audioplayers;
 import 'package:flutter/material.dart';
 import 'package:muscle_training_app/constant/colors.dart';
-
 
 class DisplayTimerPage extends StatefulWidget {
   const DisplayTimerPage({
@@ -25,27 +24,50 @@ class _DisplayTimerPageState extends State<DisplayTimerPage> {
   late int totalSeconds;
   late int dynamicSeconds;
   Timer? timer;
-  final audioCache = AudioCache();
-  final audioPlayer = AudioPlayer();
+  int _countDown = 4; // 準備時間（秒）
+  bool _isPreparing = false;
+  bool _isRunning = false;
+  final audioplayers.AudioPlayer _audioPlayer = audioplayers.AudioPlayer();
+  audioplayers.AssetSource? _audioPlayerSource;
 
   void startTimer({bool reset = true}) {
+    setState(() {
+      _isPreparing = true;
+    });
+    playSoundStartTimer();
     if (reset) {
       resetTimer();
     }
-    // seconds: 1
-    timer = Timer.periodic(const Duration(seconds: 1), (_) {
-      if (dynamicSeconds > 0) {
-        setState(() => dynamicSeconds--);
-      } else {
-        stopTimer(reset: false);
-        dynamicSeconds = totalSeconds;
-      }
+    dynamicTimer();
+  }
+
+  void dynamicTimer() {
+    // 3秒の準備時間を設ける
+    timer = Timer(Duration(seconds: _countDown), () {
+      // 準備時間が経過した後にタイマーを開始する
+      setState(() {
+        _isPreparing = false;
+      });
+      _audioPlayer.stop();
+      // seconds: 1
+      timer = Timer.periodic(const Duration(seconds: 1), (_) {
+        if (dynamicSeconds > 0) {
+          setState(() => dynamicSeconds--);
+        } else {
+          stopTimer(reset: false);
+          dynamicSeconds = totalSeconds;
+        }
+      });
     });
   }
 
-  void resetTimer() => setState(() => dynamicSeconds = totalSeconds);
+  void resetTimer() {
+    _audioPlayer.stop();
+    setState(() => dynamicSeconds = totalSeconds);
+  }
 
   void stopTimer({bool reset = true}) {
+    _audioPlayer.stop();
     if (reset) {
       resetTimer();
     }
@@ -57,11 +79,11 @@ class _DisplayTimerPageState extends State<DisplayTimerPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'タイマー',
-          style: Theme.of(context)
-              .textTheme
-              .titleLarge!
-              .copyWith(color: mainColor),
+          timerName,
+          style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                color: mainColor,
+                fontWeight: FontWeight.bold,
+              ),
         ),
         backgroundColor: Colors.black54,
         leading: IconButton(
@@ -92,13 +114,15 @@ class _DisplayTimerPageState extends State<DisplayTimerPage> {
               height: 60,
               child: Padding(
                 padding: const EdgeInsets.all(8),
-                child: Text(
-                  timerName,
-                  style: const TextStyle(
-                    fontSize: 23,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
+                child: _isPreparing || _isRunning
+                    ? Text(
+                        _isPreparing ? '準備中...' : 'トレーニング中...',
+                        style: const TextStyle(
+                          fontSize: 23,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      )
+                    : SizedBox(),
               ),
             ),
             buildTimer(),
@@ -111,10 +135,10 @@ class _DisplayTimerPageState extends State<DisplayTimerPage> {
   }
 
   Widget buildButtons() {
-    final isRunning = timer == null ? false : timer!.isActive;
+    _isRunning = timer == null ? false : timer!.isActive;
     final isCompleted = dynamicSeconds == totalSeconds || dynamicSeconds == 0;
 
-    return isRunning || !isCompleted
+    return _isRunning || !isCompleted && !_isPreparing
         ? Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -126,14 +150,14 @@ class _DisplayTimerPageState extends State<DisplayTimerPage> {
                     backgroundColor: Colors.black26,
                   ),
                   onPressed: () {
-                    if (isRunning) {
+                    if (_isRunning) {
                       stopTimer(reset: false);
                     } else {
                       startTimer(reset: false);
                     }
                   },
                   child: Text(
-                    isRunning ? 'ストップ' : 'スタート',
+                    _isRunning ? 'ストップ' : 'スタート',
                     style: const TextStyle(
                       color: mainColor,
                       fontSize: 20,
@@ -168,7 +192,7 @@ class _DisplayTimerPageState extends State<DisplayTimerPage> {
             children: [
               SizedBox(
                 height: 70,
-                width: 150,
+                width: 230,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.black26,
@@ -177,7 +201,7 @@ class _DisplayTimerPageState extends State<DisplayTimerPage> {
                     dynamicSeconds = totalSeconds;
                     startTimer();
                   },
-                  child: const Text(
+                  child: Text(
                     'スタート',
                     style: TextStyle(
                       color: mainColor,
@@ -212,7 +236,10 @@ class _DisplayTimerPageState extends State<DisplayTimerPage> {
 
   Widget buildTime() {
     if (dynamicSeconds == 0) {
-      playSound();
+      setState(() {
+        _isRunning = false;
+      });
+      playSoundTimeUp();
       return Text(
         '$dynamicSeconds',
         style: const TextStyle(
@@ -233,10 +260,18 @@ class _DisplayTimerPageState extends State<DisplayTimerPage> {
     }
   }
 
-  // 音が鳴るはずの関数
-  Future<void> playSound() async {
-    await audioCache.load('assets/Clock-Alarm02-4(Button).mp3');
-    await audioPlayer.play(UrlSource('assets/Clock-Alarm02-4(Button).mp3'));
+  // タイマー開始準備時の音源
+  Future<void> playSoundStartTimer() async {
+    await _audioPlayer.setReleaseMode(audioplayers.ReleaseMode.loop);
+    _audioPlayerSource = audioplayers.AssetSource('sounds/time_start.mp3');
+    _audioPlayer.play(_audioPlayerSource!);
+  }
+
+  // タイマー終了時の音源
+  Future<void> playSoundTimeUp() async {
+    await _audioPlayer.setReleaseMode(audioplayers.ReleaseMode.loop);
+    _audioPlayerSource = audioplayers.AssetSource('sounds/timeup.mp3');
+    _audioPlayer.play(_audioPlayerSource!);
   }
 
   // ウィジェットが作成された際に受け取る値を初期化
@@ -246,6 +281,12 @@ class _DisplayTimerPageState extends State<DisplayTimerPage> {
     timerName = widget.timerName;
     totalSeconds = widget.totalSeconds;
     dynamicSeconds = widget.dynamicSeconds;
-    audioCache.load('assets/Clock-Alarm02-4(Button).mp3');
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    _audioPlayer.dispose();
+    super.dispose();
   }
 }
