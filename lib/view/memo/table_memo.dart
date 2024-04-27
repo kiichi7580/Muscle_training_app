@@ -3,8 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:muscle_training_app/constant/colors.dart';
-import 'package:muscle_training_app/widgets/show_confirm_dialog.dart';
-import 'package:muscle_training_app/widgets/show_snackbar.dart';
+import 'package:muscle_training_app/util/show_confirm_dialog.dart';
+import 'package:muscle_training_app/util/show_snackbar.dart';
 import 'package:muscle_training_app/resources/memo_firestore_methods.dart';
 import 'package:muscle_training_app/view/memo/edit_memo.dart';
 

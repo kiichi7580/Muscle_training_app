@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:muscle_training_app/widgets/show_snackbar.dart';
+import 'package:muscle_training_app/util/show_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:muscle_training_app/constant/colors.dart';
 import 'package:muscle_training_app/models/timer_model/edit_timer_model.dart';
