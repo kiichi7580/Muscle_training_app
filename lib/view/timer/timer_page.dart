@@ -22,9 +22,13 @@ class TimerPage extends StatelessWidget {
       child: Scaffold(
         backgroundColor: mainColor,
         appBar: AppBar(
+          centerTitle: false,
           title: const Text(
             'タイマー',
-            style: TextStyle(color: blackColor),
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           actions: [
             IconButton(
@@ -42,6 +46,7 @@ class TimerPage extends StatelessWidget {
               ),
             ),
           ],
+          foregroundColor: blackColor,
           backgroundColor: blueColor,
         ),
         body: Center(
@@ -117,34 +122,34 @@ Widget buildBody(BuildContext context, dynamic timer) {
         SlidableAction(
           onPressed: (context) async {
             final delete = await showDialog<bool>(
-                  context: context,
-                  builder: (BuildContext context) => AlertDialog(
-                    title: const Text('削除の確認'),
-                    content: const Text('予定を削除しますか？'),
-                    actions: [
-                      TextButton(
-                        onPressed: () => Navigator.pop(context, false),
-                        style: TextButton.styleFrom(
-                          foregroundColor: Colors.black,
-                        ),
-                        child: const Text('いいえ'),
-                      ),
-                      TextButton(
-                        onPressed: () => Navigator.pop(context, true),
-                        style: TextButton.styleFrom(
-                          foregroundColor: Colors.red,
-                        ),
-                        child: const Text('削除'),
-                      ),
-                    ],
+              context: context,
+              builder: (BuildContext context) => AlertDialog(
+                title: const Text('削除の確認'),
+                content: const Text('予定を削除しますか？'),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(context, false),
+                    style: TextButton.styleFrom(
+                      foregroundColor: Colors.black,
+                    ),
+                    child: const Text('いいえ'),
                   ),
-                );
-                if (delete ?? false) {
-                  await FirebaseFirestore.instance
-                      .collection('timers')
-                      .doc(timer.id)
-                      .delete();
-                }
+                  TextButton(
+                    onPressed: () => Navigator.pop(context, true),
+                    style: TextButton.styleFrom(
+                      foregroundColor: Colors.red,
+                    ),
+                    child: const Text('削除'),
+                  ),
+                ],
+              ),
+            );
+            if (delete ?? false) {
+              await FirebaseFirestore.instance
+                  .collection('timers')
+                  .doc(timer.id)
+                  .delete();
+            }
           },
           backgroundColor: Colors.red,
           foregroundColor: mainColor,
@@ -156,7 +161,7 @@ Widget buildBody(BuildContext context, dynamic timer) {
     child: Padding(
       padding: const EdgeInsets.all(6),
       child: Card(
-        elevation: 3,
+        elevation: 4,
         child: ListTile(
           leading: const Icon(Icons.alarm_on),
           title: Text(
@@ -172,20 +177,8 @@ Widget buildBody(BuildContext context, dynamic timer) {
               color: Colors.black,
             ),
           ),
-          trailing: const SizedBox(
-            height: 50,
-            width: 100,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Icon(
-                  Icons.edit,
-                ),
-                Icon(
-                  Icons.arrow_back,
-                ),
-              ],
-            ),
+          trailing: Icon(
+            Icons.arrow_back,
           ),
           dense: true,
           tileColor: Colors.white,

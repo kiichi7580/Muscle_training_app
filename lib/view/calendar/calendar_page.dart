@@ -112,9 +112,13 @@ class _CalendarPageState extends State<CalendarPage> {
     return Scaffold(
       backgroundColor: mainColor,
       appBar: AppBar(
+        centerTitle: false,
         title: const Text(
           'カレンダー',
-          style: TextStyle(color: blackColor),
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         actions: [
           IconButton(
@@ -139,6 +143,7 @@ class _CalendarPageState extends State<CalendarPage> {
             ),
           ),
         ],
+        foregroundColor: blackColor,
         backgroundColor: blueColor,
       ),
       body: ListView(

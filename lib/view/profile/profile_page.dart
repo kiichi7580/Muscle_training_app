@@ -183,10 +183,10 @@ class _ProfileScreenState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: false,
         title: Text(
           userData['username'] != null ? userData['username'] : 'unknown',
           style: TextStyle(
-            color: blackColor,
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
@@ -219,6 +219,7 @@ class _ProfileScreenState extends State<ProfilePage> {
             ),
           ),
         ],
+        foregroundColor: blackColor,
         backgroundColor: blueColor,
       ),
       body: isLoading
