@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-
 class MemoModel extends ChangeNotifier {
   List<dynamic>? memos;
 
@@ -14,7 +13,7 @@ class MemoModel extends ChangeNotifier {
       .snapshots();
 
   Future<void> fetchMemo() async {
-    _usersStream.listen(
+    await _usersStream.listen(
       (snapshot) {
         final List<dynamic> memos = [];
         for (var i = 0; i < snapshot.docs.length; i++) {

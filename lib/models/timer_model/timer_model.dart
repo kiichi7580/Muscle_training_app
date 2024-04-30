@@ -11,8 +11,8 @@ class TimerModel extends ChangeNotifier {
       .where('uid', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
       .snapshots();
 
-  void fetchTimer() {
-    _usersStream.listen((snapshot) {
+  void fetchTimer() async {
+    await _usersStream.listen((snapshot) {
       final List<dynamic> timers = [];
       for (var i = 0; i < snapshot.docs.length; i++) {
         final document = snapshot.docs[i];
