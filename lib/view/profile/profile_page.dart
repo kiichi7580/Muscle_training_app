@@ -11,7 +11,7 @@ import 'package:muscle_training_app/view/profile/account_setting_page.dart';
 import 'package:muscle_training_app/view/profile/edit_profile_page.dart';
 import 'package:muscle_training_app/view/profile/training_frequency_visualization.dart';
 import 'package:muscle_training_app/view/profile/user_search_page.dart';
-import 'package:muscle_training_app/widgets/follow_button.dart';
+import 'package:muscle_training_app/view/profile/widgets/follow_button.dart';
 import 'package:muscle_training_app/util/show_snackbar.dart';
 
 class ProfilePage extends StatefulWidget {
