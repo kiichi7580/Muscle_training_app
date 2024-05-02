@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:muscle_training_app/constant/colors.dart';
 import 'package:muscle_training_app/models/menu_model/menu_model.dart';
-import 'package:muscle_training_app/view/menu/add_menu.dart';
+import 'package:muscle_training_app/view/menu/add_menu_page.dart';
 import 'package:provider/provider.dart';
 
 class MenuPage {
@@ -136,6 +136,20 @@ class MenuPage {
                     .collection('menus')
                     .doc(menu.id)
                     .delete();
+
+                // メニュードキュメントに紐づくメモサブコレクションを取得して削除
+                await FirebaseFirestore.instance
+                    .collection('users')
+                    .doc(uid)
+                    .collection('menus')
+                    .doc(menu.id)
+                    .collection('memos')
+                    .get()
+                    .then((querySnapshot) {
+                  querySnapshot.docs.forEach((doc) {
+                    doc.reference.delete();
+                  });
+                });
               }
             },
             backgroundColor: Colors.red,
