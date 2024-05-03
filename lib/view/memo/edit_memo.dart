@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:muscle_training_app/constant/colors.dart';
+import 'package:muscle_training_app/constant/text_resorce.dart';
 import 'package:muscle_training_app/util/show_snackbar.dart';
 import 'package:muscle_training_app/models/memo_model/edit_memo_model.dart';
 import 'package:provider/provider.dart';
@@ -14,24 +15,17 @@ class EditMemoPage extends StatefulWidget {
 }
 
 class _EditMemoPageState extends State<EditMemoPage> {
-  bool _isLoading = false;
-
-  void upDate(EditMemoModel model) async {
+  Future<void> upDate(BuildContext context, EditMemoModel model) async {
     try {
-      setState(() {
-        _isLoading = true;
-      });
+      model.startLoading();
       String res = await model.update();
-
-      if (res == 'success') {
-        setState(() {
-          _isLoading = false;
-        });
+      if (res == successRes) {
+        res = successUpDate;
+        model.endLoading();
+        Navigator.of(context).pop();
         showSnackBar(res, context);
       } else {
-        setState(() {
-          _isLoading = false;
-        });
+        model.endLoading();
         showSnackBar(res, context);
       }
     } catch (e) {
@@ -67,7 +61,7 @@ class _EditMemoPageState extends State<EditMemoPage> {
                       keyboardType: TextInputType.text,
                       controller: model.eventController,
                       decoration: const InputDecoration(
-                        labelText: '種目',
+                        labelText: eventTx,
                       ),
                       onChanged: (text) {
                         model
@@ -82,7 +76,7 @@ class _EditMemoPageState extends State<EditMemoPage> {
                       keyboardType: TextInputType.number,
                       controller: model.weightController,
                       decoration: const InputDecoration(
-                        labelText: '重量',
+                        labelText: weightTx,
                       ),
                       onChanged: (text) {
                         model
@@ -95,14 +89,14 @@ class _EditMemoPageState extends State<EditMemoPage> {
                     ),
                     TextField(
                       keyboardType: TextInputType.number,
-                      controller: model.setController,
+                      controller: model.repController,
                       decoration: const InputDecoration(
-                        labelText: 'セット',
+                        labelText: repTx,
                       ),
                       onChanged: (text) {
                         model
-                          ..set = text
-                          ..setSet(text);
+                          ..rep = text
+                          ..setRep(text);
                       },
                     ),
                     const SizedBox(
@@ -110,14 +104,14 @@ class _EditMemoPageState extends State<EditMemoPage> {
                     ),
                     TextField(
                       keyboardType: TextInputType.number,
-                      controller: model.repController,
+                      controller: model.setController,
                       decoration: const InputDecoration(
-                        labelText: '回数',
+                        labelText: setTx,
                       ),
                       onChanged: (text) {
                         model
-                          ..rep = text
-                          ..setRep(text);
+                          ..set = text
+                          ..setSet(text);
                       },
                     ),
                     const SizedBox(
@@ -128,9 +122,8 @@ class _EditMemoPageState extends State<EditMemoPage> {
                       width: 200,
                       child: CupertinoButton(
                         color: blueColor,
-                        onPressed: () {
-                          upDate(model);
-                          Navigator.of(context).pop();
+                        onPressed: () async {
+                          await upDate(context, model);
                         },
                         child: const Text(
                           '更新する',
