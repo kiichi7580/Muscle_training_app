@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:muscle_training_app/constant/text_resorce.dart';
 import 'package:uuid/uuid.dart';
 
 class MemoFireStoreMethods {
@@ -16,14 +17,13 @@ class MemoFireStoreMethods {
   // メモ追加処理
   Future<String> addMemo(String event, String weight, String set, String rep,
       String uid, String time) async {
-    String res = '問題が発生しました。もう一度やり直してください。';
+    String res = failureAdd;
     try {
       if (event.isNotEmpty ||
           weight.isNotEmpty ||
           set.isNotEmpty ||
           rep.isNotEmpty ||
           time.isNotEmpty) {
-
         final List<String> removeStringList = [
           '年',
           '月',
@@ -42,9 +42,9 @@ class MemoFireStoreMethods {
           'time': time,
           'uid': uid,
         });
-        res = 'success';
+        res = successRes;
       } else {
-        res = 'すべての項目を入力してください';
+        res = validationRes;
       }
     } catch (err) {
       res = err.toString();
@@ -55,13 +55,12 @@ class MemoFireStoreMethods {
   // メモ変更処理
   Future<String> upDateMemo(String event, String weight, String set, String rep,
       String memoId) async {
-    String res = '問題が発生しました。もう一度やり直してください。';
+    String res = failureUpDate;
     try {
       if (event.isNotEmpty ||
           weight.isNotEmpty ||
           set.isNotEmpty ||
           rep.isNotEmpty) {
-
         _firestore.collection('memos').doc(memoId).update({
           'id': memoId,
           'event': event,
@@ -69,9 +68,9 @@ class MemoFireStoreMethods {
           'set': set,
           'rep': rep,
         });
-        res = 'success';
+        res = successRes;
       } else {
-        res = 'すべての項目を入力してください';
+        res = validationRes;
       }
     } catch (err) {
       res = err.toString();
@@ -79,13 +78,12 @@ class MemoFireStoreMethods {
     return res;
   }
 
-
   // メモ削除機能
   Future<String> deleteMemo(String memoId) async {
-    String res = "削除できません。もう一度やり直してください。";
+    String res = failureDelete;
     try {
       await _firestore.collection('memos').doc(memoId).delete();
-      res = 'success';
+      res = successRes;
     } catch (err) {
       res = err.toString();
     }

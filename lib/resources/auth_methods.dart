@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:muscle_training_app/constant/text_resorce.dart';
 import 'package:muscle_training_app/domain/user.dart' as userModel;
 
-
 class AuthMethods {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -18,12 +17,11 @@ class AuthMethods {
     return userModel.User.fromSnap(documentSnapshot);
   }
 
-
   Future<String> signUpUser({
     required String email,
     required String password,
   }) async {
-    String res = '問題が起きました。もう一度、新規登録をしてください。';
+    String res = failureSignUp;
     try {
       if (email.isNotEmpty || password.isNotEmpty) {
         UserCredential cred = await _auth.createUserWithEmailAndPassword(
@@ -50,9 +48,9 @@ class AuthMethods {
               user.toJson(),
             );
 
-        res = 'success';
+        res = successRes;
       } else {
-        res = 'すべての欄に入力してください。';
+        res = validationRes;
       }
     } on FirebaseException catch (e) {
       if (e.code == 'invalid-email') {
@@ -79,7 +77,7 @@ class AuthMethods {
     required String email,
     required String password,
   }) async {
-    String res = '問題が起きました。もう一度、ログインしてください。';
+    String res = failureLogin;
 
     try {
       if (email.isNotEmpty || password.isNotEmpty) {
@@ -87,9 +85,9 @@ class AuthMethods {
           email: email,
           password: password,
         );
-        res = 'success';
+        res = successRes;
       } else {
-        res = 'すべての欄に入力してください。';
+        res = validationRes;
       }
     } on FirebaseException catch (e) {
       if (e.code == 'invalid-email') {

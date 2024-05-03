@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:muscle_training_app/constant/colors.dart';
+import 'package:muscle_training_app/constant/text_resorce.dart';
 import 'package:muscle_training_app/providers/user_provider.dart';
 import 'package:muscle_training_app/util/show_snackbar.dart';
 import 'package:muscle_training_app/resources/auth_methods.dart';
@@ -39,7 +40,7 @@ class _SignUpPageState extends State<SignUpPage> {
       );
     }
 
-    void signUpUser(
+    Future<void> signUpUser(
       BuildContext context,
       UserProvider userProvider,
     ) async {
@@ -49,8 +50,8 @@ class _SignUpPageState extends State<SignUpPage> {
         password: _passwordController.text,
       );
 
-      if (res == 'success') {
-        res = '新規登録に成功しました。';
+      if (res == successRes) {
+        res = successSignUp;
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
             builder: (context) => const ResponsiveLayout(
@@ -127,10 +128,9 @@ class _SignUpPageState extends State<SignUpPage> {
                 height: 24,
               ),
               InkWell(
-                onTap: () => signUpUser(
-                  context,
-                  userProvider,
-                ),
+                onTap: () async {
+                  await signUpUser(context, userProvider);
+                },
                 child: Container(
                   width: double.infinity,
                   alignment: Alignment.center,

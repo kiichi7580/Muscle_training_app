@@ -1,18 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:muscle_training_app/constant/text_resorce.dart';
 import 'package:uuid/uuid.dart';
 
 class TimerFireStoreMethods {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   // タイマー追加処理
-  Future<String> addTimer(String uid, String timerName, String minute,
-      String second) async {
-    String res = '問題が発生しました。もう一度やり直してください。';
+  Future<String> addTimer(
+      String uid, String timerName, String minute, String second) async {
+    String res = failureAdd;
     try {
-      if (timerName.isNotEmpty ||
-          minute.isNotEmpty ||
-          second.isNotEmpty) {
-        
+      if (timerName.isNotEmpty || minute.isNotEmpty || second.isNotEmpty) {
         final int totalSeconds = (int.parse(minute) * 60) + int.parse(second);
 
         if (second.length == 1) {
@@ -29,9 +27,9 @@ class TimerFireStoreMethods {
           'createAt': DateTime.now(),
           'uid': uid,
         });
-        res = 'success';
+        res = successRes;
       } else {
-        res = 'すべての項目を入力してください';
+        res = validationRes;
       }
     } catch (err) {
       res = err.toString();
@@ -40,14 +38,11 @@ class TimerFireStoreMethods {
   }
 
   // タイマー変更処理
-  Future<String> upDateTimer(String timerName, String minute,
-      String second, String timerId) async {
-    String res = '問題が発生しました。もう一度やり直してください。';
+  Future<String> upDateTimer(
+      String timerName, String minute, String second, String timerId) async {
+    String res = failureUpDate;
     try {
-      if (timerName.isNotEmpty ||
-          minute.isNotEmpty ||
-          second.isNotEmpty) {
-        
+      if (timerName.isNotEmpty || minute.isNotEmpty || second.isNotEmpty) {
         final int totalSeconds = (int.parse(minute) * 60) + int.parse(second);
 
         if (second.length == 1) {
@@ -62,9 +57,9 @@ class TimerFireStoreMethods {
           'second': second,
           'createAt': DateTime.now(),
         });
-        res = 'success';
+        res = successRes;
       } else {
-        res = 'すべての項目を入力してください';
+        res = validationRes;
       }
     } catch (err) {
       res = err.toString();
@@ -74,10 +69,10 @@ class TimerFireStoreMethods {
 
   // タイマー削除機能
   Future<String> deleteTimer(String timerId) async {
-    String res = "削除できません。もう一度やり直してください。";
+    String res = failureDelete;
     try {
       await _firestore.collection('timers').doc(timerId).delete();
-      res = 'success';
+      res = successRes;
     } catch (err) {
       res = err.toString();
     }

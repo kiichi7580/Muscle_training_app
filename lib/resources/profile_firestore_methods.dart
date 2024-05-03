@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
+import 'package:muscle_training_app/constant/text_resorce.dart';
 import 'package:muscle_training_app/resources/storage_methods.dart';
 import 'package:uuid/uuid.dart';
 
@@ -13,7 +14,7 @@ class ProfileFireStoreMethods {
     String longTermGoals,
     String uid,
   ) async {
-    String res = '問題が発生しました。もう一度やり直してください。';
+    String res = failureUpDate;
     try {
       if (username.isNotEmpty ||
           shortTermGoals.isNotEmpty ||
@@ -23,9 +24,9 @@ class ProfileFireStoreMethods {
           'shortTermGoals': shortTermGoals,
           'longTermGoals': longTermGoals,
         });
-        res = 'success';
+        res = successRes;
       } else {
-        res = 'すべての項目を入力してください';
+        res = validationRes;
       }
     } catch (err) {
       res = err.toString();
@@ -37,7 +38,7 @@ class ProfileFireStoreMethods {
     required Uint8List? file,
     required String uid,
   }) async {
-    String res = '問題が発生しました。もう一度やり直してください。';
+    String res = failureUpDate;
     try {
       if (file != null) {
         String photoUrl = await StorageMethods()
@@ -45,7 +46,7 @@ class ProfileFireStoreMethods {
         _firestore.collection('users').doc(uid).update({
           'photoUrl': photoUrl,
         });
-        res = 'success';
+        res = successRes;
       } else {
         res = '写真を選択し直してください';
       }

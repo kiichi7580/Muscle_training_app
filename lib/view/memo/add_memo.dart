@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:muscle_training_app/constant/colors.dart';
+import 'package:muscle_training_app/constant/text_resorce.dart';
 import 'package:muscle_training_app/domain/user.dart';
 import 'package:muscle_training_app/providers/user_provider.dart';
 import 'package:muscle_training_app/resources/memo_firestore_methods.dart';
@@ -48,12 +49,13 @@ class _AddMemoPageState extends State<AddMemoPage> {
         uid,
         time,
       );
-
-      if (res == 'success') {
+      if (res == successRes) {
+        res = successAdd;
         setState(() {
           _isLoading = false;
         });
-        showSnackBar('メモを追加しました！', context);
+        Navigator.of(context).pop();
+        showSnackBar(res, context);
       } else {
         setState(() {
           _isLoading = false;
@@ -165,7 +167,7 @@ class _AddMemoPageState extends State<AddMemoPage> {
               ),
               Material(
                 child: MemoTextField(
-                  labelText: '種目',
+                  labelText: eventTx,
                   textInputType: TextInputType.text,
                   textEditingController: _eventController,
                 ),
@@ -175,7 +177,7 @@ class _AddMemoPageState extends State<AddMemoPage> {
               ),
               Material(
                 child: MemoTextField(
-                  labelText: '重量',
+                  labelText: weightTx,
                   textInputType: TextInputType.text,
                   textEditingController: _weightController,
                 ),
@@ -185,9 +187,9 @@ class _AddMemoPageState extends State<AddMemoPage> {
               ),
               Material(
                 child: MemoTextField(
-                  labelText: 'セット数',
+                  labelText: repTx,
                   textInputType: TextInputType.text,
-                  textEditingController: _setController,
+                  textEditingController: _repController,
                 ),
               ),
               const SizedBox(
@@ -195,9 +197,9 @@ class _AddMemoPageState extends State<AddMemoPage> {
               ),
               Material(
                 child: MemoTextField(
-                  labelText: '回数',
+                  labelText: setTx,
                   textInputType: TextInputType.text,
-                  textEditingController: _repController,
+                  textEditingController: _setController,
                 ),
               ),
               const SizedBox(
@@ -219,12 +221,11 @@ class _AddMemoPageState extends State<AddMemoPage> {
                       user.uid,
                       formattedDate,
                     );
-                    Navigator.of(context).pop();
                   },
                   child: _isLoading
                       ? CircularProgressIndicator(
-                        color: linkBlue,
-                      )
+                          color: linkBlue,
+                        )
                       : Text(
                           '追加する',
                           style: TextStyle(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:muscle_training_app/constant/colors.dart';
+import 'package:muscle_training_app/constant/text_resorce.dart';
 import 'package:muscle_training_app/providers/user_provider.dart';
 import 'package:muscle_training_app/util/show_snackbar.dart';
 import 'package:muscle_training_app/resources/auth_methods.dart';
@@ -31,7 +32,7 @@ class _LoginPageState extends State<LoginPage> {
       _passwordController.dispose();
     }
 
-    void loginUser(
+    Future<void> loginUser(
       BuildContext context,
       UserProvider userProvider,
     ) async {
@@ -40,8 +41,8 @@ class _LoginPageState extends State<LoginPage> {
         email: _emailController.text,
         password: _passwordController.text,
       );
-      if (res == 'success') {
-        res = 'ログインに成功しました。';
+      if (res == successRes) {
+        res = successLogin;
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
             builder: (context) => const ResponsiveLayout(
@@ -126,10 +127,9 @@ class _LoginPageState extends State<LoginPage> {
                 height: 24,
               ),
               InkWell(
-                onTap: () => loginUser(
-                  context,
-                  userProvider,
-                ),
+                onTap: () async {
+                  await loginUser(context, userProvider);
+                },
                 child: Container(
                   width: double.infinity,
                   alignment: Alignment.center,
