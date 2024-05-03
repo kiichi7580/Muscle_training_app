@@ -19,6 +19,18 @@ class EditMemoModel extends ChangeNotifier {
   String weight = '';
   String set = '';
   String rep = '';
+  bool _isLoading = false;
+  bool get getLoading => _isLoading;
+
+  void startLoading() {
+    this._isLoading = true;
+    notifyListeners();
+  }
+
+  void endLoading() {
+    this._isLoading = false;
+    notifyListeners();
+  }
 
   void setEvent(String event) {
     this.event = event;
