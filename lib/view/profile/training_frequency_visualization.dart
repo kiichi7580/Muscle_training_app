@@ -82,7 +82,7 @@ class TrainingFrequencyVisualization {
                                 // targetMonthDateList[trainingDayIndex],
                                 (trainingDayIndex + 1).toString(),
                                 style: TextStyle(
-                                  color: Colors.white, // 日付のテキスト色
+                                  color: mainColor, // 日付のテキスト色
                                   fontWeight: FontWeight.bold,
                                   fontSize: 12,
                                 ),

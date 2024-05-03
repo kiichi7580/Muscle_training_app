@@ -8,7 +8,6 @@ import 'package:muscle_training_app/util/show_snackbar.dart';
 import 'package:muscle_training_app/resources/memo_firestore_methods.dart';
 import 'package:muscle_training_app/view/memo/edit_memo.dart';
 
-
 class TableWidget extends StatefulWidget {
   const TableWidget({
     super.key,
@@ -97,13 +96,13 @@ class _TableWidgetState extends State<TableWidget> {
 
                         if (event != null) {
                           final snackBar = SnackBar(
-                            backgroundColor: Colors.green,
+                            backgroundColor: yesReactionColor,
                             content: Text('$eventを編集しました'),
                           );
                           ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         }
                       },
-                      backgroundColor: Colors.black45,
+                      backgroundColor: blackColor,
                       foregroundColor: mainColor,
                       icon: Icons.edit,
                       label: '編集',
@@ -116,7 +115,7 @@ class _TableWidgetState extends State<TableWidget> {
                           MemoFireStoreMethods().deleteMemo,
                         );
                       },
-                      backgroundColor: Colors.red,
+                      backgroundColor: deleteColor,
                       foregroundColor: mainColor,
                       icon: Icons.delete,
                       label: '削除',

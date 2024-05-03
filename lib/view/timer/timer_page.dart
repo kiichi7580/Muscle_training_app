@@ -2,8 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:muscle_training_app/constant/colors.dart';
-import 'package:muscle_training_app/domain/user.dart';
-import 'package:muscle_training_app/providers/user_provider.dart';
 import 'package:muscle_training_app/view/timer/add_timer.dart';
 import 'package:muscle_training_app/view/timer/display_timer.dart';
 import 'package:muscle_training_app/view/timer/edit_timer.dart';
@@ -99,7 +97,6 @@ class TimerPage extends StatelessWidget {
 }
 
 Widget buildBody(BuildContext context, dynamic timer) {
-  final User user = Provider.of<UserProvider>(context).getUser;
   return Slidable(
     endActionPane: ActionPane(
       motion: const ScrollMotion(),
@@ -130,14 +127,14 @@ Widget buildBody(BuildContext context, dynamic timer) {
                   TextButton(
                     onPressed: () => Navigator.pop(context, false),
                     style: TextButton.styleFrom(
-                      foregroundColor: Colors.black,
+                      foregroundColor: blackColor,
                     ),
                     child: const Text('いいえ'),
                   ),
                   TextButton(
                     onPressed: () => Navigator.pop(context, true),
                     style: TextButton.styleFrom(
-                      foregroundColor: Colors.red,
+                      foregroundColor: deleteColor,
                     ),
                     child: const Text('削除'),
                   ),
@@ -151,7 +148,7 @@ Widget buildBody(BuildContext context, dynamic timer) {
                   .delete();
             }
           },
-          backgroundColor: Colors.red,
+          backgroundColor: deleteColor,
           foregroundColor: mainColor,
           icon: Icons.delete,
           label: '削除',
@@ -181,7 +178,7 @@ Widget buildBody(BuildContext context, dynamic timer) {
             Icons.arrow_back,
           ),
           dense: true,
-          tileColor: Colors.white,
+          tileColor: mainColor,
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(10)),
           ),

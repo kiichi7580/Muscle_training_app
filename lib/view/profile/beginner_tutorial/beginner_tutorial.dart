@@ -103,12 +103,12 @@ class _BeginnerTutorialState extends State<BeginnerTutorial> {
                     borderRadius: BorderRadius.circular(16),
                     boxShadow: const [
                       BoxShadow(
-                        color: Colors.grey,
+                        color: greyColor,
                         blurRadius: 5,
                         offset: Offset(1, 1),
                       ),
                     ],
-                    color: Colors.white,
+                    color: mainColor,
                   ),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
@@ -138,12 +138,12 @@ class _BeginnerTutorialState extends State<BeginnerTutorial> {
                     borderRadius: BorderRadius.circular(16),
                     boxShadow: const [
                       BoxShadow(
-                        color: Colors.grey,
+                        color: greyColor,
                         blurRadius: 5,
                         offset: Offset(1, 1),
                       ),
                     ],
-                    color: Colors.white,
+                    color: mainColor,
                   ),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(

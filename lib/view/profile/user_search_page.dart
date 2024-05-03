@@ -29,21 +29,21 @@ class _UserSearchPageState extends State<UserSearchPage> {
         title: Container(
           alignment: Alignment.centerLeft,
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: mainColor,
             borderRadius: BorderRadius.circular(30),
           ),
           child: TextFormField(
             controller: searchController,
             decoration: InputDecoration(
               suffixIcon: IconButton(
-                icon: const Icon(Icons.cancel, color: Colors.grey),
+                icon: const Icon(Icons.cancel, color: greyColor),
                 onPressed: () => searchController.clear(),
               ),
               hintText: 'ユーザー名を検索',
-              hintStyle: const TextStyle(color: Colors.grey),
+              hintStyle: const TextStyle(color: greyColor),
               prefixIcon: const Icon(
                 Icons.search,
-                color: Colors.grey,
+                color: greyColor,
               ),
               enabledBorder: InputBorder.none,
               focusedBorder: InputBorder.none,

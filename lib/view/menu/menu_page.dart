@@ -4,6 +4,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:muscle_training_app/constant/colors.dart';
 import 'package:muscle_training_app/models/menu_model/menu_model.dart';
 import 'package:muscle_training_app/view/menu/add_menu_page.dart';
+import 'package:muscle_training_app/view/menu/edit_menu_page.dart';
 import 'package:provider/provider.dart';
 
 class MenuPage {
@@ -69,13 +70,13 @@ class MenuPage {
                 ),
               );
             },
-            backgroundColor: Colors.lightBlueAccent,
+            backgroundColor: addFloationActionButtonColor,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30),
             ),
             child: const Icon(
               Icons.add,
-              color: Colors.white,
+              color: mainColor,
             ),
           );
         }),
@@ -92,12 +93,12 @@ class MenuPage {
           SlidableAction(
             onPressed: (BuildContext context) {
               // 編集画面に遷移
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (context) => EditTimerPage(timer: timer),
-              //   ),
-              // );
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => EditMenuPage(menu: menu),
+                ),
+              );
             },
             backgroundColor: blackColor,
             foregroundColor: mainColor,
@@ -115,14 +116,14 @@ class MenuPage {
                     TextButton(
                       onPressed: () => Navigator.pop(context, false),
                       style: TextButton.styleFrom(
-                        foregroundColor: Colors.black,
+                        foregroundColor: blackColor,
                       ),
                       child: const Text('いいえ'),
                     ),
                     TextButton(
                       onPressed: () => Navigator.pop(context, true),
                       style: TextButton.styleFrom(
-                        foregroundColor: Colors.red,
+                        foregroundColor: deleteColor,
                       ),
                       child: const Text('削除'),
                     ),
@@ -152,7 +153,7 @@ class MenuPage {
                 });
               }
             },
-            backgroundColor: Colors.red,
+            backgroundColor: deleteColor,
             foregroundColor: mainColor,
             icon: Icons.delete,
             label: '削除',
@@ -181,14 +182,14 @@ class MenuPage {
               'メニュー一覧',
               style: const TextStyle(
                 fontSize: 14,
-                color: Colors.black,
+                color: blackColor,
               ),
             ),
             trailing: Icon(
               Icons.arrow_back,
             ),
             dense: true,
-            tileColor: Colors.white,
+            tileColor: mainColor,
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(10)),
             ),

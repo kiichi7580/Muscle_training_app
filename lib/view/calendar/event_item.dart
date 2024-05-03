@@ -45,7 +45,7 @@ class EventItem extends StatelessWidget {
           icon: const Icon(
             Icons.delete,
           ),
-          color: Colors.white,
+          color: mainColor,
           onPressed: onDelete,
         ),
       ),
