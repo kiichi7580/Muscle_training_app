@@ -1,24 +1,24 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Memo {
-  final String id;
+  final String? id;
   final String event;
   final String weight;
   final String set;
   final String rep;
-  final int dateId;
-  final DateTime time;
-  final String uid;
+  final int? dateId;
+  final DateTime? time;
+  final String? uid;
 
   const Memo({
-    required this.id,
+    this.id,
     required this.event,
     required this.weight,
     required this.set,
     required this.rep,
-    required this.dateId,
-    required this.time,
-    required this.uid,
+    this.dateId,
+    this.time,
+    this.uid,
   });
 
   static Memo fromSnap(DocumentSnapshot snap) {
