@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:muscle_training_app/constant/colors.dart';
+import 'package:muscle_training_app/constant/text_resorce.dart';
 import 'package:muscle_training_app/models/profile_model/edit_profile_model.dart';
 import 'package:muscle_training_app/util/show_snackbar.dart';
 import 'package:provider/provider.dart';
@@ -16,23 +17,25 @@ class EditProfilePage extends StatefulWidget {
 class _EditMemoPageState extends State<EditProfilePage> {
   bool _isLoading = false;
 
-  void upDate(EditProfileModel model) async {
+  Future<void> upDate(BuildContext context, EditProfileModel model) async {
     try {
       setState(() {
         _isLoading = true;
       });
       String res = await model.update();
 
-      if (res == 'success') {
+      if (res == successRes) {
+        res = successUpDate;
         setState(() {
           _isLoading = false;
         });
+        Navigator.of(context).pop();
         showSnackBar(res, context);
       } else {
         setState(() {
           _isLoading = false;
         });
-        showSnackBar('プロフィールを更新しました', context);
+        showSnackBar(res, context);
       }
     } catch (e) {
       showSnackBar(e.toString(), context);
@@ -113,9 +116,8 @@ class _EditMemoPageState extends State<EditProfilePage> {
                       width: 200,
                       child: CupertinoButton(
                         color: blueColor,
-                        onPressed: () {
-                          upDate(model);
-                          Navigator.of(context).pop();
+                        onPressed: () async {
+                          await upDate(context, model);
                         },
                         child: const Text(
                           '更新する',
