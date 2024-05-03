@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:muscle_training_app/constant/colors.dart';
+import 'package:muscle_training_app/constant/text_resorce.dart';
 import 'package:muscle_training_app/util/show_snackbar.dart';
 
 Future<void> showConfirmDialog(
@@ -15,19 +17,25 @@ Future<void> showConfirmDialog(
         content: const Text('本当に削除しますか？'),
         actions: [
           TextButton(
+            style: TextButton.styleFrom(
+              foregroundColor: blackColor,
+            ),
             child: const Text('いいえ'),
             onPressed: () {
               Navigator.pop(context);
             },
           ),
           TextButton(
+            style: TextButton.styleFrom(
+              foregroundColor: deleteColor,
+            ),
             child: const Text('はい'),
             onPressed: () async {
               //タイマーを削除
               String res = await function(snap['id']);
-              if (res == 'success') {
-                String res = '削除しました';
-                showSnackBar(res, context, backgroundColor: Colors.red);
+              if (res == successRes) {
+                String res = successDelete;
+                showSnackBar(res, context, backgroundColor: deleteColor);
               }
               Navigator.of(context).pop();
             },
