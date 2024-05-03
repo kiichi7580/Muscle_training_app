@@ -90,12 +90,26 @@ class _AddEventState extends State<AddEventPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           '予定を追加',
           style: TextStyle(
-            color: blackColor,
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
           ),
         ),
+        // actions: [
+        //   TextButton(
+        //     onPressed: () async {},
+        //     child: Text(
+        //       saveTx,
+        //       style: TextStyle(
+        //         color: blackColor,
+        //         fontWeight: FontWeight.bold,
+        //       ),
+        //     ),
+        //   ),
+        // ],
+        foregroundColor: blackColor,
         backgroundColor: blueColor,
       ),
       backgroundColor: mainColor,

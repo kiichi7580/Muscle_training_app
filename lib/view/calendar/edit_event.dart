@@ -64,9 +64,23 @@ class _EditEventState extends State<EditEventPage> {
         title: const Text(
           '予定を編集',
           style: TextStyle(
-            color: blackColor,
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
           ),
         ),
+        // actions: [
+        //   TextButton(
+        //     onPressed: () async {},
+        //     child: Text(
+        //       upDateTx,
+        //       style: TextStyle(
+        //         color: blackColor,
+        //         fontWeight: FontWeight.bold,
+        //       ),
+        //     ),
+        //   ),
+        // ],
+        foregroundColor: blackColor,
         backgroundColor: blueColor,
       ),
       body: ListView(

@@ -42,12 +42,26 @@ class _EditMemoPageState extends State<EditMemoPage> {
         resizeToAvoidBottomInset: false,
         backgroundColor: mainColor,
         appBar: AppBar(
-          title: const Text(
+          title: Text(
             'メモを編集',
             style: TextStyle(
-              color: blackColor,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
             ),
           ),
+          // actions: [
+          //   TextButton(
+          //     onPressed: () async {},
+          //     child: Text(
+          //       upDateTx,
+          //       style: TextStyle(
+          //         color: blackColor,
+          //         fontWeight: FontWeight.bold,
+          //       ),
+          //     ),
+          //   ),
+          // ],
+          foregroundColor: blackColor,
           backgroundColor: blueColor,
         ),
         body: Center(

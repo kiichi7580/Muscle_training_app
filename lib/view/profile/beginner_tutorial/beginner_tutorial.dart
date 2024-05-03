@@ -68,13 +68,14 @@ class _BeginnerTutorialState extends State<BeginnerTutorial> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           '筋トレとは？',
           style: TextStyle(
-            color: blackColor,
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
           ),
         ),
-        centerTitle: false,
+        foregroundColor: blackColor,
         backgroundColor: blueColor,
       ),
       body: SingleChildScrollView(

@@ -39,9 +39,26 @@ class _NotificationPermissionPageState
     return Scaffold(
       backgroundColor: mainColor,
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           '通知設定',
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
         ),
+        // actions: [
+        //   TextButton(
+        //     onPressed: () async {},
+        //     child: Text(
+        //       upDateTx,
+        //       style: TextStyle(
+        //         color: blackColor,
+        //         fontWeight: FontWeight.bold,
+        //       ),
+        //     ),
+        //   ),
+        // ],
+        foregroundColor: blackColor,
         backgroundColor: blueColor,
       ),
       body: Center(child: Text('aaa')),

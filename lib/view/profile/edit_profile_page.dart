@@ -51,12 +51,26 @@ class _EditMemoPageState extends State<EditProfilePage> {
         resizeToAvoidBottomInset: false,
         backgroundColor: mainColor,
         appBar: AppBar(
-          title: const Text(
-            'プロフィール編集',
+          title: Text(
+            'プロフィールを編集',
             style: TextStyle(
-              color: blackColor,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
             ),
           ),
+          // actions: [
+          //   TextButton(
+          //     onPressed: () async {},
+          //     child: Text(
+          //       upDateTx,
+          //       style: TextStyle(
+          //         color: blackColor,
+          //         fontWeight: FontWeight.bold,
+          //       ),
+          //     ),
+          //   ),
+          // ],
+          foregroundColor: blackColor,
           backgroundColor: blueColor,
         ),
         body: Center(

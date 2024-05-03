@@ -40,12 +40,26 @@ class _EditTimerPageState extends State<EditTimerPage> {
       child: Scaffold(
         backgroundColor: mainColor,
         appBar: AppBar(
-          title: const Text(
+          title: Text(
             'タイマーを編集',
             style: TextStyle(
-              color: blackColor,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
             ),
           ),
+          // actions: [
+          //   TextButton(
+          //     onPressed: () async {},
+          //     child: Text(
+          //       upDateTx,
+          //       style: TextStyle(
+          //         color: blackColor,
+          //         fontWeight: FontWeight.bold,
+          //       ),
+          //     ),
+          //   ),
+          // ],
+          foregroundColor: blackColor,
           backgroundColor: blueColor,
         ),
         body: Center(

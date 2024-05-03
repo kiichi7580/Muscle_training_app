@@ -52,10 +52,14 @@ class _TableWidgetState extends State<TableWidget> {
     return Scaffold(
       backgroundColor: mainColor,
       appBar: AppBar(
-        title: const Text(
-          'メニュー',
-          style: TextStyle(color: blackColor),
+        title: Text(
+          '${widget.date}',
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
         ),
+        foregroundColor: blackColor,
         backgroundColor: blueColor,
       ),
       body: StreamBuilder(

@@ -13,16 +13,18 @@ class AccountSettingPage extends StatefulWidget {
 }
 
 class _AccountSettingPageState extends State<AccountSettingPage> {
-  
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           '設定',
-          style: TextStyle(color: blackColor),
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
         ),
+        foregroundColor: blackColor,
         backgroundColor: blueColor,
       ),
       body: Column(
@@ -123,4 +125,3 @@ class _AccountSettingPageState extends State<AccountSettingPage> {
     );
   }
 }
-

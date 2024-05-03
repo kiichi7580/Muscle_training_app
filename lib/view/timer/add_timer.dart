@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:muscle_training_app/constant/colors.dart';
+import 'package:muscle_training_app/constant/text_resorce.dart';
 import 'package:muscle_training_app/domain/user.dart';
 import 'package:muscle_training_app/providers/user_provider.dart';
 import 'package:muscle_training_app/resources/timer_firestore_methods.dart';
@@ -37,12 +38,13 @@ class _AddTimerPageState extends State<AddTimerPage> {
         minute,
         second,
       );
-
-      if (res == 'success') {
+      if (res == successRes) {
+        res = successAdd;
         setState(() {
           _isLoading = false;
         });
-        showSnackBar('タイマーを追加しました！', context);
+        Navigator.of(context).pop();
+        showSnackBar(res, context);
       } else {
         setState(() {
           _isLoading = false;
@@ -65,16 +67,30 @@ class _AddTimerPageState extends State<AddTimerPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: mainColor,
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           'タイマーを追加',
           style: TextStyle(
-            color: blackColor,
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
           ),
         ),
+        // actions: [
+        //   TextButton(
+        //     onPressed: () async {},
+        //     child: Text(
+        //       saveTx,
+        //       style: TextStyle(
+        //         color: blackColor,
+        //         fontWeight: FontWeight.bold,
+        //       ),
+        //     ),
+        //   ),
+        // ],
+        foregroundColor: blackColor,
         backgroundColor: blueColor,
       ),
-      backgroundColor: mainColor,
       body: buildBody(context),
     );
   }
@@ -172,7 +188,6 @@ class _AddTimerPageState extends State<AddTimerPage> {
                           _minuteController.text,
                           _secondController.text,
                         );
-                        Navigator.of(context).pop();
                       },
                       child: const Text(
                         '保存する',
