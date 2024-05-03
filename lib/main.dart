@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart' as riverpod;
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:muscle_training_app/models/menu_model/menu_model.dart';
 import 'package:muscle_training_app/providers/user_provider.dart';
 import 'package:muscle_training_app/resposive/mobile_screen_layout.dart';
 import 'package:muscle_training_app/resposive/resposive_layout.dart';
@@ -44,6 +45,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => UserProvider(),
         ),
+        ChangeNotifierProvider(
+          create: (_) => MenuModel(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -79,7 +83,7 @@ class MyApp extends StatelessWidget {
                 );
               } else {
                 // User がnullの場合、ログイン画面へ
-                  return LoginPage();
+                return LoginPage();
               }
             }
             if (snapshot.connectionState == ConnectionState.waiting) {
