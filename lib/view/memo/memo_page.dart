@@ -1,66 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:muscle_training_app/constant/colors.dart';
 import 'package:muscle_training_app/models/memo_model/memo_model.dart';
-import 'package:muscle_training_app/view/memo/add_memo.dart';
 import 'package:muscle_training_app/view/memo/table_memo.dart';
 import 'package:provider/provider.dart';
 
-class MemoPage extends StatefulWidget {
-  const MemoPage({
-    super.key,
-    required this.uid,
-  });
-
-  final String uid;
-
-  @override
-  State<MemoPage> createState() => _MemoPageState();
-}
-
-class _MemoPageState extends State<MemoPage> {
-  late final MemoModel _memoModel;
-
-  @override
-  void initState() {
-    super.initState();
-    _memoModel = MemoModel()..fetchMemo();
-  }
-
-  // @override
-  // void dispose() {
-  //   _memoModel.dispose();
-  //   super.dispose();
-  // }
-
-  @override
-  Widget build(BuildContext context) {
+class MemoPage {
+  Widget MemoList(String uid) {
     return ChangeNotifierProvider<MemoModel>(
-      create: (_) => _memoModel,
+      create: (_) => MemoModel()..fetchMemo(),
       child: Scaffold(
-        backgroundColor: mainColor,
-        appBar: AppBar(
-          title: const Text(
-            'メモ',
-            style: TextStyle(color: blackColor),
-          ),
-          actions: [
-            IconButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const AddMemoPage(),
-                    fullscreenDialog: true,
-                  ),
-                );
-              },
-              icon: Icon(
-                Icons.add,
-              ),
-            ),
-          ],
-          backgroundColor: blueColor,
-        ),
         body: Center(
           child: Consumer<MemoModel>(
             builder: (context, model, child) {
@@ -96,9 +44,9 @@ class _MemoPageState extends State<MemoPage> {
 
               final List<Widget> widgets = memos.map((memo) {
                 return Padding(
-                  padding: const EdgeInsets.all(6),
+                  padding: const EdgeInsets.all(8),
                   child: Card(
-                    elevation: 3,
+                    elevation: 4,
                     child: ListTile(
                       leading: const Icon(Icons.fitness_center),
                       dense: true,
@@ -120,7 +68,7 @@ class _MemoPageState extends State<MemoPage> {
                           MaterialPageRoute<void>(
                             builder: (context) => TableWidget(
                               date: memo.toString(),
-                              uid: widget.uid,
+                              uid: uid,
                             ),
                           ),
                         );

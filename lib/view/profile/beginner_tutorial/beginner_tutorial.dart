@@ -68,13 +68,14 @@ class _BeginnerTutorialState extends State<BeginnerTutorial> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           '筋トレとは？',
           style: TextStyle(
-            color: blackColor,
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
           ),
         ),
-        centerTitle: false,
+        foregroundColor: blackColor,
         backgroundColor: blueColor,
       ),
       body: SingleChildScrollView(
@@ -103,12 +104,12 @@ class _BeginnerTutorialState extends State<BeginnerTutorial> {
                     borderRadius: BorderRadius.circular(16),
                     boxShadow: const [
                       BoxShadow(
-                        color: Colors.grey,
+                        color: greyColor,
                         blurRadius: 5,
                         offset: Offset(1, 1),
                       ),
                     ],
-                    color: Colors.white,
+                    color: mainColor,
                   ),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
@@ -138,12 +139,12 @@ class _BeginnerTutorialState extends State<BeginnerTutorial> {
                     borderRadius: BorderRadius.circular(16),
                     boxShadow: const [
                       BoxShadow(
-                        color: Colors.grey,
+                        color: greyColor,
                         blurRadius: 5,
                         offset: Offset(1, 1),
                       ),
                     ],
-                    color: Colors.white,
+                    color: mainColor,
                   ),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(

@@ -112,9 +112,13 @@ class _CalendarPageState extends State<CalendarPage> {
     return Scaffold(
       backgroundColor: mainColor,
       appBar: AppBar(
+        centerTitle: false,
         title: const Text(
           'カレンダー',
-          style: TextStyle(color: blackColor),
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         actions: [
           IconButton(
@@ -139,6 +143,7 @@ class _CalendarPageState extends State<CalendarPage> {
             ),
           ),
         ],
+        foregroundColor: blackColor,
         backgroundColor: blueColor,
       ),
       body: ListView(
@@ -275,14 +280,14 @@ class _CalendarPageState extends State<CalendarPage> {
                       TextButton(
                         onPressed: () => Navigator.pop(context, false),
                         style: TextButton.styleFrom(
-                          foregroundColor: Colors.black,
+                          foregroundColor: blackColor,
                         ),
                         child: const Text('いいえ'),
                       ),
                       TextButton(
                         onPressed: () => Navigator.pop(context, true),
                         style: TextButton.styleFrom(
-                          foregroundColor: Colors.red,
+                          foregroundColor: deleteColor,
                         ),
                         child: const Text('削除'),
                       ),
@@ -319,13 +324,13 @@ class _CalendarPageState extends State<CalendarPage> {
             date: sheetDate,
           );
         },
-        backgroundColor: Colors.lightBlueAccent,
+        backgroundColor: addFloationActionButtonColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30),
         ),
         child: const Icon(
           Icons.fitness_center,
-          color: Colors.white,
+          color: mainColor,
         ),
       ),
     );

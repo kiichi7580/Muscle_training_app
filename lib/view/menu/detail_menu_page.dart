@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:muscle_training_app/constant/colors.dart';
@@ -8,21 +7,19 @@ import 'package:muscle_training_app/util/show_snackbar.dart';
 import 'package:muscle_training_app/resources/memo_firestore_methods.dart';
 import 'package:muscle_training_app/view/memo/edit_memo.dart';
 
-class TableWidget extends StatefulWidget {
-  const TableWidget({
+class DetailMenuPage extends StatefulWidget {
+  const DetailMenuPage({
     super.key,
-    required this.date,
-    required this.uid,
+    required this.menu,
   });
-  final String date;
-  final String uid;
+  final dynamic menu;
 
   @override
-  State<TableWidget> createState() => _TableWidgetState();
+  State<DetailMenuPage> createState() => _DetailMenuPageState();
 }
 
-class _TableWidgetState extends State<TableWidget> {
-  int memoLen = 0;
+class _DetailMenuPageState extends State<DetailMenuPage> {
+  int memoListLen = 0;
 
   @override
   void initState() {
@@ -32,18 +29,17 @@ class _TableWidgetState extends State<TableWidget> {
 
   getData() async {
     try {
-      var memoSnap = await FirebaseFirestore.instance
+      var memoListSnap = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(widget.menu['uid'])
+          .collection('menus')
+          .doc(widget.menu['id'])
           .collection('memos')
-          .where('uid', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-          .where('time', isEqualTo: widget.date)
           .get();
 
-      memoLen = memoSnap.docs.length;
+      memoListLen = memoListSnap.docs.length;
     } catch (err) {
-      showSnackBar(
-        err.toString(),
-        context,
-      );
+      showSnackBar(err.toString(), context);
     }
   }
 
@@ -53,7 +49,7 @@ class _TableWidgetState extends State<TableWidget> {
       backgroundColor: mainColor,
       appBar: AppBar(
         title: Text(
-          '${widget.date}',
+          '${widget.menu['menuName']}',
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
@@ -64,9 +60,11 @@ class _TableWidgetState extends State<TableWidget> {
       ),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
+            .collection('users')
+            .doc(widget.menu['uid'])
+            .collection('menus')
+            .doc(widget.menu['id'])
             .collection('memos')
-            .where('uid', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-            .where('time', isEqualTo: widget.date)
             .snapshots(),
         builder: (BuildContext context,
             AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
@@ -83,49 +81,49 @@ class _TableWidgetState extends State<TableWidget> {
 
               return Slidable(
                 key: Key(memo['id']),
-                endActionPane: ActionPane(
-                  motion: const ScrollMotion(),
-                  children: [
-                    SlidableAction(
-                      onPressed: (BuildContext context) async {
-                        //編集画面に遷移
-                        final String? event = await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => EditMemoPage(
-                              memo: memo,
-                            ),
-                          ),
-                        );
+                // endActionPane: ActionPane(
+                //   motion: const ScrollMotion(),
+                //   children: [
+                //     SlidableAction(
+                //       onPressed: (BuildContext context) async {
+                //         //編集画面に遷移
+                //         final String? event = await Navigator.push(
+                //           context,
+                //           MaterialPageRoute(
+                //             builder: (context) => EditMemoPage(
+                //               memo: memo,
+                //             ),
+                //           ),
+                //         );
 
-                        if (event != null) {
-                          final snackBar = SnackBar(
-                            backgroundColor: yesReactionColor,
-                            content: Text('$eventを編集しました'),
-                          );
-                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                        }
-                      },
-                      backgroundColor: blackColor,
-                      foregroundColor: mainColor,
-                      icon: Icons.edit,
-                      label: '編集',
-                    ),
-                    SlidableAction(
-                      onPressed: (context) async {
-                        await showConfirmDialog(
-                          context,
-                          memo,
-                          MemoFireStoreMethods().deleteMemo,
-                        );
-                      },
-                      backgroundColor: deleteColor,
-                      foregroundColor: mainColor,
-                      icon: Icons.delete,
-                      label: '削除',
-                    ),
-                  ],
-                ),
+                //         if (event != null) {
+                //           final snackBar = SnackBar(
+                //             backgroundColor: yesReactionColor,
+                //             content: Text('$eventを編集しました'),
+                //           );
+                //           ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                //         }
+                //       },
+                //       backgroundColor: blackColor,
+                //       foregroundColor: mainColor,
+                //       icon: Icons.edit,
+                //       label: '編集',
+                //     ),
+                //     SlidableAction(
+                //       onPressed: (context) async {
+                //         await showConfirmDialog(
+                //           context,
+                //           memo,
+                //           MemoFireStoreMethods().deleteMemo,
+                //         );
+                //       },
+                //       backgroundColor: deleteColor,
+                //       foregroundColor: mainColor,
+                //       icon: Icons.delete,
+                //       label: '削除',
+                //     ),
+                //   ],
+                // ),
                 child: Center(
                   child: Column(
                     children: [

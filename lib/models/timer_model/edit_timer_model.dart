@@ -17,6 +17,18 @@ class EditTimerModel extends ChangeNotifier {
   String minute = '';
   String second = '';
   int? totalSeconds;
+  bool _isLoading = false;
+  bool get getLoading => _isLoading;
+
+  void startLoading() {
+    this._isLoading = true;
+    notifyListeners();
+  }
+
+  void endLoading() {
+    this._isLoading = false;
+    notifyListeners();
+  }
 
   void setTimerName(String timerName) {
     this.timerName = timerName;

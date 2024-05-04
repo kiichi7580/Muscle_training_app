@@ -43,15 +43,21 @@ class MemoTextField extends StatelessWidget {
     required this.textInputType,
     required this.textEditingController,
     this.initialValue = '',
+    this.onChanged,
+    this.isEnabled,
+    
   });
   final String labelText;
   final TextInputType textInputType;
   final TextEditingController textEditingController;
   final String initialValue;
+  final void Function(String)? onChanged;
+  final bool? isEnabled;
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      enabled: isEnabled,
       controller: initialValue == ''
           ? textEditingController
           : TextEditingController(text: initialValue),
@@ -59,6 +65,7 @@ class MemoTextField extends StatelessWidget {
       decoration: InputDecoration(
         labelText: labelText,
       ),
+      onChanged: onChanged,
     );
   }
 }

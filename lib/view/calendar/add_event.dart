@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:muscle_training_app/constant/colors.dart';
+import 'package:muscle_training_app/constant/text_resorce.dart';
 import 'package:muscle_training_app/domain/user.dart';
 import 'package:muscle_training_app/providers/user_provider.dart';
 import 'package:muscle_training_app/resources/calendar_firestore_methods.dart';
@@ -52,20 +53,20 @@ class _AddEventState extends State<AddEventPage> {
         date,
         uid,
       );
-
-      if (res == 'success') {
+      if (res == successRes) {
+        res = successAdd;
         setState(() {
           _isLoading = false;
         });
-        showSnackBar('予定を追加しました！', context);
+        showSnackBar(res, context);
       } else {
         setState(() {
           _isLoading = false;
         });
         showSnackBar(res, context);
       }
-    } catch (e) {
-      showSnackBar(e.toString(), context);
+    } catch (err) {
+      showSnackBar(err.toString(), context);
     }
   }
 
@@ -89,12 +90,26 @@ class _AddEventState extends State<AddEventPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           '予定を追加',
           style: TextStyle(
-            color: blackColor,
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
           ),
         ),
+        // actions: [
+        //   TextButton(
+        //     onPressed: () async {},
+        //     child: Text(
+        //       saveTx,
+        //       style: TextStyle(
+        //         color: blackColor,
+        //         fontWeight: FontWeight.bold,
+        //       ),
+        //     ),
+        //   ),
+        // ],
+        foregroundColor: blackColor,
         backgroundColor: blueColor,
       ),
       backgroundColor: mainColor,

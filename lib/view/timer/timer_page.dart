@@ -2,8 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:muscle_training_app/constant/colors.dart';
-import 'package:muscle_training_app/domain/user.dart';
-import 'package:muscle_training_app/providers/user_provider.dart';
 import 'package:muscle_training_app/view/timer/add_timer.dart';
 import 'package:muscle_training_app/view/timer/display_timer.dart';
 import 'package:muscle_training_app/view/timer/edit_timer.dart';
@@ -22,9 +20,13 @@ class TimerPage extends StatelessWidget {
       child: Scaffold(
         backgroundColor: mainColor,
         appBar: AppBar(
+          centerTitle: false,
           title: const Text(
             'タイマー',
-            style: TextStyle(color: blackColor),
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           actions: [
             IconButton(
@@ -42,6 +44,7 @@ class TimerPage extends StatelessWidget {
               ),
             ),
           ],
+          foregroundColor: blackColor,
           backgroundColor: blueColor,
         ),
         body: Center(
@@ -94,7 +97,6 @@ class TimerPage extends StatelessWidget {
 }
 
 Widget buildBody(BuildContext context, dynamic timer) {
-  final User user = Provider.of<UserProvider>(context).getUser;
   return Slidable(
     endActionPane: ActionPane(
       motion: const ScrollMotion(),
@@ -117,36 +119,36 @@ Widget buildBody(BuildContext context, dynamic timer) {
         SlidableAction(
           onPressed: (context) async {
             final delete = await showDialog<bool>(
-                  context: context,
-                  builder: (BuildContext context) => AlertDialog(
-                    title: const Text('削除の確認'),
-                    content: const Text('予定を削除しますか？'),
-                    actions: [
-                      TextButton(
-                        onPressed: () => Navigator.pop(context, false),
-                        style: TextButton.styleFrom(
-                          foregroundColor: Colors.black,
-                        ),
-                        child: const Text('いいえ'),
-                      ),
-                      TextButton(
-                        onPressed: () => Navigator.pop(context, true),
-                        style: TextButton.styleFrom(
-                          foregroundColor: Colors.red,
-                        ),
-                        child: const Text('削除'),
-                      ),
-                    ],
+              context: context,
+              builder: (BuildContext context) => AlertDialog(
+                title: const Text('削除の確認'),
+                content: const Text('予定を削除しますか？'),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(context, false),
+                    style: TextButton.styleFrom(
+                      foregroundColor: blackColor,
+                    ),
+                    child: const Text('いいえ'),
                   ),
-                );
-                if (delete ?? false) {
-                  await FirebaseFirestore.instance
-                      .collection('timers')
-                      .doc(timer.id)
-                      .delete();
-                }
+                  TextButton(
+                    onPressed: () => Navigator.pop(context, true),
+                    style: TextButton.styleFrom(
+                      foregroundColor: deleteColor,
+                    ),
+                    child: const Text('削除'),
+                  ),
+                ],
+              ),
+            );
+            if (delete ?? false) {
+              await FirebaseFirestore.instance
+                  .collection('timers')
+                  .doc(timer.id)
+                  .delete();
+            }
           },
-          backgroundColor: Colors.red,
+          backgroundColor: deleteColor,
           foregroundColor: mainColor,
           icon: Icons.delete,
           label: '削除',
@@ -156,7 +158,7 @@ Widget buildBody(BuildContext context, dynamic timer) {
     child: Padding(
       padding: const EdgeInsets.all(6),
       child: Card(
-        elevation: 3,
+        elevation: 4,
         child: ListTile(
           leading: const Icon(Icons.alarm_on),
           title: Text(
@@ -172,23 +174,11 @@ Widget buildBody(BuildContext context, dynamic timer) {
               color: Colors.black,
             ),
           ),
-          trailing: const SizedBox(
-            height: 50,
-            width: 100,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Icon(
-                  Icons.edit,
-                ),
-                Icon(
-                  Icons.arrow_back,
-                ),
-              ],
-            ),
+          trailing: Icon(
+            Icons.arrow_back,
           ),
           dense: true,
-          tileColor: Colors.white,
+          tileColor: mainColor,
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(10)),
           ),

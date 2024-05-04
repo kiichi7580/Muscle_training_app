@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
+import 'package:muscle_training_app/constant/text_resorce.dart';
 import 'package:muscle_training_app/util/show_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:muscle_training_app/constant/colors.dart';
 import 'package:muscle_training_app/models/timer_model/edit_timer_model.dart';
 import 'package:provider/provider.dart';
-
 
 class EditTimerPage extends StatefulWidget {
   const EditTimerPage({super.key, required this.timer});
@@ -15,24 +15,17 @@ class EditTimerPage extends StatefulWidget {
 }
 
 class _EditTimerPageState extends State<EditTimerPage> {
-  bool _isLoading = false;
-
-  void upDate(EditTimerModel model) async {
+  Future<void> upDate(BuildContext context, EditTimerModel model) async {
     try {
-      setState(() {
-        _isLoading = true;
-      });
+      model.startLoading();
       String res = await model.update();
-
-      if (res == 'success') {
-        setState(() {
-          _isLoading = false;
-        });
+      if (res == successRes) {
+        res = successUpDate;
+        model.endLoading();
+        Navigator.of(context).pop();
         showSnackBar(res, context);
       } else {
-        setState(() {
-          _isLoading = false;
-        });
+        model.endLoading();
         showSnackBar(res, context);
       }
     } catch (e) {
@@ -47,12 +40,26 @@ class _EditTimerPageState extends State<EditTimerPage> {
       child: Scaffold(
         backgroundColor: mainColor,
         appBar: AppBar(
-          title: const Text(
+          title: Text(
             'タイマーを編集',
             style: TextStyle(
-              color: blackColor,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
             ),
           ),
+          // actions: [
+          //   TextButton(
+          //     onPressed: () async {},
+          //     child: Text(
+          //       upDateTx,
+          //       style: TextStyle(
+          //         color: blackColor,
+          //         fontWeight: FontWeight.bold,
+          //       ),
+          //     ),
+          //   ),
+          // ],
+          foregroundColor: blackColor,
           backgroundColor: blueColor,
         ),
         body: Center(
@@ -153,9 +160,8 @@ class _EditTimerPageState extends State<EditTimerPage> {
                             width: 200,
                             child: CupertinoButton(
                               color: blueColor,
-                              onPressed: () {
-                                upDate(model);
-                                Navigator.of(context).pop();
+                              onPressed: () async {
+                                await upDate(context, model);
                               },
                               child: const Text(
                                 '変更する',

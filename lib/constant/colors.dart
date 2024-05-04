@@ -14,6 +14,17 @@ const richBlue = Color.fromRGBO(0, 55, 89, 1);
 // Twitterのリンクの色
 const linkBlue = Color.fromRGBO(27, 149, 224, 1);
 
+// deleteカラー
+const deleteColor = Color.fromRGBO(255, 0, 0, 1.0);
+
+// reactionカラー
+const yesReactionColor = Color.fromRGBO(0, 255, 0, 1.0);
+const noReactionColor = Color.fromRGBO(255, 0, 0, 1.0);
+
+// 色々
+const greyColor = Colors.grey;
+const addFloationActionButtonColor = Colors.lightBlueAccent;
+
 // githubの草の色(ライトモード順)
 const trainingFrequencyColor1 = Color.fromRGBO(235, 237, 240, 1);
 const trainingFrequencyColor2 = Color.fromRGBO(155, 233, 168, 1);

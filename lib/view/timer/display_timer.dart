@@ -80,18 +80,13 @@ class _DisplayTimerPageState extends State<DisplayTimerPage> {
       appBar: AppBar(
         title: Text(
           timerName,
-          style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                color: mainColor,
-                fontWeight: FontWeight.bold,
-              ),
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
         ),
+        foregroundColor: mainColor,
         backgroundColor: Colors.black54,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_rounded),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
       ),
       body: Container(
         height: double.infinity,

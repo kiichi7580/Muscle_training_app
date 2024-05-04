@@ -5,13 +5,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:muscle_training_app/constant/colors.dart';
+import 'package:muscle_training_app/constant/text_resorce.dart';
 import 'package:muscle_training_app/resources/profile_firestore_methods.dart';
 import 'package:muscle_training_app/util/pickImage.dart';
 import 'package:muscle_training_app/view/profile/account_setting_page.dart';
 import 'package:muscle_training_app/view/profile/edit_profile_page.dart';
 import 'package:muscle_training_app/view/profile/training_frequency_visualization.dart';
 import 'package:muscle_training_app/view/profile/user_search_page.dart';
-import 'package:muscle_training_app/widgets/follow_button.dart';
+import 'package:muscle_training_app/view/profile/widgets/follow_button.dart';
 import 'package:muscle_training_app/util/show_snackbar.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -48,39 +49,30 @@ class _ProfileScreenState extends State<ProfilePage> {
     getNumberOfDaysInThisMonth();
   }
 
-  void selectImage() async {
+  Future<void> selectImage(BuildContext context) async {
     Uint8List? image = await pickImage(ImageSource.gallery);
     if (image != null) {
       setState(() {
         _image = image;
       });
     }
-    await upDateUserIcon();
+    await upDateUserIcon(context);
   }
 
-  upDateUserIcon() async {
+  Future<void> upDateUserIcon(BuildContext context) async {
     try {
       String res = await ProfileFireStoreMethods().upDateUserIcon(
         file: _image!,
         uid: widget.uid,
       );
-      if (res == 'success') {
-        res = '写真の更新に成功しました！';
-        showSnackBar(
-          res.toString(),
-          context,
-        );
+      if (res == successRes) {
+        res = successUpDate;
+        showSnackBar(res, context);
       } else {
-        showSnackBar(
-          res.toString(),
-          context,
-        );
+        showSnackBar(res, context);
       }
     } catch (err) {
-      showSnackBar(
-        err.toString(),
-        context,
-      );
+      showSnackBar(err.toString(), context);
     }
   }
 
@@ -183,10 +175,10 @@ class _ProfileScreenState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: false,
         title: Text(
           userData['username'] != null ? userData['username'] : 'unknown',
           style: TextStyle(
-            color: blackColor,
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
@@ -219,6 +211,7 @@ class _ProfileScreenState extends State<ProfilePage> {
             ),
           ),
         ],
+        foregroundColor: blackColor,
         backgroundColor: blueColor,
       ),
       body: isLoading
@@ -282,7 +275,9 @@ class _ProfileScreenState extends State<ProfilePage> {
                                       color: mainColor,
                                       size: 16,
                                     ),
-                                    onPressed: selectImage,
+                                    onPressed: () async {
+                                      await selectImage(context);
+                                    },
                                   ),
                                 ),
                               ],
@@ -312,7 +307,7 @@ class _ProfileScreenState extends State<ProfilePage> {
                                               text: 'プロフィールを編集',
                                               backgroundColor: blackColor,
                                               textColor: mainColor,
-                                              borderColor: Colors.grey,
+                                              borderColor: greyColor,
                                               function: () {
                                                 Navigator.of(context).push(
                                                   MaterialPageRoute(
@@ -326,9 +321,9 @@ class _ProfileScreenState extends State<ProfilePage> {
                                           : isFollowing
                                               ? FollowButton(
                                                   text: 'フォロー解除',
-                                                  backgroundColor: Colors.white,
-                                                  textColor: Colors.black,
-                                                  borderColor: Colors.grey,
+                                                  backgroundColor: mainColor,
+                                                  textColor: blackColor,
+                                                  borderColor: greyColor,
                                                   function: () async {
                                                     await ProfileFireStoreMethods()
                                                         .followUser(
@@ -345,9 +340,9 @@ class _ProfileScreenState extends State<ProfilePage> {
                                                 )
                                               : FollowButton(
                                                   text: 'フォロー',
-                                                  backgroundColor: Colors.blue,
-                                                  textColor: Colors.white,
-                                                  borderColor: Colors.blue,
+                                                  backgroundColor: blueColor,
+                                                  textColor: mainColor,
+                                                  borderColor: blueColor,
                                                   function: () async {
                                                     await ProfileFireStoreMethods()
                                                         .followUser(
@@ -426,7 +421,7 @@ class _ProfileScreenState extends State<ProfilePage> {
             style: const TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w400,
-              color: Colors.grey,
+              color: greyColor,
             ),
           ),
         ),

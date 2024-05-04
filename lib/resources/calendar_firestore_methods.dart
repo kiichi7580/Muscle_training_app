@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:muscle_training_app/constant/text_resorce.dart';
 import 'package:uuid/uuid.dart';
 
 class CalendarFireStoreMethods {
@@ -15,9 +16,14 @@ class CalendarFireStoreMethods {
   }
 
   // 予定追加処理
-  Future<String> addCalendar(String title, String description,
-      String eventColor, DateTime date, String uid) async {
-    String res = '問題が発生しました。もう一度やり直してください。';
+  Future<String> addCalendar(
+    String title,
+    String description,
+    String eventColor,
+    DateTime date,
+    String uid,
+  ) async {
+    String res = failureAdd;
     try {
       if (title.isNotEmpty || description.isNotEmpty || eventColor.isNotEmpty) {
         List<String> removeStringList = [
@@ -36,9 +42,9 @@ class CalendarFireStoreMethods {
           'eventColor': eventColorCode,
           'uid': uid,
         });
-        res = 'success';
+        res = successRes;
       } else {
-        res = 'すべての項目を入力してください';
+        res = validationRes;
       }
     } catch (err) {
       res = err.toString();
@@ -46,10 +52,10 @@ class CalendarFireStoreMethods {
     return res;
   }
 
-  // 予定変更処理
+  // 予定更新処理
   Future<String> upDateCalendar(String title, String description,
       String eventColor, String calendarId) async {
-    String res = '問題が発生しました。もう一度やり直してください。';
+    String res = failureUpDate;
     try {
       if (title.isNotEmpty || description.isNotEmpty || eventColor.isNotEmpty) {
         _firestore.collection('events').doc(calendarId).update({
@@ -58,9 +64,9 @@ class CalendarFireStoreMethods {
           'description': description,
           'eventColor': eventColor,
         });
-        res = 'success';
+        res = successRes;
       } else {
-        res = 'すべての項目を入力してください';
+        res = validationRes;
       }
     } catch (err) {
       res = err.toString();
@@ -70,10 +76,10 @@ class CalendarFireStoreMethods {
 
   // 予定削除機能
   Future<String> deleteCalendar(String calendarId) async {
-    String res = "削除できません。もう一度やり直してください。";
+    String res = failureDelete;
     try {
       await _firestore.collection('events').doc(calendarId).delete();
-      res = 'success';
+      res = successRes;
     } catch (err) {
       res = err.toString();
     }
