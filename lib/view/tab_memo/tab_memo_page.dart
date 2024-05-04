@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:muscle_training_app/constant/colors.dart';
 import 'package:muscle_training_app/view/memo/add_memo.dart';
 import 'package:muscle_training_app/view/memo/memo_page.dart';
+import 'package:muscle_training_app/view/menu/add_menu_page.dart';
 import 'package:muscle_training_app/view/menu/menu_page.dart';
 
 class TabMemoPage extends StatefulWidget {
@@ -62,7 +63,8 @@ class _MemoTabPageState extends State<TabMemoPage>
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const AddMemoPage(),
+                  builder: (context) =>
+                      _tabController.index == 0 ? AddMenuPage() : AddMemoPage(),
                 ),
               );
             },
