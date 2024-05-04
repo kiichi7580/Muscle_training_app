@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_picker/flutter_picker.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:muscle_training_app/constant/colors.dart';
 import 'package:muscle_training_app/models/menu_model/menu_model.dart';
-import 'package:muscle_training_app/view/menu/add_menu_page.dart';
+import 'package:muscle_training_app/view/menu/add_my_menu_to_memos_page.dart';
+import 'package:muscle_training_app/view/menu/detail_menu_page.dart';
 import 'package:muscle_training_app/view/menu/edit_menu_page.dart';
 import 'package:provider/provider.dart';
 
@@ -59,27 +61,7 @@ class MenuPage {
             },
           ),
         ),
-        floatingActionButton: Builder(builder: (context) {
-          return FloatingActionButton(
-            heroTag: '1',
-            tooltip: 'メニューを追加する',
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => AddMenuPage(),
-                ),
-              );
-            },
-            backgroundColor: addFloationActionButtonColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30),
-            ),
-            child: const Icon(
-              Icons.add,
-              color: mainColor,
-            ),
-          );
-        }),
+        floatingActionButton: buildFloatingActionButton(),
       ),
     );
   }
@@ -163,25 +145,36 @@ class MenuPage {
       child: Padding(
         padding: const EdgeInsets.all(6),
         child: Card(
-          borderOnForeground: false,
-          shape: Border.all(
-            width: 10,
+          // borderOnForeground: false,
+          shape: Border.symmetric(
+              vertical: BorderSide(
+            width: 7,
             color: linkBlue,
-          ),
+          )),
           elevation: 4,
           child: ListTile(
             leading: const Icon(Icons.assignment),
-            title: Text(
-              'メニュー${menuIndex + 1}: ${menu['menuName']}',
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
+            title: Row(
+              children: [
+                Text(
+                  'メニュー${menuIndex + 1}: ',
+                  style: const TextStyle(
+                    fontSize: 14,
+                  ),
+                ),
+                Text(
+                  '${menu['menuName']}',
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
             ),
             subtitle: Text(
-              'メニュー一覧',
+              '最終更新日: ',
               style: const TextStyle(
-                fontSize: 14,
+                fontSize: 12,
                 color: blackColor,
               ),
             ),
@@ -194,19 +187,71 @@ class MenuPage {
               borderRadius: BorderRadius.all(Radius.circular(10)),
             ),
             onTap: () {
-              // Navigator.of(context).push(
-              //   MaterialPageRoute(
-              //     builder: (context) => DisplayTimerPage(
-              //       timerName: timer['timerName'],
-              //       totalSeconds: timer['totalSeconds'],
-              //       dynamicSeconds: timer['totalSeconds'],
-              //     ),
-              //   ),
-              // );
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => DetailMenuPage(menu: menu),
+                ),
+              );
             },
           ),
         ),
       ),
     );
+  }
+
+  buildFloatingActionButton() {
+    return Builder(builder: (context) {
+      final MenuModel menuModel =
+          Provider.of<MenuModel>(context, listen: false);
+      return FloatingActionButton(
+        heroTag: '1',
+        tooltip: 'マイメニューをメモに追加する',
+        onPressed: () {
+          showWidgetPicker(
+              context, menuModel.getMenuNameList, menuModel.getMenus);
+          print('menuModel.getMenuNameList: ${menuModel.getMenuNameList}');
+        },
+        backgroundColor: addFloationActionButtonColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30),
+        ),
+        child: const Icon(
+          Icons.add,
+          color: mainColor,
+        ),
+      );
+    });
+  }
+
+  void showWidgetPicker(
+    BuildContext context,
+    List<String> menuNameList,
+    List<dynamic> menus,
+  ) {
+    Picker(
+      adapter: PickerDataAdapter<String>(pickerData: menuNameList),
+      headerColor: mainColor,
+      confirmText: '選択',
+      confirmTextStyle: TextStyle(
+        color: linkBlue,
+      ),
+      cancelText: 'キャンセル',
+      cancelTextStyle: TextStyle(
+        color: blackColor,
+      ),
+      onConfirm: (Picker picker, List value) {
+        final selectedWidget = menus[value[0]];
+        // 選択されたウィジェットに対する処理をここに記述
+        print('Selected Widget: ${selectedWidget['id']}');
+        print('value: $value');
+        print('value[0]: ${value[0]}');
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) =>
+                AddMyMenuToMemosPage(menu: selectedWidget, menuIndex: value[0]),
+          ),
+        );
+      },
+    ).showModal(context);
   }
 }
