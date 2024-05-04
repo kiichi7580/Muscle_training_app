@@ -81,49 +81,49 @@ class _DetailMenuPageState extends State<DetailMenuPage> {
 
               return Slidable(
                 key: Key(memo['id']),
-                endActionPane: ActionPane(
-                  motion: const ScrollMotion(),
-                  children: [
-                    SlidableAction(
-                      onPressed: (BuildContext context) async {
-                        //編集画面に遷移
-                        final String? event = await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => EditMemoPage(
-                              memo: memo,
-                            ),
-                          ),
-                        );
+                // endActionPane: ActionPane(
+                //   motion: const ScrollMotion(),
+                //   children: [
+                //     SlidableAction(
+                //       onPressed: (BuildContext context) async {
+                //         //編集画面に遷移
+                //         final String? event = await Navigator.push(
+                //           context,
+                //           MaterialPageRoute(
+                //             builder: (context) => EditMemoPage(
+                //               memo: memo,
+                //             ),
+                //           ),
+                //         );
 
-                        if (event != null) {
-                          final snackBar = SnackBar(
-                            backgroundColor: yesReactionColor,
-                            content: Text('$eventを編集しました'),
-                          );
-                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                        }
-                      },
-                      backgroundColor: blackColor,
-                      foregroundColor: mainColor,
-                      icon: Icons.edit,
-                      label: '編集',
-                    ),
-                    SlidableAction(
-                      onPressed: (context) async {
-                        await showConfirmDialog(
-                          context,
-                          memo,
-                          MemoFireStoreMethods().deleteMemo,
-                        );
-                      },
-                      backgroundColor: deleteColor,
-                      foregroundColor: mainColor,
-                      icon: Icons.delete,
-                      label: '削除',
-                    ),
-                  ],
-                ),
+                //         if (event != null) {
+                //           final snackBar = SnackBar(
+                //             backgroundColor: yesReactionColor,
+                //             content: Text('$eventを編集しました'),
+                //           );
+                //           ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                //         }
+                //       },
+                //       backgroundColor: blackColor,
+                //       foregroundColor: mainColor,
+                //       icon: Icons.edit,
+                //       label: '編集',
+                //     ),
+                //     SlidableAction(
+                //       onPressed: (context) async {
+                //         await showConfirmDialog(
+                //           context,
+                //           memo,
+                //           MemoFireStoreMethods().deleteMemo,
+                //         );
+                //       },
+                //       backgroundColor: deleteColor,
+                //       foregroundColor: mainColor,
+                //       icon: Icons.delete,
+                //       label: '削除',
+                //     ),
+                //   ],
+                // ),
                 child: Center(
                   child: Column(
                     children: [
