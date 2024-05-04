@@ -5,10 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:muscle_training_app/domain/memo.dart';
 
 class MenuModel extends ChangeNotifier {
-  List<dynamic>? menus;
+  List<dynamic> menus = [];
   List<Memo> memoList = [];
+  List<String> menuNameList = [];
 
+  List<dynamic> get getMenus => menus;
   List<Memo> get getMemoList => memoList;
+  List<String> get getMenuNameList => menuNameList;
 
   void setMemoList(dynamic memo) {
     this.memoList.add(memo);
@@ -29,7 +32,17 @@ class MenuModel extends ChangeNotifier {
         menus.add(document);
       }
       this.menus = menus;
+      setMenuNameList(menus);
       notifyListeners();
     });
+  }
+
+  void setMenuNameList(List<dynamic> menus) {
+    final List<String> _menuNameList = [];
+    for (var menu in menus) {
+      _menuNameList.add(menu['menuName']);
+    }
+    this.menuNameList = _menuNameList;
+    notifyListeners();
   }
 }
