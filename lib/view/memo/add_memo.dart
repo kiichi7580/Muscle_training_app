@@ -112,9 +112,11 @@ class _AddMemoPageState extends State<AddMemoPage> {
       navigationBar: CupertinoNavigationBar(
         middle: Text(
           'メモを追加',
-          style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                color: blackColor,
-              ),
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: blackColor,
+          ),
         ),
         backgroundColor: blueColor,
       ),
