@@ -45,6 +45,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   flutter_native_splash: ^2.3.6
+  flutter_picker: ^2.1.0
   flutter_riverpod: ^2.4.6
   flutter_slidable: ^3.0.1
   flutter_svg: ^2.0.9
