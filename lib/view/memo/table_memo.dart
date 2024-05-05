@@ -116,7 +116,7 @@ class _TableWidgetState extends State<TableWidget> {
                         await showConfirmDialog(
                           context,
                           memo,
-                          MemoFireStoreMethods().deleteMemo,
+                          await MemoFireStoreMethods().deleteMemo,
                         );
                       },
                       backgroundColor: deleteColor,
@@ -155,14 +155,14 @@ class _TableWidgetState extends State<TableWidget> {
                                   Padding(
                                     padding: const EdgeInsets.all(4),
                                     child: Text(
-                                      '${memo['set']}set',
+                                      '${memo['rep']}rep',
                                       style: const TextStyle(fontSize: 18),
                                     ),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.all(4),
                                     child: Text(
-                                      '${memo['rep']}rep',
+                                      '${memo['set']}set',
                                       style: const TextStyle(fontSize: 18),
                                     ),
                                   ),

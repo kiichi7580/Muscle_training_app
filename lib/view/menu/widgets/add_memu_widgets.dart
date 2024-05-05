@@ -87,7 +87,7 @@ Widget AddMenuWidget(BuildContext context) {
                       child: MemoTextField(
                         isEnabled: !model.getChecked,
                         labelText: weightTx,
-                        textInputType: TextInputType.text,
+                        textInputType: TextInputType.number,
                         textEditingController: model.weightController,
                         onChanged: (text) {
                           model
@@ -104,7 +104,7 @@ Widget AddMenuWidget(BuildContext context) {
                       child: MemoTextField(
                         isEnabled: !model.getChecked,
                         labelText: repTx,
-                        textInputType: TextInputType.text,
+                        textInputType: TextInputType.number,
                         textEditingController: model.repController,
                         onChanged: (text) {
                           model
@@ -121,7 +121,7 @@ Widget AddMenuWidget(BuildContext context) {
                       child: MemoTextField(
                         isEnabled: !model.getChecked,
                         labelText: setTx,
-                        textInputType: TextInputType.text,
+                        textInputType: TextInputType.number,
                         textEditingController: model.setController,
                         onChanged: (text) {
                           model

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:muscle_training_app/constant/colors.dart';
 
 class TrainingFrequencyVisualization {
-
   Widget buildBody(
     DateTime today,
     List<String> targetMonthDateList,
@@ -107,94 +106,94 @@ class TrainingFrequencyVisualization {
       ),
     );
   }
-}
 
-Widget leftButton() {
-  return InkWell(
-    onTap: () {},
-    child: Icon(
-      Icons.arrow_left,
-      size: 40,
-      color: blackColor,
-    ),
-  );
-}
-
-Widget rightButton() {
-  return InkWell(
-    onTap: () {},
-    child: Icon(
-      Icons.arrow_right,
-      size: 40,
-      color: blackColor,
-    ),
-  );
-}
-
-Widget mainFuture(int i, List targetMonthDateList) {
-  return Row(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      for (int j = 0; j < 7; j++) ...{
-        Container(
-          margin: EdgeInsets.all(4),
-          height: 30,
-          width: 30,
-          decoration: BoxDecoration(
-            color: trainingFrequencyColors[0],
-            borderRadius: BorderRadius.circular(5),
-          ),
-          child: Text('${targetMonthDateList[j]}'),
-        ),
-      },
-    ],
-  );
-}
-
-Widget mainFutureExplanation() {
-  return Row(
-    mainAxisAlignment: MainAxisAlignment.end,
-    children: [
-      Text(
-        '少',
-        style: TextStyle(
-          fontSize: 14,
-          color: blackColor,
-        ),
+  Widget leftButton() {
+    return InkWell(
+      onTap: () {},
+      child: Icon(
+        Icons.arrow_left,
+        size: 40,
+        color: blackColor,
       ),
-      SizedBox(
-        width: 4,
+    );
+  }
+
+  Widget rightButton() {
+    return InkWell(
+      onTap: () {},
+      child: Icon(
+        Icons.arrow_right,
+        size: 40,
+        color: blackColor,
       ),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          for (int i = 0; i < 5; i++) ...{
-            Container(
-              margin: EdgeInsets.all(2),
-              height: 20,
-              width: 20,
-              decoration: BoxDecoration(
-                color: trainingFrequencyColors[i],
-                borderRadius: BorderRadius.circular(5),
-              ),
-              child: Text(''),
+    );
+  }
+
+  Widget mainFuture(int i, List targetMonthDateList) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        for (int j = 0; j < 7; j++) ...{
+          Container(
+            margin: EdgeInsets.all(4),
+            height: 30,
+            width: 30,
+            decoration: BoxDecoration(
+              color: trainingFrequencyColors[0],
+              borderRadius: BorderRadius.circular(5),
             ),
-          },
-        ],
-      ),
-      SizedBox(
-        width: 4,
-      ),
-      Text(
-        '多',
-        style: TextStyle(
-          fontSize: 14,
-          color: blackColor,
+            child: Text('${targetMonthDateList[j]}'),
+          ),
+        },
+      ],
+    );
+  }
+
+  Widget mainFutureExplanation() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        Text(
+          '少',
+          style: TextStyle(
+            fontSize: 14,
+            color: blackColor,
+          ),
         ),
-      ),
-      SizedBox(
-        width: 50,
-      ),
-    ],
-  );
+        SizedBox(
+          width: 4,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            for (int i = 0; i < 5; i++) ...{
+              Container(
+                margin: EdgeInsets.all(2),
+                height: 20,
+                width: 20,
+                decoration: BoxDecoration(
+                  color: trainingFrequencyColors[i],
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: Text(''),
+              ),
+            },
+          ],
+        ),
+        SizedBox(
+          width: 4,
+        ),
+        Text(
+          '多',
+          style: TextStyle(
+            fontSize: 14,
+            color: blackColor,
+          ),
+        ),
+        SizedBox(
+          width: 50,
+        ),
+      ],
+    );
+  }
 }

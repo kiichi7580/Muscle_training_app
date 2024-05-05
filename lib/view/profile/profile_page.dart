@@ -444,17 +444,33 @@ Container buildTermGoals(
       children: [
         Row(
           children: [
-            Text('短期目標: '),
+            Text(
+              '短期目標: ',
+              style: TextStyle(
+                color: blackColor,
+              ),
+            ),
             Text(
               shortTermGoals,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ],
         ),
         Row(
           children: [
-            Text('長期目標: '),
+            Text(
+              '長期目標: ',
+              style: TextStyle(
+                color: blackColor,
+              ),
+            ),
             Text(
               longTermGoals,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ],
         ),
