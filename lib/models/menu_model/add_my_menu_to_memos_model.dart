@@ -53,7 +53,7 @@ class AddMyMenuToMemosModel extends ChangeNotifier {
     String res = '';
     try {
       for (var memo in this.memoList) {
-        MemoFireStoreMethods().addMemo(
+        res = await MemoFireStoreMethods().addMemo(
           memo['event'],
           memo['weight'],
           memo['set'],
