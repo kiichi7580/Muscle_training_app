@@ -31,8 +31,8 @@ Future<void> showConfirmDialog(
             ),
             child: const Text('はい'),
             onPressed: () async {
-              //タイマーを削除
-              String res = await function(snap['id']);
+              // データ削除
+              String res = await function(snap);
               if (res == successRes) {
                 String res = successDelete;
                 showSnackBar(res, context, backgroundColor: deleteColor);
