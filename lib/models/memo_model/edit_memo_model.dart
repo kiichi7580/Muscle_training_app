@@ -7,6 +7,8 @@ class EditMemoModel extends ChangeNotifier {
     weightController.text = memo['weight'];
     setController.text = memo['set'];
     repController.text = memo['rep'];
+    time = memo['time'];
+    uid = memo['uid'];
   }
   final dynamic memo;
 
@@ -19,6 +21,8 @@ class EditMemoModel extends ChangeNotifier {
   String weight = '';
   String set = '';
   String rep = '';
+  String time = '';
+  String uid = '';
   bool _isLoading = false;
   bool get getLoading => _isLoading;
 
@@ -58,8 +62,15 @@ class EditMemoModel extends ChangeNotifier {
     this.set = setController.text;
     this.rep = repController.text;
 
-    String res = await MemoFireStoreMethods()
-        .upDateMemo(event, weight, set, rep, memo.id);
+    String res = await MemoFireStoreMethods().upDateMemo(
+      event,
+      weight,
+      set,
+      rep,
+      uid,
+      time,
+      memo.id,
+    );
     return res;
   }
 }
