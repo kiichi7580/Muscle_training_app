@@ -180,7 +180,7 @@ class _AddMemoPageState extends State<AddMemoPage> {
               Material(
                 child: MemoTextField(
                   labelText: weightTx,
-                  textInputType: TextInputType.text,
+                  textInputType: TextInputType.number,
                   textEditingController: _weightController,
                 ),
               ),
@@ -190,7 +190,7 @@ class _AddMemoPageState extends State<AddMemoPage> {
               Material(
                 child: MemoTextField(
                   labelText: repTx,
-                  textInputType: TextInputType.text,
+                  textInputType: TextInputType.number,
                   textEditingController: _repController,
                 ),
               ),
@@ -200,7 +200,7 @@ class _AddMemoPageState extends State<AddMemoPage> {
               Material(
                 child: MemoTextField(
                   labelText: setTx,
-                  textInputType: TextInputType.text,
+                  textInputType: TextInputType.number,
                   textEditingController: _setController,
                 ),
               ),
