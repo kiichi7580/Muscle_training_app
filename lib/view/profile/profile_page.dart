@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -36,8 +37,12 @@ class _ProfileScreenState extends State<ProfilePage> {
   bool isLoading = false;
   Uint8List? _image;
   DateTime today = DateTime.now();
+  DateTime oldestDate = DateTime.now();
+  DateTime newestDate = DateTime.now();
   late int kMaxDaysInMonth;
   late List<String> targetMonthDateList = [];
+  late List<int> months = [];
+  late int initialPageIndex;
   var userTrainingData = {};
   late List<String> trainingDays = [];
   List<int> amountOfTraining = [];
@@ -46,7 +51,7 @@ class _ProfileScreenState extends State<ProfilePage> {
   void initState() {
     super.initState();
     getData();
-    getNumberOfDaysInThisMonth();
+    getNumberOfDaysInThisMonth(today.month);
   }
 
   Future<void> selectImage(BuildContext context) async {
@@ -118,8 +123,29 @@ class _ProfileScreenState extends State<ProfilePage> {
           // トレーニング量を取得
           int _amountOfTraining = data['amountOfTraining'];
           amountOfTraining.add(_amountOfTraining);
+
+          // メモしたことのある月と月の間の全ての月を取得するリストを作成
+
+          // 最も古い日付と最も新しい日付を見つける
+          DateTime date = (data['trainingDay'] as Timestamp).toDate();
+          if (date.isBefore(oldestDate)) {
+            oldestDate = date;
+          }
+          if (date.isAfter(newestDate)) {
+            newestDate = date;
+          }
         }
       });
+
+      // 最も古い日付から最も新しい日付までの間の月を取得し、リストに追加
+      DateTime currentDate = DateTime(oldestDate.year, oldestDate.month);
+      while (currentDate.isBefore(newestDate)) {
+        months.add(currentDate.month);
+        currentDate = DateTime(currentDate.year, currentDate.month + 1);
+      }
+      // 月のリストをソートして返す
+      months.sort();
+      initialPageIndex = months.isNotEmpty ? months.last - 1 : 0;
 
       followers = userSnap.data()!['followers'].length;
       following = userSnap.data()!['following'].length;
@@ -154,10 +180,10 @@ class _ProfileScreenState extends State<ProfilePage> {
     });
   }
 
-  getNumberOfDaysInThisMonth() {
-    kMaxDaysInMonth = DateTime(today.year, today.month + 1, 0).day;
+  getNumberOfDaysInThisMonth(int index) {
+    kMaxDaysInMonth = DateTime(today.year, index + 1, 0).day;
     String day = '';
-    final selectedDate = DateTime(today.year, today.month);
+    final selectedDate = DateTime(today.year, index);
     List<String> _targetMonthDateList = [];
     for (var i = 0; i < kMaxDaysInMonth; i++) {
       final date = selectedDate.add(Duration(days: i));
@@ -391,11 +417,35 @@ class _ProfileScreenState extends State<ProfilePage> {
                 SizedBox(
                   height: 32,
                 ),
-                TrainingFrequencyVisualization().buildBody(
-                  today,
-                  targetMonthDateList,
-                  trainingDays,
-                  amountOfTraining,
+                Container(
+                  child: CarouselSlider.builder(
+                    itemCount: months.length,
+                    options: CarouselOptions(
+                      autoPlay: true,
+                      autoPlayInterval: const Duration(seconds: 5),
+                      aspectRatio: 16 / 9,
+                      height: 400.0,
+                      viewportFraction: 0.9,
+                      initialPage: initialPageIndex,
+                      enlargeCenterPage: true,
+                      enableInfiniteScroll: false,
+                      onPageChanged: (index, reason) {
+                        final month = months[index];
+                        getNumberOfDaysInThisMonth(month);
+                      },
+                    ),
+                    itemBuilder: (context, index, realIndex) {
+                      // 月に基づくウィジェットの作成
+                      final month = months[index];
+
+                      return buildBody(
+                        month,
+                        targetMonthDateList,
+                        trainingDays,
+                        amountOfTraining,
+                      );
+                    },
+                  ),
                 ),
               ],
             ),

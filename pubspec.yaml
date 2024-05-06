@@ -29,6 +29,7 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   audioplayers: ^5.2.1
+  carousel_slider: ^4.2.1
   circular_countdown_timer: ^0.2.3
   cloud_firestore: ^4.13.2
   cupertino_icons: ^1.0.2
