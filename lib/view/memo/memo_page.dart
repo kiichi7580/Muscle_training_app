@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:muscle_training_app/constant/colors.dart';
 import 'package:muscle_training_app/models/memo_model/memo_model.dart';
+import 'package:muscle_training_app/view/memo/add_memo.dart';
 import 'package:muscle_training_app/view/memo/table_memo.dart';
 import 'package:provider/provider.dart';
 
@@ -83,6 +84,32 @@ class MemoPage {
             },
           ),
         ),
+        floatingActionButton: Builder(
+          builder: (context) {
+            return buildFloatingActionButton(context);
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget buildFloatingActionButton(BuildContext context) {
+    return FloatingActionButton(
+      heroTag: '1',
+      tooltip: 'メニューを表示する',
+      onPressed: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => AddMemoPage(),
+          ),
+        );
+      },
+      backgroundColor: addFloationActionButtonColor,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(30),
+      ),
+      child: const Icon(
+        Icons.add,
       ),
     );
   }
