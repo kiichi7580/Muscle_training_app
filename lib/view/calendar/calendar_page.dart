@@ -330,7 +330,6 @@ class _CalendarPageState extends State<CalendarPage> {
         ),
         child: const Icon(
           Icons.fitness_center,
-          color: mainColor,
         ),
       ),
     );

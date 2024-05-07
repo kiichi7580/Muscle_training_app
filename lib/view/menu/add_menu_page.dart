@@ -125,13 +125,11 @@ class _AddMenuPageState extends State<AddMenuPage> {
     );
   }
 
-  void buttonPressed1(AddMenuModel model) {
+  void buttonPressed1(AddMenuModel model, BuildContext context) {
     if (_added) {
       return menuList.add(
         AddMenuWidget(
           context,
-          // onCheck(model),
-          // model,
         ),
       );
     } else {}
@@ -217,7 +215,7 @@ class _AddMenuPageState extends State<AddMenuPage> {
         setState(() {
           _added = true;
         });
-        buttonPressed1(model);
+        buttonPressed1(model, context);
       },
       backgroundColor: addFloationActionButtonColor,
       shape: RoundedRectangleBorder(
@@ -225,7 +223,6 @@ class _AddMenuPageState extends State<AddMenuPage> {
       ),
       child: const Icon(
         Icons.add,
-        color: mainColor,
       ),
     );
   }
