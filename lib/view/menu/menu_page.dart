@@ -2,8 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_picker/flutter_picker.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:muscle_training_app/constant/colors.dart';
 import 'package:muscle_training_app/models/menu_model/menu_model.dart';
+import 'package:muscle_training_app/view/menu/add_menu_page.dart';
 import 'package:muscle_training_app/view/menu/add_my_menu_to_memos_page.dart';
 import 'package:muscle_training_app/view/menu/detail_menu_page.dart';
 import 'package:muscle_training_app/view/menu/edit_menu_page.dart';
@@ -203,22 +205,40 @@ class MenuPage {
     return Builder(builder: (context) {
       final MenuModel menuModel =
           Provider.of<MenuModel>(context, listen: false);
-      return FloatingActionButton(
-        heroTag: '1',
-        tooltip: 'マイメニューをメモに追加する',
-        onPressed: () {
-          showWidgetPicker(
-              context, menuModel.getMenuNameList, menuModel.getMenus);
-          print('menuModel.getMenuNameList: ${menuModel.getMenuNameList}');
-        },
+      return SpeedDial(
+        icon: Icons.add,
         backgroundColor: addFloationActionButtonColor,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30),
-        ),
-        child: const Icon(
-          Icons.add,
-          color: mainColor,
-        ),
+        spaceBetweenChildren: 8,
+        children: [
+          SpeedDialChild(
+            child: Icon(Icons.edit_note),
+            label: 'マイメニューをメモ一覧に追加する',
+            backgroundColor: addFloationActionButtonColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30),
+            ),
+            onTap: () {
+              showWidgetPicker(
+                  context, menuModel.getMenuNameList, menuModel.getMenus);
+              print('menuModel.getMenuNameList: ${menuModel.getMenuNameList}');
+            },
+          ),
+          SpeedDialChild(
+            child: Icon(Icons.assignment_add),
+            label: 'マイメニューを追加する',
+            backgroundColor: addFloationActionButtonColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30),
+            ),
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => AddMenuPage(),
+                ),
+              );
+            },
+          ),
+        ],
       );
     });
   }
