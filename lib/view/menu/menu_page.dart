@@ -70,132 +70,124 @@ class MenuPage {
 
   Widget buildBody(
       BuildContext context, dynamic menu, int menuIndex, String uid) {
-    return Slidable(
-      endActionPane: ActionPane(
-        motion: const ScrollMotion(),
-        children: [
-          SlidableAction(
-            onPressed: (BuildContext context) {
-              // 編集画面に遷移
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => EditMenuPage(menu: menu),
+    return Padding(
+      padding: const EdgeInsets.all(6),
+      child: Card(
+        // borderOnForeground: false,
+        shape: Border.symmetric(
+            vertical: BorderSide(
+          width: 7,
+          color: linkBlue,
+        )),
+        elevation: 4,
+        child: ListTile(
+          leading: Icon(Icons.assignment),
+          title: Row(
+            children: [
+              Text(
+                'メニュー${menuIndex + 1}: ',
+                style: const TextStyle(
+                  fontSize: 14,
                 ),
-              );
-            },
-            backgroundColor: blackColor,
-            foregroundColor: mainColor,
-            icon: Icons.edit,
-            label: '編集',
-          ),
-          SlidableAction(
-            onPressed: (context) async {
-              final delete = await showDialog<bool>(
-                context: context,
-                builder: (BuildContext context) => AlertDialog(
-                  title: const Text('削除の確認'),
-                  content: const Text('メニューを削除しますか？'),
-                  actions: [
-                    TextButton(
-                      onPressed: () => Navigator.pop(context, false),
-                      style: TextButton.styleFrom(
-                        foregroundColor: blackColor,
-                      ),
-                      child: const Text('いいえ'),
-                    ),
-                    TextButton(
-                      onPressed: () => Navigator.pop(context, true),
-                      style: TextButton.styleFrom(
-                        foregroundColor: deleteColor,
-                      ),
-                      child: const Text('削除'),
-                    ),
-                  ],
-                ),
-              );
-              if (delete ?? false) {
-                await FirebaseFirestore.instance
-                    .collection('users')
-                    .doc(uid)
-                    .collection('menus')
-                    .doc(menu.id)
-                    .delete();
-
-                // メニュードキュメントに紐づくメモサブコレクションを取得して削除
-                await FirebaseFirestore.instance
-                    .collection('users')
-                    .doc(uid)
-                    .collection('menus')
-                    .doc(menu.id)
-                    .collection('memos')
-                    .get()
-                    .then((querySnapshot) {
-                  querySnapshot.docs.forEach((doc) {
-                    doc.reference.delete();
-                  });
-                });
-              }
-            },
-            backgroundColor: deleteColor,
-            foregroundColor: mainColor,
-            icon: Icons.delete,
-            label: '削除',
-          ),
-        ],
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(6),
-        child: Card(
-          // borderOnForeground: false,
-          shape: Border.symmetric(
-              vertical: BorderSide(
-            width: 7,
-            color: linkBlue,
-          )),
-          elevation: 4,
-          child: ListTile(
-            leading: const Icon(Icons.assignment),
-            title: Row(
-              children: [
-                Text(
-                  'メニュー${menuIndex + 1}: ',
-                  style: const TextStyle(
-                    fontSize: 14,
-                  ),
-                ),
-                Text(
-                  '${menu['menuName']}',
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-            subtitle: Text(
-              '最終更新日: ',
-              style: const TextStyle(
-                fontSize: 12,
-                color: blackColor,
               ),
-            ),
-            trailing: Icon(
-              Icons.arrow_back,
-            ),
-            dense: true,
-            tileColor: mainColor,
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-            ),
-            onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => DetailMenuPage(menu: menu),
+              Text(
+                '${menu['menuName']}',
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
                 ),
-              );
-            },
+              ),
+            ],
           ),
+          subtitle: Text(
+            '最終更新日: ',
+            style: const TextStyle(
+              fontSize: 12,
+              color: blackColor,
+            ),
+          ),
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                width: 20,
+              ),
+              IconButton(
+                icon: Icon(Icons.edit),
+                onPressed: () {
+                  // 編集画面に遷移
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => EditMenuPage(menu: menu),
+                    ),
+                  );
+                },
+              ),
+              IconButton(
+                icon: Icon(Icons.delete),
+                onPressed: () async {
+                  final delete = await showDialog<bool>(
+                    context: context,
+                    builder: (BuildContext context) => AlertDialog(
+                      title: const Text('削除の確認'),
+                      content: const Text('メニューを削除しますか？'),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(context, false),
+                          style: TextButton.styleFrom(
+                            foregroundColor: blackColor,
+                          ),
+                          child: const Text('いいえ'),
+                        ),
+                        TextButton(
+                          onPressed: () => Navigator.pop(context, true),
+                          style: TextButton.styleFrom(
+                            foregroundColor: deleteColor,
+                          ),
+                          child: const Text('削除'),
+                        ),
+                      ],
+                    ),
+                  );
+                  if (delete ?? false) {
+                    await FirebaseFirestore.instance
+                        .collection('users')
+                        .doc(uid)
+                        .collection('menus')
+                        .doc(menu.id)
+                        .delete();
+
+                    // メニュードキュメントに紐づくメモサブコレクションを取得して削除
+                    await FirebaseFirestore.instance
+                        .collection('users')
+                        .doc(uid)
+                        .collection('menus')
+                        .doc(menu.id)
+                        .collection('memos')
+                        .get()
+                        .then((querySnapshot) {
+                      querySnapshot.docs.forEach((doc) {
+                        doc.reference.delete();
+                      });
+                    });
+                  }
+                },
+              ),
+            ],
+          ),
+          dense: true,
+          tileColor: mainColor,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+          ),
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => DetailMenuPage(menu: menu),
+              ),
+            );
+          },
         ),
       ),
     );
