@@ -49,9 +49,11 @@ dependencies:
   flutter_picker: ^2.1.0
   flutter_riverpod: ^2.4.6
   flutter_slidable: ^3.0.1
+  flutter_speed_dial: ^7.0.0
   flutter_svg: ^2.0.9
   freezed: ^2.4.5
   freezed_annotation: ^2.4.1
+  google_sign_in: ^6.2.1
   hooks_riverpod: ^2.4.10
   image_picker: ^0.8.7
   intl: ^0.18.1
@@ -60,6 +62,7 @@ dependencies:
   modal_bottom_sheet: ^3.0.0-pre
   provider: ^6.1.1
   riverpod_annotation: ^2.3.4
+  sign_in_button: ^3.2.0
   table_calendar: ^3.0.9
   timezone: ^0.9.2
   uuid: ^4.3.3
