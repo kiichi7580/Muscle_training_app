@@ -10,6 +10,7 @@ import 'package:muscle_training_app/resposive/web_screen_layout.dart';
 import 'package:muscle_training_app/view/login/login_page.dart';
 import 'package:muscle_training_app/widgets/text_field_input.dart';
 import 'package:provider/provider.dart';
+import 'package:sign_in_button/sign_in_button.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -23,7 +24,10 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context) {
     final TextEditingController _emailController = TextEditingController();
     final TextEditingController _passwordController = TextEditingController();
+    final TextEditingController _confirmPasswordController =
+        TextEditingController();
     final userProvider = Provider.of<UserProvider>(context);
+    bool _passwordsMatch = false;
 
     @override
     void dispose() {
@@ -49,6 +53,31 @@ class _SignUpPageState extends State<SignUpPage> {
         email: _emailController.text,
         password: _passwordController.text,
       );
+
+      if (res == successRes) {
+        res = successSignUp;
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => const ResponsiveLayout(
+              webScreenLayout: WebScreenLayout(),
+              mobileScreenLayout: MobileScreenLayout(),
+            ),
+          ),
+        );
+        userProvider.endLoading();
+        showSnackBar(res, context);
+      } else {
+        showSnackBar(res, context);
+      }
+      userProvider.endLoading();
+    }
+
+    Future<void> signUpWithGoogle(
+      BuildContext context,
+      UserProvider userProvider,
+    ) async {
+      userProvider.startLoading();
+      String res = await AuthMethods().signInWithGoogleAccount();
 
       if (res == successRes) {
         res = successSignUp;
@@ -112,24 +141,56 @@ class _SignUpPageState extends State<SignUpPage> {
               ),
               TextFieldInput(
                 textEditingController: _emailController,
+                prefixIcon: Icon(
+                  Icons.email,
+                  size: 20,
+                  color: blackColor,
+                ),
                 hintText: 'example@email.com',
                 textInputType: TextInputType.emailAddress,
               ),
               const SizedBox(
-                height: 24,
+                height: 12,
               ),
               TextFieldInput(
                 textEditingController: _passwordController,
+                prefixIcon: Icon(
+                  Icons.lock,
+                  size: 20,
+                  color: blackColor,
+                ),
                 hintText: 'パスワード',
-                textInputType: TextInputType.text,
+                textInputType: TextInputType.visiblePassword,
                 isPass: true,
               ),
               const SizedBox(
-                height: 24,
+                height: 12,
+              ),
+              TextFieldInput(
+                textEditingController: _confirmPasswordController,
+                prefixIcon: Icon(
+                  Icons.lock,
+                  size: 20,
+                  color: blackColor,
+                ),
+                hintText: '確認用パスワード',
+                textInputType: TextInputType.text,
+                isPass: true,
+              ),
+              Flexible(
+                flex: 1,
+                child: Container(),
               ),
               InkWell(
                 onTap: () async {
-                  await signUpUser(context, userProvider);
+                  String password = _passwordController.text;
+                  String confirmPassword = _confirmPasswordController.text;
+                  if (password == confirmPassword) {
+                    await signUpUser(context, userProvider);
+                  } else {
+                    String res = wrong_password;
+                    showSnackBar(res, context);
+                  }
                 },
                 child: Container(
                   width: double.infinity,
@@ -160,10 +221,21 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
               ),
               const SizedBox(
-                height: 32,
+                height: 24,
+              ),
+              Container(
+                width: double.infinity,
+                alignment: Alignment.center,
+                child: SignInButton(
+                  Buttons.google,
+                  text: signInOnGoogle,
+                  onPressed: () async {
+                    await signUpWithGoogle(context, userProvider);
+                  },
+                ),
               ),
               Flexible(
-                flex: 2,
+                flex: 1,
                 child: Container(),
               ),
               Column(
