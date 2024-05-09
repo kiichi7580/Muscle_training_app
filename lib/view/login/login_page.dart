@@ -10,6 +10,7 @@ import 'package:muscle_training_app/resposive/web_screen_layout.dart';
 import 'package:muscle_training_app/view/signup/signup_page.dart';
 import 'package:muscle_training_app/widgets/text_field_input.dart';
 import 'package:provider/provider.dart';
+import 'package:sign_in_button/sign_in_button.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -67,6 +68,31 @@ class _LoginPageState extends State<LoginPage> {
       );
     }
 
+    Future<void> signInWithGoogle(
+      BuildContext context,
+      UserProvider userProvider,
+    ) async {
+      userProvider.startLoading();
+      String res = await AuthMethods().signInWithGoogleAccount();
+
+      if (res == successRes) {
+        res = successLogin;
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => const ResponsiveLayout(
+              webScreenLayout: WebScreenLayout(),
+              mobileScreenLayout: MobileScreenLayout(),
+            ),
+          ),
+        );
+        userProvider.endLoading();
+        showSnackBar(res, context);
+      } else {
+        showSnackBar(res, context);
+      }
+      userProvider.endLoading();
+    }
+
     return Scaffold(
       backgroundColor: secondaryColor,
       body: SafeArea(
@@ -111,6 +137,11 @@ class _LoginPageState extends State<LoginPage> {
               ),
               TextFieldInput(
                 textEditingController: _emailController,
+                prefixIcon: Icon(
+                  Icons.email,
+                  size: 20,
+                  color: blackColor,
+                ),
                 hintText: 'example@email.com',
                 textInputType: TextInputType.emailAddress,
               ),
@@ -119,12 +150,18 @@ class _LoginPageState extends State<LoginPage> {
               ),
               TextFieldInput(
                 textEditingController: _passwordController,
+                prefixIcon: Icon(
+                  Icons.lock,
+                  size: 20,
+                  color: blackColor,
+                ),
                 hintText: 'パスワード',
                 textInputType: TextInputType.text,
                 isPass: true,
               ),
-              const SizedBox(
-                height: 24,
+              Flexible(
+                flex: 1,
+                child: Container(),
               ),
               InkWell(
                 onTap: () async {
@@ -157,10 +194,21 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               const SizedBox(
-                height: 32,
+                height: 24,
+              ),
+              Container(
+                width: double.infinity,
+                alignment: Alignment.center,
+                child: SignInButton(
+                  text: loginOnGoogle,
+                  Buttons.google,
+                  onPressed: () async {
+                    await signInWithGoogle(context, userProvider);
+                  },
+                ),
               ),
               Flexible(
-                flex: 2,
+                flex: 1,
                 child: Container(),
               ),
               Column(
