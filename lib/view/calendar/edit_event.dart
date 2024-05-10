@@ -5,7 +5,7 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:muscle_training_app/constant/colors.dart';
 import 'package:muscle_training_app/domain/calendar.dart';
 
-import '../../myapp.dart';
+import '../../main_navigation.dart';
 
 class EditEventPage extends StatefulWidget {
   const EditEventPage({
@@ -189,7 +189,7 @@ class _EditEventState extends State<EditEventPage> {
       await Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute<void>(
-          builder: (_) => const Myapp(),
+          builder: (_) => const MainNavigation(),
         ),
         (_) => false,
       );
