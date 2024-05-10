@@ -9,8 +9,8 @@ final indexProvider = StateProvider((ref) {
   return 0;
 });
 
-class Myapp extends ConsumerWidget {
-  const Myapp({super.key});
+class MainNavigation extends ConsumerWidget {
+  const MainNavigation({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
