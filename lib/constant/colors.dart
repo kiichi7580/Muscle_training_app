@@ -23,7 +23,11 @@ const noReactionColor = Color.fromRGBO(255, 0, 0, 1.0);
 
 // 色々
 const greyColor = Colors.grey;
-const addFloationActionButtonColor = Colors.lightBlueAccent;
+const addFloationActionButtonColor = Color.fromRGBO(0, 173, 169, 1);
+
+const lightGreenColor = Color.fromRGBO(82, 215, 170, 1);
+const mediumGreenColor = Color.fromRGBO(0, 185, 138, 1);
+const darkGreenColor = Color.fromRGBO(0, 128, 97, 1);
 
 // githubの草の色(ライトモード順)
 const trainingFrequencyColor1 = Color.fromRGBO(235, 237, 240, 1);
