@@ -69,10 +69,10 @@ dependencies:
 
 dev_dependencies:
   build_runner: ^2.4.7
+  riverpod_generator: ^2.3.11
   flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
-  riverpod_generator: ^2.3.11
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 # The following section is specific to Flutter packages.
