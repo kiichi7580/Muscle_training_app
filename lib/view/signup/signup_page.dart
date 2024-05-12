@@ -76,7 +76,7 @@ class _SignUpPageState extends State<SignUpPage> {
       UserProvider userProvider,
     ) async {
       userProvider.startLoading();
-      String res = await AuthMethods().signInWithGoogleAccount(context);
+      String res = await AuthMethods().signInWithGoogleAccount();
 
       if (res == successRes) {
         res = successSignUp;

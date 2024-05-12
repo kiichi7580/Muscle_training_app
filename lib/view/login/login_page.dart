@@ -75,7 +75,7 @@ class _LoginPageState extends State<LoginPage> {
       UserProvider userProvider,
     ) async {
       userProvider.startLoading();
-      String res = await AuthMethods().signInWithGoogleAccount(context);
+      String res = await AuthMethods().signInWithGoogleAccount();
 
       if (res == successRes) {
         res = successLogin;
