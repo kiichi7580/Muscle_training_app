@@ -5,7 +5,7 @@ import 'package:muscle_training_app/constant/text_resorce.dart';
 import 'package:muscle_training_app/domain/user.dart';
 import 'package:muscle_training_app/providers/user_provider.dart';
 import 'package:muscle_training_app/resources/calendar_firestore_methods.dart';
-import 'package:muscle_training_app/myapp.dart';
+import 'package:muscle_training_app/main_navigation.dart';
 import 'package:muscle_training_app/widgets/add_button.dart';
 import 'package:muscle_training_app/util/show_snackbar.dart';
 import 'package:provider/provider.dart';
@@ -185,7 +185,7 @@ class _AddEventState extends State<AddEventPage> {
                 await Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute<void>(
-                    builder: (_) => const Myapp(),
+                    builder: (_) => const MainNavigation(),
                   ),
                   (_) => false,
                 );

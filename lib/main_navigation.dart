@@ -3,14 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:muscle_training_app/constant/colors.dart';
 import 'package:muscle_training_app/constant/globalvariavle.dart';
 
-// プロバイダー
 final indexProvider = StateProvider((ref) {
-  // 変化させたいデータ
   return 0;
 });
 
-class Myapp extends ConsumerWidget {
-  const Myapp({super.key});
+class MainNavigation extends ConsumerWidget {
+  const MainNavigation({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

@@ -5,6 +5,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart' as riverpod;
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:muscle_training_app/models/menu_model/menu_model.dart';
+import 'package:muscle_training_app/providers/auth_check_page.dart';
 import 'package:muscle_training_app/providers/user_provider.dart';
 import 'package:muscle_training_app/resposive/mobile_screen_layout.dart';
 import 'package:muscle_training_app/resposive/resposive_layout.dart';
@@ -23,8 +24,7 @@ void main() async {
     );
   } catch (e) {
     print('Firebase initialization failed: $e');
-    // Firebaseの初期化に失敗した場合のエラーハンドリング
-    // エラーメッセージを表示するなど、適切な処理を追加してください
+    // Firebaseの初期化に失敗した場合のエラーハンドリング追記予定
     return;
   }
 
@@ -67,31 +67,32 @@ class MyApp extends StatelessWidget {
           brightness: Brightness.light,
         ),
         darkTheme: ThemeData.dark(),
-        home: StreamBuilder<User?>(
-          stream: FirebaseAuth.instance.authStateChanges(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.active) {
-              if (snapshot.hasData) {
-                // User が null でなない、つまりサインイン済みのホーム画面へ
-                return const ResponsiveLayout(
-                  webScreenLayout: WebScreenLayout(),
-                  mobileScreenLayout: MobileScreenLayout(),
-                );
-              } else if (snapshot.hasError) {
-                return Center(
-                  child: Text('${snapshot.error}'),
-                );
-              } else {
-                // User がnullの場合、ログイン画面へ
-                return LoginPage();
-              }
-            }
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const SizedBox();
-            }
-            return const LoginPage();
-          },
-        ),
+        // home: StreamBuilder<User?>(
+        //   stream: FirebaseAuth.instance.authStateChanges(),
+        //   builder: (context, snapshot) {
+        //     if (snapshot.connectionState == ConnectionState.active) {
+        //       if (snapshot.hasData) {
+        //         // User が null でなない、つまりサインイン済みのホーム画面へ
+        //         return const ResponsiveLayout(
+        //           webScreenLayout: WebScreenLayout(),
+        //           mobileScreenLayout: MobileScreenLayout(),
+        //         );
+        //       } else if (snapshot.hasError) {
+        //         return Center(
+        //           child: Text('${snapshot.error}'),
+        //         );
+        //       } else {
+        //         // User がnullの場合、ログイン画面へ
+        //         return LoginPage();
+        //       }
+        //     }
+        //     if (snapshot.connectionState == ConnectionState.waiting) {
+        //       return const SizedBox();
+        //     }
+        //     return const LoginPage();
+        //   },
+        // ),
+        home: AuthCheckPage(),
       ),
     );
   }

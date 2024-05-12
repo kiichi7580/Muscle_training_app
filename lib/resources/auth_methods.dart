@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:muscle_training_app/constant/text_resorce.dart';
 import 'package:muscle_training_app/domain/user.dart' as userModel;
 
@@ -53,18 +54,76 @@ class AuthMethods {
         res = validationRes;
       }
     } on FirebaseException catch (e) {
-      if (e.code == 'invalid-email') {
-        res = 'メールアドレスが有効で有効ではありません。';
+      if (e.code == invalid_email) {
+        res = invalid_email_message;
       }
-      if (e.code == 'email-already-in-use') {
-        res = 'そのメールアドレスを持つアカウントは既に存在しています。';
+      if (e.code == email_already_in_use) {
+        res = email_already_in_use_message;
       }
-      if (e.code == 'operation-not-allowed') {
-        res =
-            'アカウントが有効ではありません。Firebase コンソールの Auth タブで、メール/パスワード アカウントを有効にしてください。';
+      if (e.code == operation_not_allowed) {
+        res = operation_not_allowed_message;
       }
-      if (e.code == 'weak-password') {
-        res = 'パスワードを強化してください。';
+      if (e.code == weak_password) {
+        res = weak_password_message;
+      }
+    } catch (err) {
+      res = err.toString();
+    }
+    return res;
+  }
+
+  // Googleサインイン
+  Future<String> signInWithGoogleAccount() async {
+    String res = successLogin;
+    try {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      final GoogleSignInAuthentication? googleAuth =
+          await googleUser?.authentication;
+
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
+
+      UserCredential userCredential =
+          await _auth.signInWithCredential(credential);
+
+      User? userCred = userCredential.user;
+
+      if (userCred != null) {
+        if (userCredential.additionalUserInfo!.isNewUser) {
+          userModel.User user = userModel.User(
+            email: userCred.email!,
+            uid: userCred.uid,
+            username: 'unknown',
+            photoUrl: defaultPhotoUrlString,
+            shortTermGoals: '',
+            longTermGoals: '',
+            createAt: DateTime.now(),
+            lastLogin: DateTime.now(),
+            consecutiveLoginDays: 1,
+            followers: [],
+            following: [],
+          );
+
+          await _firestore.collection('users').doc(userCred.uid).set(
+                user.toJson(),
+              );
+        }
+        res = successRes;
+      }
+    } on FirebaseException catch (e) {
+      if (e.code == invalid_email) {
+        res = invalid_email_message;
+      }
+      if (e.code == email_already_in_use) {
+        res = email_already_in_use_message;
+      }
+      if (e.code == operation_not_allowed) {
+        res = operation_not_allowed_message;
+      }
+      if (e.code == weak_password) {
+        res = weak_password_message;
       }
     } catch (err) {
       res = err.toString();
@@ -90,18 +149,36 @@ class AuthMethods {
         res = validationRes;
       }
     } on FirebaseException catch (e) {
-      if (e.code == 'invalid-email') {
-        res = 'メールアドレスが有効で有効ではありません。';
+      if (e.code == invalid_email) {
+        res = invalid_email_message;
       }
-      if (e.code == 'email-already-in-use') {
-        res = 'そのメールアドレスを持つアカウントは既に存在しています。';
+      if (e.code == email_already_in_use) {
+        res = email_already_in_use_message;
       }
-      if (e.code == 'operation-not-allowed') {
-        res =
-            'アカウントが有効ではありません。Firebase コンソールの Auth タブで、メール/パスワード アカウントを有効にしてください。';
+      if (e.code == operation_not_allowed) {
+        res = operation_not_allowed_message;
       }
-      if (e.code == 'weak-password') {
-        res = 'パスワードを強化してください。';
+      if (e.code == weak_password) {
+        res = weak_password_message;
+      }
+    } catch (err) {
+      res = err.toString();
+    }
+    return res;
+  }
+
+  Future<String> resetPasswordForm({required String targetEmail}) async {
+    String res = invalid_email_message;
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: targetEmail);
+      res = successRes;
+    } on FirebaseAuthException catch (e) {
+      if (e.code == invalid_email) {
+        res = invalid_email_message;
+      } else if (e.code == user_not_found) {
+        res = user_not_found_message;
+      } else {
+        res = e.toString();
       }
     } catch (err) {
       res = err.toString();

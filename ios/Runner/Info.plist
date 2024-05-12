@@ -51,6 +51,20 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<!-- Google Sign-in Section -->
+<key>CFBundleURLTypes</key>
+<array>
+	<dict>
+		<key>CFBundleTypeRole</key>
+		<string>Editor</string>
+		<key>CFBundleURLSchemes</key>
+		<array>
+			<!-- Copied from GoogleService-Info.plist key REVERSED_CLIENT_ID -->
+			<string>com.googleusercontent.apps.667012922671-7h4ql6rbs2er33o07c3hali5pl4146os</string>
+		</array>
+	</dict>
+</array>
+<!-- End of the Google Sign-in Section -->
 	<!-- image_pickerの設定 -->
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Photo Library Usage</string>

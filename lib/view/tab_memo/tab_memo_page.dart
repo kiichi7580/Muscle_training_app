@@ -57,22 +57,6 @@ class _MemoTabPageState extends State<TabMemoPage>
             ),
           ],
         ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) =>
-                      _tabController.index == 0 ? AddMenuPage() : AddMemoPage(),
-                ),
-              );
-            },
-            icon: Icon(
-              Icons.add,
-            ),
-          ),
-        ],
         foregroundColor: blackColor,
         backgroundColor: blueColor,
       ),

@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:muscle_training_app/constant/colors.dart';
 import 'package:muscle_training_app/constant/text_resorce.dart';
+import 'package:muscle_training_app/main.dart';
 import 'package:muscle_training_app/providers/user_provider.dart';
 import 'package:muscle_training_app/util/show_snackbar.dart';
 import 'package:muscle_training_app/resources/auth_methods.dart';
 import 'package:muscle_training_app/resposive/mobile_screen_layout.dart';
 import 'package:muscle_training_app/resposive/resposive_layout.dart';
 import 'package:muscle_training_app/resposive/web_screen_layout.dart';
+import 'package:muscle_training_app/view/login/reset_password_page.dart';
 import 'package:muscle_training_app/view/signup/signup_page.dart';
 import 'package:muscle_training_app/widgets/text_field_input.dart';
 import 'package:provider/provider.dart';
+import 'package:sign_in_button/sign_in_button.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -45,7 +48,7 @@ class _LoginPageState extends State<LoginPage> {
         res = successLogin;
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (context) => const ResponsiveLayout(
+            builder: (context) => ResponsiveLayout(
               webScreenLayout: WebScreenLayout(),
               mobileScreenLayout: MobileScreenLayout(),
             ),
@@ -65,6 +68,31 @@ class _LoginPageState extends State<LoginPage> {
           builder: (context) => const SignUpPage(),
         ),
       );
+    }
+
+    Future<void> signInWithGoogle(
+      BuildContext context,
+      UserProvider userProvider,
+    ) async {
+      userProvider.startLoading();
+      String res = await AuthMethods().signInWithGoogleAccount();
+
+      if (res == successRes) {
+        res = successLogin;
+        await Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => ResponsiveLayout(
+              webScreenLayout: WebScreenLayout(),
+              mobileScreenLayout: MobileScreenLayout(),
+            ),
+          ),
+        );
+        userProvider.endLoading();
+        showSnackBar(res, context);
+      } else {
+        showSnackBar(res, context);
+      }
+      userProvider.endLoading();
     }
 
     return Scaffold(
@@ -111,6 +139,11 @@ class _LoginPageState extends State<LoginPage> {
               ),
               TextFieldInput(
                 textEditingController: _emailController,
+                prefixIcon: Icon(
+                  Icons.email,
+                  size: 20,
+                  color: blackColor,
+                ),
                 hintText: 'example@email.com',
                 textInputType: TextInputType.emailAddress,
               ),
@@ -119,12 +152,36 @@ class _LoginPageState extends State<LoginPage> {
               ),
               TextFieldInput(
                 textEditingController: _passwordController,
+                prefixIcon: Icon(
+                  Icons.lock,
+                  size: 20,
+                  color: blackColor,
+                ),
                 hintText: 'パスワード',
                 textInputType: TextInputType.text,
                 isPass: true,
               ),
-              const SizedBox(
-                height: 24,
+              Flexible(
+                flex: 1,
+                child: Container(),
+              ),
+              TextButton(
+                style: TextButton.styleFrom(
+                  foregroundColor: heavyBlueColor,
+                ),
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => ResetPasswordPage(),
+                    ),
+                  );
+                },
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    forgot_your_password,
+                  ),
+                ),
               ),
               InkWell(
                 onTap: () async {
@@ -152,15 +209,27 @@ class _LoginPageState extends State<LoginPage> {
                           'ログイン',
                           style: TextStyle(
                             color: mainColor,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                 ),
               ),
               const SizedBox(
-                height: 32,
+                height: 24,
+              ),
+              Container(
+                width: double.infinity,
+                alignment: Alignment.center,
+                child: SignInButton(
+                  text: loginOnGoogle,
+                  Buttons.google,
+                  onPressed: () async {
+                    await signInWithGoogle(context, userProvider);
+                  },
+                ),
               ),
               Flexible(
-                flex: 2,
+                flex: 1,
                 child: Container(),
               ),
               Column(
@@ -184,7 +253,7 @@ class _LoginPageState extends State<LoginPage> {
                         vertical: 8,
                       ),
                       child: const Text(
-                        '新規登録',
+                        '新規登録画面へ',
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,

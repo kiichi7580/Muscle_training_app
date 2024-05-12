@@ -15,6 +15,7 @@ import 'package:muscle_training_app/view/profile/training_frequency_visualizatio
 import 'package:muscle_training_app/view/profile/user_search_page.dart';
 import 'package:muscle_training_app/view/profile/widgets/follow_button.dart';
 import 'package:muscle_training_app/util/show_snackbar.dart';
+import 'package:muscle_training_app/view/profile/widgets/open_dialog.dart';
 
 class ProfilePage extends StatefulWidget {
   final String uid;
@@ -257,15 +258,34 @@ class _ProfileScreenState extends State<ProfilePage> {
                           children: [
                             Stack(
                               children: [
-                                _image != null
-                                    ? CircleAvatar(
-                                        radius: 40,
-                                        backgroundImage: MemoryImage(_image!),
+                                userData['photoUrl'] ==
+                                        'assets/icons/1024 1.png'
+                                    ? InkWell(
+                                        onTap: () async {
+                                          await imageDialog(
+                                            context,
+                                            userData['photoUrl'],
+                                          );
+                                        },
+                                        child: CircleAvatar(
+                                          radius: 40,
+                                          backgroundImage: AssetImage(
+                                            userData['photoUrl'],
+                                          ),
+                                        ),
                                       )
-                                    : CircleAvatar(
-                                        radius: 40,
-                                        backgroundImage: NetworkImage(
-                                          userData['photoUrl'],
+                                    : InkWell(
+                                        onTap: () async {
+                                          await imageDialog(
+                                            context,
+                                            userData['photoUrl'],
+                                          );
+                                        },
+                                        child: CircleAvatar(
+                                          radius: 40,
+                                          backgroundImage: NetworkImage(
+                                            userData['photoUrl'],
+                                          ),
                                         ),
                                       ),
                                 Positioned(

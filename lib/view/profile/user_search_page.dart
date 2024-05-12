@@ -22,7 +22,6 @@ class _UserSearchPageState extends State<UserSearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    print('1: $isShowUsers');
     return Scaffold(
       appBar: AppBar(
         backgroundColor: secondaryColor,
@@ -80,26 +79,33 @@ class _UserSearchPageState extends State<UserSearchPage> {
                     vertical: 16,
                     horizontal: 8,
                   ),
-                  itemCount: (snapshot.data! as dynamic).docs.length,
+                  itemCount: snapshot.data!.docs.length,
                   itemBuilder: (context, index) {
                     return InkWell(
                       onTap: () => Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) => ProfilePage(
-                            uid: (snapshot.data! as dynamic).docs[index]['uid'],
+                            uid: snapshot.data!.docs[index]['uid'],
                           ),
                         ),
                       ),
                       child: ListTile(
-                        leading: CircleAvatar(
-                          // backgroundImage: NetworkImage(
-                          backgroundImage: AssetImage(
-                            (snapshot.data! as dynamic).docs[index]['photoUrl'],
-                          ),
-                          radius: 16,
-                        ),
+                        leading: snapshot.data!.docs[index]['photoUrl'] ==
+                                'assets/icons/1024 1.png'
+                            ? CircleAvatar(
+                                backgroundImage: AssetImage(
+                                  snapshot.data!.docs[index]['photoUrl'],
+                                ),
+                                radius: 16,
+                              )
+                            : CircleAvatar(
+                                backgroundImage: NetworkImage(
+                                  snapshot.data!.docs[index]['photoUrl'],
+                                ),
+                                radius: 16,
+                              ),
                         title: Text(
-                          (snapshot.data! as dynamic).docs[index]['username'],
+                          snapshot.data!.docs[index]['username'],
                         ),
                       ),
                     );
@@ -108,22 +114,7 @@ class _UserSearchPageState extends State<UserSearchPage> {
               },
             )
           : Center(
-              child: Column(
-                children: [
-                  Text(
-                    'ユーザーを検索中です',
-                    style: TextStyle(
-                      color: blackColor,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  CircularProgressIndicator(
-                    color: linkBlue,
-                  ),
-                ],
-              ),
+              child: Text('気になるユーザーを検索してみましょう！'),
             ),
     );
   }

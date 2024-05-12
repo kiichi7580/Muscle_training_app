@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:muscle_training_app/constant/colors.dart';
 import 'package:muscle_training_app/view/profile/beginner_tutorial/beginner_tutorial.dart';
-import 'package:muscle_training_app/view/login/login_page.dart';
 import 'package:muscle_training_app/view/profile/notification/notification_permission_page.dart';
 
 class AccountSettingPage extends StatefulWidget {
@@ -69,7 +68,6 @@ class _AccountSettingPageState extends State<AccountSettingPage> {
             () {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  // builder: (context) => const NotificationSettingPage(),
                   builder: (context) => const NotificationPermissionPage(),
                 ),
               );
@@ -83,18 +81,8 @@ class _AccountSettingPageState extends State<AccountSettingPage> {
             Icons.logout,
             'ログアウト',
             () async {
-              // ログアウト処理
-              // 内部で保持しているログイン情報等が初期化される
-              // （現時点ではログアウト時はこの処理を呼び出せばOKと、思うぐらいで大丈夫）
               await FirebaseAuth.instance.signOut();
-              // ログイン画面に遷移＋チャット画面を破棄
-              await Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) {
-                    return const LoginPage();
-                  },
-                ),
-              );
+              Navigator.of(context).pop();
             },
           ),
         ],

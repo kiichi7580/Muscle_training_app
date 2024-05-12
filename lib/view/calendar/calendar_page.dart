@@ -11,7 +11,7 @@ import 'package:muscle_training_app/view/calendar/event_item.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../../domain/calendar.dart';
-import '../../myapp.dart';
+import '../../main_navigation.dart';
 import 'bottom_sheet.dart';
 
 class CalendarPage extends StatefulWidget {
@@ -302,7 +302,7 @@ class _CalendarPageState extends State<CalendarPage> {
                   await Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute<void>(
-                      builder: (_) => const Myapp(),
+                      builder: (_) => const MainNavigation(),
                     ),
                     (_) => false,
                   );
@@ -330,7 +330,6 @@ class _CalendarPageState extends State<CalendarPage> {
         ),
         child: const Icon(
           Icons.fitness_center,
-          color: mainColor,
         ),
       ),
     );

@@ -50,7 +50,7 @@ Widget buildBody(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
-                height: 200,
+                height: 210,
                 width: 270,
                 child: GridView.builder(
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
