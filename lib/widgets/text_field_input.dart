@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 
 class TextFieldInput extends StatelessWidget {
-  const TextFieldInput ({
+  const TextFieldInput({
     super.key,
     required this.textEditingController,
     this.isPass = false,
+    this.prefixIcon,
     required this.hintText,
     required this.textInputType,
   });
 
   final TextEditingController textEditingController;
   final bool isPass;
+  final Icon? prefixIcon;
   final String hintText;
   final TextInputType textInputType;
 
@@ -23,6 +25,7 @@ class TextFieldInput extends StatelessWidget {
     return TextField(
       controller: textEditingController,
       decoration: InputDecoration(
+        prefixIcon: prefixIcon,
         hintText: hintText,
         border: inputBorder,
         focusedBorder: inputBorder,
@@ -45,7 +48,6 @@ class MemoTextField extends StatelessWidget {
     this.initialValue = '',
     this.onChanged,
     this.isEnabled,
-    
   });
   final String labelText;
   final TextInputType textInputType;
