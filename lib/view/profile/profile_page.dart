@@ -258,7 +258,8 @@ class _ProfileScreenState extends State<ProfilePage> {
                           children: [
                             Stack(
                               children: [
-                                _image != null
+                                userData['photoUrl'] ==
+                                        'assets/icons/1024 1.png'
                                     ? InkWell(
                                         onTap: () async {
                                           await imageDialog(
@@ -268,7 +269,9 @@ class _ProfileScreenState extends State<ProfilePage> {
                                         },
                                         child: CircleAvatar(
                                           radius: 40,
-                                          backgroundImage: MemoryImage(_image!),
+                                          backgroundImage: AssetImage(
+                                            userData['photoUrl'],
+                                          ),
                                         ),
                                       )
                                     : InkWell(
@@ -280,7 +283,7 @@ class _ProfileScreenState extends State<ProfilePage> {
                                         },
                                         child: CircleAvatar(
                                           radius: 40,
-                                          backgroundImage: AssetImage(
+                                          backgroundImage: NetworkImage(
                                             userData['photoUrl'],
                                           ),
                                         ),
