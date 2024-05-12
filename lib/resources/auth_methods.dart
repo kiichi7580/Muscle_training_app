@@ -166,4 +166,23 @@ class AuthMethods {
     }
     return res;
   }
+
+  Future<String> resetPasswordForm({required String targetEmail}) async {
+    String res = invalid_email_message;
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: targetEmail);
+      res = successRes;
+    } on FirebaseAuthException catch (e) {
+      if (e.code == invalid_email) {
+        res = invalid_email_message;
+      } else if (e.code == user_not_found) {
+        res = user_not_found_message;
+      } else {
+        res = e.toString();
+      }
+    } catch (err) {
+      res = err.toString();
+    }
+    return res;
+  }
 }
