@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:muscle_training_app/constant/colors.dart';
 import 'package:muscle_training_app/constant/text_resorce.dart';
+import 'package:muscle_training_app/main.dart';
 import 'package:muscle_training_app/providers/user_provider.dart';
 import 'package:muscle_training_app/util/show_snackbar.dart';
 import 'package:muscle_training_app/resources/auth_methods.dart';
 import 'package:muscle_training_app/resposive/mobile_screen_layout.dart';
 import 'package:muscle_training_app/resposive/resposive_layout.dart';
 import 'package:muscle_training_app/resposive/web_screen_layout.dart';
+import 'package:muscle_training_app/view/login/reset_password_page.dart';
 import 'package:muscle_training_app/view/signup/signup_page.dart';
 import 'package:muscle_training_app/widgets/text_field_input.dart';
 import 'package:provider/provider.dart';
@@ -46,7 +48,7 @@ class _LoginPageState extends State<LoginPage> {
         res = successLogin;
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (context) => const ResponsiveLayout(
+            builder: (context) => ResponsiveLayout(
               webScreenLayout: WebScreenLayout(),
               mobileScreenLayout: MobileScreenLayout(),
             ),
@@ -73,13 +75,13 @@ class _LoginPageState extends State<LoginPage> {
       UserProvider userProvider,
     ) async {
       userProvider.startLoading();
-      String res = await AuthMethods().signInWithGoogleAccount();
+      String res = await AuthMethods().signInWithGoogleAccount(context);
 
       if (res == successRes) {
         res = successLogin;
-        Navigator.of(context).pushReplacement(
+        await Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (context) => const ResponsiveLayout(
+            builder: (context) => ResponsiveLayout(
               webScreenLayout: WebScreenLayout(),
               mobileScreenLayout: MobileScreenLayout(),
             ),
@@ -163,6 +165,24 @@ class _LoginPageState extends State<LoginPage> {
                 flex: 1,
                 child: Container(),
               ),
+              TextButton(
+                style: TextButton.styleFrom(
+                  foregroundColor: heavyBlueColor,
+                ),
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => ResetPasswordPage(),
+                    ),
+                  );
+                },
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    forgot_your_password,
+                  ),
+                ),
+              ),
               InkWell(
                 onTap: () async {
                   await loginUser(context, userProvider);
@@ -189,6 +209,7 @@ class _LoginPageState extends State<LoginPage> {
                           'ログイン',
                           style: TextStyle(
                             color: mainColor,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                 ),
@@ -232,7 +253,7 @@ class _LoginPageState extends State<LoginPage> {
                         vertical: 8,
                       ),
                       child: const Text(
-                        '新規登録',
+                        '新規登録画面へ',
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
