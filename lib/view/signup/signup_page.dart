@@ -27,7 +27,6 @@ class _SignUpPageState extends State<SignUpPage> {
     final TextEditingController _confirmPasswordController =
         TextEditingController();
     final userProvider = Provider.of<UserProvider>(context);
-    bool _passwordsMatch = false;
 
     @override
     void dispose() {
@@ -37,9 +36,9 @@ class _SignUpPageState extends State<SignUpPage> {
     }
 
     void navigatorToLogin() {
-      Navigator.of(context).push(
+      Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => const LoginPage(),
+          builder: (context) => LoginPage(),
         ),
       );
     }
@@ -77,7 +76,7 @@ class _SignUpPageState extends State<SignUpPage> {
       UserProvider userProvider,
     ) async {
       userProvider.startLoading();
-      String res = await AuthMethods().signInWithGoogleAccount();
+      String res = await AuthMethods().signInWithGoogleAccount(context);
 
       if (res == successRes) {
         res = successSignUp;
@@ -216,6 +215,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           '新規登録',
                           style: TextStyle(
                             color: mainColor,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                 ),
@@ -259,7 +259,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         vertical: 8,
                       ),
                       child: const Text(
-                        'ログイン',
+                        'ログイン画面へ',
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
