@@ -1,22 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:muscle_training_app/constant/colors.dart';
-import 'package:muscle_training_app/view/memo/add_memo.dart';
 import 'package:muscle_training_app/view/memo/memo_page.dart';
-import 'package:muscle_training_app/view/menu/add_menu_page.dart';
 import 'package:muscle_training_app/view/menu/menu_page.dart';
 
-class TabMemoPage extends StatefulWidget {
-  const TabMemoPage({
+class MemoTabPage extends StatefulWidget {
+  const MemoTabPage({
     super.key,
     required this.uid,
   });
   final String uid;
 
   @override
-  State<TabMemoPage> createState() => _MemoTabPageState();
+  State<MemoTabPage> createState() => _MemoTabPageState();
 }
 
-class _MemoTabPageState extends State<TabMemoPage>
+class _MemoTabPageState extends State<MemoTabPage>
     with TickerProviderStateMixin {
   late TabController _tabController;
 
