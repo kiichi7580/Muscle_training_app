@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:muscle_training_app/constant/colors.dart';
+import 'package:muscle_training_app/constant/text_resorce.dart';
 import 'package:muscle_training_app/models/profile_model/user_relations/user_followers_model.dart';
 import 'package:muscle_training_app/view/profile/profile_page.dart';
 import 'package:provider/provider.dart';
@@ -68,7 +69,7 @@ class UserFollowersListPage {
                     ),
                     child: ListTile(
                       leading: userFollowers[index]['photoUrl'] ==
-                              'assets/icons/1024 1.png'
+                              defaultPhotoUrlString
                           ? CircleAvatar(
                               backgroundImage: AssetImage(
                                 userFollowers[index]['photoUrl'],

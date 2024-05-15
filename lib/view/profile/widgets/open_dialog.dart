@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:muscle_training_app/constant/text_resorce.dart';
 
 Future<void> imageDialog(BuildContext context, String imageUrl) {
   return showDialog(
@@ -7,14 +8,14 @@ Future<void> imageDialog(BuildContext context, String imageUrl) {
       return AlertDialog(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        content: imageUrl == 'assets/icons/1024 1.png'
+        content: imageUrl == defaultPhotoUrlString
             ? Image.asset(
                 imageUrl,
-                fit: BoxFit.cover, //写真が周りに目一杯広がるようにする
+                fit: BoxFit.cover,
               )
             : Image.network(
                 imageUrl,
-                fit: BoxFit.cover, //写真が周りに目一杯広がるようにする
+                fit: BoxFit.cover,
               ),
       );
     },

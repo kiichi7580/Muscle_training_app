@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:muscle_training_app/constant/colors.dart';
+import 'package:muscle_training_app/constant/text_resorce.dart';
 import 'package:muscle_training_app/models/profile_model/user_relations/user_following_model.dart';
 import 'package:muscle_training_app/view/profile/profile_page.dart';
 import 'package:provider/provider.dart';
@@ -58,7 +59,6 @@ class UserFollowingListPage {
                 ),
                 itemCount: userFollowing.length,
                 itemBuilder: (context, index) {
-                  // final User user = Provider.of<UserProvider>(context).getUser;
                   return InkWell(
                     onTap: () => Navigator.of(context).push(
                       MaterialPageRoute(
@@ -69,7 +69,7 @@ class UserFollowingListPage {
                     ),
                     child: ListTile(
                       leading: userFollowing[index]['photoUrl'] ==
-                              'assets/icons/1024 1.png'
+                              defaultPhotoUrlString
                           ? CircleAvatar(
                               backgroundImage: AssetImage(
                                 userFollowing[index]['photoUrl'],
