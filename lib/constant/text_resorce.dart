@@ -1,4 +1,5 @@
-const defaultPhotoUrlString = 'assets/icons/1024 1.png';
+// 初期アイコンURL
+const String defaultPhotoUrlString = 'assets/icons/1024 1.png';
 
 // レスポンス
 const successRes = 'success';
