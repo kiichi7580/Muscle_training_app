@@ -10,7 +10,7 @@ class UserFollowersListPage {
     required this.userData,
   });
   final Map<dynamic, dynamic> userData;
-  Widget UserFollowersList(Map<dynamic, dynamic> userData) {
+  Widget UserFollowersList() {
     return ChangeNotifierProvider<UserFollowersModel>(
       create: (_) => UserFollowersModel(userData)..getFollowersInfo(),
       child: Scaffold(

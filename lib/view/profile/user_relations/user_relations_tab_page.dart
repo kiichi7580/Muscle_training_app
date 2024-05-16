@@ -76,9 +76,9 @@ class _UserRelationsTabPageState extends State<UserRelationsTabPage>
       controller: tabController,
       children: [
         UserFollowersListPage(userData: widget.userData)
-            .UserFollowersList(widget.userData),
+            .UserFollowersList(),
         UserFollowingListPage(userData: widget.userData)
-            .UserFollowingList(widget.userData),
+            .UserFollowingList(),
       ],
     );
   }
