@@ -1,22 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:muscle_training_app/constant/colors.dart';
-import 'package:muscle_training_app/view/memo/add_memo.dart';
-import 'package:muscle_training_app/view/memo/memo_page.dart';
-import 'package:muscle_training_app/view/menu/add_menu_page.dart';
-import 'package:muscle_training_app/view/menu/menu_page.dart';
+import 'package:muscle_training_app/view/profile/user_relations/user_following_list_page.dart';
+import 'package:muscle_training_app/view/profile/user_relations/user_followers_list_page.dart';
 
-class TabMemoPage extends StatefulWidget {
-  const TabMemoPage({
+class UserRelationsTabPage extends StatefulWidget {
+  const UserRelationsTabPage({
     super.key,
-    required this.uid,
+    required this.userData,
   });
-  final String uid;
+  final Map<dynamic, dynamic> userData;
 
   @override
-  State<TabMemoPage> createState() => _MemoTabPageState();
+  State<UserRelationsTabPage> createState() => _UserRelationsTabPageState();
 }
 
-class _MemoTabPageState extends State<TabMemoPage>
+class _UserRelationsTabPageState extends State<UserRelationsTabPage>
     with TickerProviderStateMixin {
   late TabController _tabController;
 
@@ -32,7 +30,7 @@ class _MemoTabPageState extends State<TabMemoPage>
       appBar: AppBar(
         centerTitle: false,
         title: Text(
-          'メモ',
+          widget.userData['username'],
           style: TextStyle(
             color: blackColor,
             fontSize: 18,
@@ -50,10 +48,10 @@ class _MemoTabPageState extends State<TabMemoPage>
           controller: _tabController,
           tabs: const <Widget>[
             Tab(
-              text: 'マイメニュー',
+              text: 'フォロワー',
             ),
             Tab(
-              text: 'メモ一覧',
+              text: 'フォロー中',
             ),
           ],
         ),
@@ -77,8 +75,10 @@ class _MemoTabPageState extends State<TabMemoPage>
     return TabBarView(
       controller: tabController,
       children: [
-        MenuPage().MyMenu(widget.uid),
-        MemoPage().MemoList(widget.uid),
+        UserFollowersListPage(userData: widget.userData)
+            .UserFollowersList(),
+        UserFollowingListPage(userData: widget.userData)
+            .UserFollowingList(),
       ],
     );
   }

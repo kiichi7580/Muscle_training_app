@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:muscle_training_app/constant/colors.dart';
+import 'package:muscle_training_app/constant/text_resorce.dart';
 import 'package:muscle_training_app/view/profile/profile_page.dart';
 
 class UserSearchPage extends StatefulWidget {
@@ -91,7 +92,7 @@ class _UserSearchPageState extends State<UserSearchPage> {
                       ),
                       child: ListTile(
                         leading: snapshot.data!.docs[index]['photoUrl'] ==
-                                'assets/icons/1024 1.png'
+                                defaultPhotoUrlString
                             ? CircleAvatar(
                                 backgroundImage: AssetImage(
                                   snapshot.data!.docs[index]['photoUrl'],

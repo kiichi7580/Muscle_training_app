@@ -7,7 +7,6 @@ part 'auth_state_notifier.g.dart';
 class AuthStateNotifier extends _$AuthStateNotifier {
   @override
   Stream<User?> build() {
-    // ユーザーの状態変更を監視
     return FirebaseAuth.instance.authStateChanges();
   }
 }
