@@ -2,6 +2,7 @@
 const String defaultPhotoUrlString = 'assets/icons/1024 1.png';
 
 // レスポンス
+const user_null = 'ユーザー情報の取得に失敗しました。\n通信環境を確認して、再度お試しください。';
 const successRes = 'success';
 const successAdd = '追加が完了しました。';
 const successUpDate = '更新が完了しました。';
