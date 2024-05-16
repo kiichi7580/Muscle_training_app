@@ -1,21 +1,23 @@
 import 'dart:typed_data';
 
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:muscle_training_app/constant/colors.dart';
 import 'package:muscle_training_app/constant/text_resorce.dart';
+import 'package:muscle_training_app/models/profile_model/user_data_model/user_data_model.dart';
 import 'package:muscle_training_app/resources/profile_firestore_methods.dart';
 import 'package:muscle_training_app/util/pickImage.dart';
 import 'package:muscle_training_app/view/profile/account_setting_page.dart';
 import 'package:muscle_training_app/view/profile/edit_profile_page.dart';
 import 'package:muscle_training_app/view/profile/training_frequency_visualization.dart';
+import 'package:muscle_training_app/view/profile/user_relations/user_relations_tab_page.dart';
 import 'package:muscle_training_app/view/profile/user_search_page.dart';
 import 'package:muscle_training_app/view/profile/widgets/follow_button.dart';
 import 'package:muscle_training_app/util/show_snackbar.dart';
 import 'package:muscle_training_app/view/profile/widgets/open_dialog.dart';
+import 'package:provider/provider.dart';
 
 class ProfilePage extends StatefulWidget {
   final String uid;
@@ -25,33 +27,19 @@ class ProfilePage extends StatefulWidget {
   });
 
   @override
-  State<ProfilePage> createState() => _ProfileScreenState();
+  State<ProfilePage> createState() => _ProfilePageState();
 }
 
-class _ProfileScreenState extends State<ProfilePage> {
-  var userData = {};
-  int postLen = 0;
-  int followers = 0;
-  int following = 0;
-  int consecutiveLoginDays = 0;
-  bool isFollowing = false;
-  bool isLoading = false;
+class _ProfilePageState extends State<ProfilePage> {
   Uint8List? _image;
   DateTime today = DateTime.now();
-  DateTime oldestDate = DateTime.now();
-  DateTime newestDate = DateTime.now();
+  String username = '';
   late int kMaxDaysInMonth;
   late List<String> targetMonthDateList = [];
-  late List<int> months = [];
-  late int initialPageIndex;
-  var userTrainingData = {};
-  late List<String> trainingDays = [];
-  List<int> amountOfTraining = [];
 
   @override
   void initState() {
     super.initState();
-    getData();
     getNumberOfDaysInThisMonth(today.month);
   }
 
@@ -82,105 +70,6 @@ class _ProfileScreenState extends State<ProfilePage> {
     }
   }
 
-  getData() async {
-    setState(() {
-      isLoading = true;
-    });
-    try {
-      var userSnap = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(widget.uid)
-          .get();
-
-      var trainingSnap = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(widget.uid)
-          .collection('trainingDays')
-          .get();
-
-      var postSnap = await FirebaseFirestore.instance
-          .collection('posts')
-          .where('uid', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-          .get();
-
-      // postLen = postSnap.docs.length;
-      userData = userSnap.data()!;
-
-      // trainingSnapからデータをMap<String, dynamic>に変換する
-      trainingSnap.docs.forEach((doc) {
-        userTrainingData[doc.id] = doc.data();
-      });
-      print('userTrainingData: $userTrainingData');
-
-      String day = '';
-      userTrainingData.forEach((documentId, data) {
-        if (data.containsKey('trainingDay')) {
-          // トレーニングした日付を取得
-          Timestamp trainingDayTimestamp = data['trainingDay'];
-          DateTime trainingDay = trainingDayTimestamp.toDate();
-          day = '${trainingDay.month}/${trainingDay.day}';
-          trainingDays.add(day);
-
-          // トレーニング量を取得
-          int _amountOfTraining = data['amountOfTraining'];
-          amountOfTraining.add(_amountOfTraining);
-
-          // メモしたことのある月と月の間の全ての月を取得するリストを作成
-
-          // 最も古い日付と最も新しい日付を見つける
-          DateTime date = (data['trainingDay'] as Timestamp).toDate();
-          if (date.isBefore(oldestDate)) {
-            oldestDate = date;
-          }
-          if (date.isAfter(newestDate)) {
-            newestDate = date;
-          }
-        }
-      });
-
-      // 最も古い日付から最も新しい日付までの間の月を取得し、リストに追加
-      DateTime currentDate = DateTime(oldestDate.year, oldestDate.month);
-      while (currentDate.isBefore(newestDate)) {
-        months.add(currentDate.month);
-        currentDate = DateTime(currentDate.year, currentDate.month + 1);
-      }
-      // 月のリストをソートして返す
-      months.sort();
-      initialPageIndex = months.isNotEmpty ? months.last - 1 : 0;
-
-      followers = userSnap.data()!['followers'].length;
-      following = userSnap.data()!['following'].length;
-      isFollowing = userSnap
-          .data()!['followers']
-          .contains(FirebaseAuth.instance.currentUser!.uid);
-
-      DateTime lastLogin = (userData['lastLogin'] as Timestamp).toDate();
-      DateTime now = DateTime.now();
-
-      // 連続ログイン日数を計算
-      if (lastLogin.year == now.year &&
-          lastLogin.month == now.month &&
-          lastLogin.day == now.day - 1) {
-        setState(() {
-          consecutiveLoginDays = (userData['consecutiveLoginDays'] as int) + 1;
-        });
-      } else {
-        setState(() {
-          consecutiveLoginDays = 1; // 前日以降のログインがない場合はリセットして1日目とする
-        });
-      }
-      setState(() {});
-    } catch (e) {
-      showSnackBar(
-        'ユーザー情報の取得に失敗しました',
-        context,
-      );
-    }
-    setState(() {
-      isLoading = false;
-    });
-  }
-
   getNumberOfDaysInThisMonth(int index) {
     kMaxDaysInMonth = DateTime(today.year, index + 1, 0).day;
     String day = '';
@@ -200,302 +89,363 @@ class _ProfileScreenState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: false,
-        title: Text(
-          userData['username'] != null ? userData['username'] : 'unknown',
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const UserSearchPage(),
-                ),
-              );
-            },
-            icon: Icon(
-              Icons.person_add,
+    return ChangeNotifierProvider<UserDataModel>(
+      create: (_) => UserDataModel(widget.uid)..fetchUserData(),
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: false,
+          title: Text(
+            username,
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
             ),
           ),
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const AccountSettingPage(),
-                ),
-              );
-            },
-            icon: Icon(
-              Icons.menu,
-            ),
-          ),
-        ],
-        foregroundColor: blackColor,
-        backgroundColor: blueColor,
-      ),
-      body: isLoading
-          ? const Center(
-              child: CircularProgressIndicator(
-                color: linkBlue,
+          actions: [
+            IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const UserSearchPage(),
+                  ),
+                );
+              },
+              icon: Icon(
+                Icons.person_add,
               ),
-            )
-          : ListView(
-              children: [
-                Container(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
+            ),
+            IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const AccountSettingPage(),
+                  ),
+                );
+              },
+              icon: Icon(
+                Icons.menu,
+              ),
+            ),
+          ],
+          foregroundColor: blackColor,
+          backgroundColor: blueColor,
+        ),
+        body: Center(
+          child: Consumer<UserDataModel>(
+            builder: (context, model, child) {
+              final Map<dynamic, dynamic>? userData = model.userData;
+              print('プロフィールuserData: $userData');
+
+              if (userData == null) {
+                return Center(
+                  child: CircularProgressIndicator(
+                    color: linkBlue,
+                  ),
+                );
+              }
+              String photoUrl =
+                  userData['photoUrl']?.toString() ?? defaultPhotoUrlString;
+              username = userData['username']?.toString() ?? 'unknown';
+              return model.getIsLoading
+                  ? const Center(
+                      child: CircularProgressIndicator(
+                        color: linkBlue,
+                      ),
+                    )
+                  : ListView(
                       children: [
-                        Row(
-                          children: [
-                            Stack(
+                        Container(
+                          child: Padding(
+                            padding: const EdgeInsets.all(16),
+                            child: Column(
                               children: [
-                                userData['photoUrl'] ==
-                                        'assets/icons/1024 1.png'
-                                    ? InkWell(
-                                        onTap: () async {
-                                          await imageDialog(
-                                            context,
-                                            userData['photoUrl'],
-                                          );
-                                        },
-                                        child: CircleAvatar(
-                                          radius: 40,
-                                          backgroundImage: AssetImage(
-                                            userData['photoUrl'],
+                                Row(
+                                  children: [
+                                    Stack(
+                                      children: [
+                                        photoUrl == defaultPhotoUrlString
+                                            ? InkWell(
+                                                onTap: () async {
+                                                  await imageDialog(
+                                                    context,
+                                                    photoUrl,
+                                                  );
+                                                },
+                                                child: CircleAvatar(
+                                                  radius: 40,
+                                                  backgroundImage: AssetImage(
+                                                    photoUrl,
+                                                  ),
+                                                ),
+                                              )
+                                            : InkWell(
+                                                onTap: () async {
+                                                  await imageDialog(
+                                                    context,
+                                                    photoUrl,
+                                                  );
+                                                },
+                                                child: CircleAvatar(
+                                                  radius: 40,
+                                                  backgroundImage: NetworkImage(
+                                                    photoUrl,
+                                                  ),
+                                                ),
+                                              ),
+                                        Positioned(
+                                          bottom: 2,
+                                          left: 54,
+                                          child: Container(
+                                            height: 25,
+                                            width: 25,
+                                            decoration: BoxDecoration(
+                                              color: mainColor,
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                            ),
                                           ),
                                         ),
-                                      )
-                                    : InkWell(
-                                        onTap: () async {
-                                          await imageDialog(
-                                            context,
-                                            userData['photoUrl'],
-                                          );
-                                        },
-                                        child: CircleAvatar(
-                                          radius: 40,
-                                          backgroundImage: NetworkImage(
-                                            userData['photoUrl'],
+                                        Positioned(
+                                          bottom: 3,
+                                          left: 56,
+                                          child: Container(
+                                            height: 22,
+                                            width: 22,
+                                            decoration: BoxDecoration(
+                                              color: linkBlue,
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                            ),
                                           ),
                                         ),
+                                        Positioned(
+                                          left: 43,
+                                          bottom: -10,
+                                          child: IconButton(
+                                            icon: const Icon(
+                                              Icons.add,
+                                              color: mainColor,
+                                              size: 16,
+                                            ),
+                                            onPressed: () async {
+                                              await selectImage(context);
+                                            },
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Expanded(
+                                      flex: 1,
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              buildStateColumn(
+                                                context: context,
+                                                userData: userData,
+                                                num: model.consecutiveLoginDays,
+                                                label: '連続ログイン',
+                                              ),
+                                              buildStateColumn(
+                                                context: context,
+                                                userData: userData,
+                                                num: model.followers,
+                                                label: 'フォロワー',
+                                              ),
+                                              buildStateColumn(
+                                                context: context,
+                                                userData: userData,
+                                                num: model.following,
+                                                label: 'フォロー中',
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              FirebaseAuth.instance.currentUser!
+                                                          .uid ==
+                                                      widget.uid
+                                                  ? FollowButton(
+                                                      text: 'プロフィールを編集',
+                                                      backgroundColor:
+                                                          blackColor,
+                                                      textColor: mainColor,
+                                                      borderColor: greyColor,
+                                                      function: () {
+                                                        Navigator.of(context)
+                                                            .push(
+                                                          MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                EditProfilePage(
+                                                                    user:
+                                                                        userData),
+                                                          ),
+                                                        );
+                                                      },
+                                                    )
+                                                  : model.isFollowing
+                                                      ? FollowButton(
+                                                          text: 'フォロー解除',
+                                                          backgroundColor:
+                                                              mainColor,
+                                                          textColor: blackColor,
+                                                          borderColor:
+                                                              greyColor,
+                                                          function: () async {
+                                                            await ProfileFireStoreMethods()
+                                                                .followUser(
+                                                              FirebaseAuth
+                                                                  .instance
+                                                                  .currentUser!
+                                                                  .uid,
+                                                              userData['uid'],
+                                                            );
+
+                                                            model
+                                                                .userUnFollow();
+                                                            model.followers--;
+                                                          },
+                                                        )
+                                                      : FollowButton(
+                                                          text: 'フォロー',
+                                                          backgroundColor:
+                                                              blueColor,
+                                                          textColor: mainColor,
+                                                          borderColor:
+                                                              blueColor,
+                                                          function: () async {
+                                                            await ProfileFireStoreMethods()
+                                                                .followUser(
+                                                              FirebaseAuth
+                                                                  .instance
+                                                                  .currentUser!
+                                                                  .uid,
+                                                              userData['uid'],
+                                                            );
+
+                                                            model.userFollow();
+
+                                                            model.followers++;
+                                                          },
+                                                        ),
+                                            ],
+                                          ),
+                                        ],
                                       ),
-                                Positioned(
-                                  bottom: 2,
-                                  left: 54,
-                                  child: Container(
-                                    height: 25,
-                                    width: 25,
-                                    decoration: BoxDecoration(
-                                      color: mainColor,
-                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                  ],
+                                ),
+                                Container(
+                                  alignment: Alignment.centerLeft,
+                                  padding: const EdgeInsets.only(
+                                    top: 15,
+                                  ),
+                                  child: Text(
+                                    username,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                 ),
-                                Positioned(
-                                  bottom: 3,
-                                  left: 56,
-                                  child: Container(
-                                    height: 22,
-                                    width: 22,
-                                    decoration: BoxDecoration(
-                                      color: linkBlue,
-                                      borderRadius: BorderRadius.circular(15),
-                                    ),
-                                  ),
+                                SizedBox(
+                                  height: 8,
                                 ),
-                                Positioned(
-                                  left: 43,
-                                  bottom: -10,
-                                  child: IconButton(
-                                    icon: const Icon(
-                                      Icons.add,
-                                      color: mainColor,
-                                      size: 16,
-                                    ),
-                                    onPressed: () async {
-                                      await selectImage(context);
-                                    },
-                                  ),
+                                buildTermGoals(
+                                  userData['shortTermGoals'] ?? '',
+                                  userData['longTermGoals'] ?? '',
                                 ),
                               ],
                             ),
-                            Expanded(
-                              flex: 1,
-                              child: Column(
-                                children: [
-                                  Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      buildStateColumn(
-                                          consecutiveLoginDays, '連続ログイン'),
-                                      buildStateColumn(followers, 'フォロワー'),
-                                      buildStateColumn(following, 'フォロー中'),
-                                    ],
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      FirebaseAuth.instance.currentUser!.uid ==
-                                              widget.uid
-                                          ? FollowButton(
-                                              text: 'プロフィールを編集',
-                                              backgroundColor: blackColor,
-                                              textColor: mainColor,
-                                              borderColor: greyColor,
-                                              function: () {
-                                                Navigator.of(context).push(
-                                                  MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        EditProfilePage(
-                                                            user: userData),
-                                                  ),
-                                                );
-                                              },
-                                            )
-                                          : isFollowing
-                                              ? FollowButton(
-                                                  text: 'フォロー解除',
-                                                  backgroundColor: mainColor,
-                                                  textColor: blackColor,
-                                                  borderColor: greyColor,
-                                                  function: () async {
-                                                    await ProfileFireStoreMethods()
-                                                        .followUser(
-                                                      FirebaseAuth.instance
-                                                          .currentUser!.uid,
-                                                      userData['uid'],
-                                                    );
-
-                                                    setState(() {
-                                                      isFollowing = false;
-                                                      followers--;
-                                                    });
-                                                  },
-                                                )
-                                              : FollowButton(
-                                                  text: 'フォロー',
-                                                  backgroundColor: blueColor,
-                                                  textColor: mainColor,
-                                                  borderColor: blueColor,
-                                                  function: () async {
-                                                    await ProfileFireStoreMethods()
-                                                        .followUser(
-                                                      FirebaseAuth.instance
-                                                          .currentUser!.uid,
-                                                      userData['uid'],
-                                                    );
-
-                                                    setState(() {
-                                                      isFollowing = true;
-                                                      followers++;
-                                                    });
-                                                  },
-                                                )
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
+                          ),
+                        ),
+                        const Divider(),
+                        SizedBox(
+                          height: 32,
                         ),
                         Container(
-                          alignment: Alignment.centerLeft,
-                          padding: const EdgeInsets.only(
-                            top: 15,
-                          ),
-                          child: Text(
-                            userData['username'],
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
+                          child: CarouselSlider.builder(
+                            itemCount: model.months.length,
+                            options: CarouselOptions(
+                              autoPlay: true,
+                              autoPlayInterval: const Duration(seconds: 5),
+                              aspectRatio: 16 / 9,
+                              height: 400.0,
+                              viewportFraction: 0.9,
+                              initialPage: model.initialPageIndex,
+                              enlargeCenterPage: true,
+                              enableInfiniteScroll: false,
+                              onPageChanged: (index, reason) {
+                                final month = model.months[index];
+                                getNumberOfDaysInThisMonth(month);
+                              },
                             ),
+                            itemBuilder: (context, index, realIndex) {
+                              // 月に基づくウィジェットの作成
+                              final month = model.months[index];
+
+                              return buildBody(
+                                month,
+                                targetMonthDateList,
+                                model.trainingDays,
+                                model.amountOfTraining,
+                              );
+                            },
                           ),
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        buildTermGoals(
-                          userData['shortTermGoals'],
-                          userData['longTermGoals'],
                         ),
                       ],
-                    ),
-                  ),
-                ),
-                const Divider(),
-                SizedBox(
-                  height: 32,
-                ),
-                Container(
-                  child: CarouselSlider.builder(
-                    itemCount: months.length,
-                    options: CarouselOptions(
-                      autoPlay: true,
-                      autoPlayInterval: const Duration(seconds: 5),
-                      aspectRatio: 16 / 9,
-                      height: 400.0,
-                      viewportFraction: 0.9,
-                      initialPage: initialPageIndex,
-                      enlargeCenterPage: true,
-                      enableInfiniteScroll: false,
-                      onPageChanged: (index, reason) {
-                        final month = months[index];
-                        getNumberOfDaysInThisMonth(month);
-                      },
-                    ),
-                    itemBuilder: (context, index, realIndex) {
-                      // 月に基づくウィジェットの作成
-                      final month = months[index];
-
-                      return buildBody(
-                        month,
-                        targetMonthDateList,
-                        trainingDays,
-                        amountOfTraining,
-                      );
-                    },
-                  ),
-                ),
-              ],
-            ),
+                    );
+            },
+          ),
+        ),
+      ),
     );
   }
 
-  Column buildStateColumn(int num, String label) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          num.toString(),
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
+  GestureDetector buildStateColumn({
+    required BuildContext context,
+    required Map<dynamic, dynamic> userData,
+    required int num,
+    required String label,
+  }) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => UserRelationsTabPage(userData: userData),
           ),
-        ),
-        Container(
-          margin: const EdgeInsets.only(top: 4),
-          child: Text(
-            label,
+        );
+      },
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            num.toString(),
             style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-              color: greyColor,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
             ),
           ),
-        ),
-      ],
+          Container(
+            margin: const EdgeInsets.only(top: 4),
+            child: Text(
+              label,
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                color: greyColor,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
