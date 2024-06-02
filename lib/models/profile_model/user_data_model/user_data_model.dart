@@ -47,6 +47,11 @@ class UserDataModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setUserName(String username) {
+    this.username = username;
+    notifyListeners();
+  }
+
   void setFollowerStatus(DocumentSnapshot<Map<String, dynamic>> userSnap) {
     this.isFollowing = userSnap
         .data()!['followers']
@@ -54,22 +59,51 @@ class UserDataModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setInitialPageIndex(List<int> months) {
+    this.initialPageIndex = months.isNotEmpty ? months.last - 1 : 0;
+    notifyListeners();
+  }
+
+  void setTrainingDays(dynamic data) {
+    String day = '';
+    // トレーニングした日付を取得
+    Timestamp trainingDayTimestamp = data;
+    DateTime trainingDay = trainingDayTimestamp.toDate();
+    day = '${trainingDay.month}/${trainingDay.day}';
+    this.trainingDays.add(day);
+    notifyListeners();
+  }
+
+  void setAmountOfTraining(dynamic data) {
+    // トレーニング量を取得
+    int _amount = data;
+    this.amountOfTraining.add(_amount);
+    notifyListeners();
+  }
+
   Future<void> fetchUserData() async {
     startLoding();
-    var userSnap = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(this.uid)
-        .get();
-
+    late var userSnap;
+    if (this.uid == FirebaseAuth.instance.currentUser!.uid) {
+      userSnap = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .get();
+    } else {
+      userSnap = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(this.uid)
+          .get();
+    }
     var trainingSnap = await FirebaseFirestore.instance
         .collection('users')
-        .doc(this.uid)
+        .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection('trainingDays')
         .get();
 
     this.userData = userSnap.data()!;
 
-    this.username = userSnap.data()!['username'];
+    setUserName(userSnap.data()!['username']);
 
     // trainingSnapからデータをMap<String, dynamic>に変換する
     trainingSnap.docs.forEach((doc) {
@@ -77,25 +111,12 @@ class UserDataModel extends ChangeNotifier {
     });
     print('userTrainingData: ${this.userTrainingData}');
 
-    String day = '';
     this.userTrainingData.forEach((documentId, data) {
-      List<String> _trainingDays = [];
-      List<int> _amountOfTraining = [];
       if (data.containsKey('trainingDay')) {
-        // トレーニングした日付を取得
-        Timestamp trainingDayTimestamp = data['trainingDay'];
-        DateTime trainingDay = trainingDayTimestamp.toDate();
-        day = '${trainingDay.month}/${trainingDay.day}';
-        _trainingDays.add(day);
-        this.trainingDays = _trainingDays;
-
-        // トレーニング量を取得
-        int _amount = data['amountOfTraining'];
-        _amountOfTraining.add(_amount);
-        this.amountOfTraining = _amountOfTraining;
+        setTrainingDays(data['trainingDay']);
+        setAmountOfTraining(data['amountOfTraining']);
 
         // メモしたことのある月と月の間の全ての月を取得するリストを作成
-
         // 最も古い日付と最も新しい日付を見つける
         DateTime date = (data['trainingDay'] as Timestamp).toDate();
         if (date.isBefore(oldestDate)) {
@@ -117,7 +138,7 @@ class UserDataModel extends ChangeNotifier {
     // 月のリストをソートして返す
     _months.sort();
     this.months = _months;
-    this.initialPageIndex = months.isNotEmpty ? months.last - 1 : 0;
+    setInitialPageIndex(this.months);
 
     this.followers = userSnap.data()!['followers'].length;
     this.following = userSnap.data()!['following'].length;

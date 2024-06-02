@@ -7,7 +7,7 @@ class Memo {
   final String set;
   final String rep;
   final int? dateId;
-  final DateTime? time;
+  final DateTime? date;
   final String? uid;
 
   const Memo({
@@ -17,7 +17,7 @@ class Memo {
     required this.set,
     required this.rep,
     this.dateId,
-    this.time,
+    this.date,
     this.uid,
   });
 
@@ -31,7 +31,7 @@ class Memo {
       set: snapshot['set'],
       rep: snapshot['rep'],
       dateId: snapshot['dateId'],
-      time: snapshot['time'],
+      date: snapshot['date'],
       uid: snapshot['uid'],
     );
   }
@@ -43,7 +43,7 @@ class Memo {
         'set': set,
         'rep': rep,
         'dateId': dateId,
-        'time': time,
+        'date': date,
         'uid': uid,
       };
 }

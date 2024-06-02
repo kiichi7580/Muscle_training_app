@@ -8,7 +8,7 @@ import 'package:muscle_training_app/resposive/web_screen_layout.dart';
 import 'package:muscle_training_app/view/login/login_page.dart';
 
 class AuthCheckPage extends StatelessWidget {
-  const AuthCheckPage({Key? key}) : super(key: key);
+  const AuthCheckPage({Key? key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class AuthCheckPage extends StatelessWidget {
                 if (user != null) {
                   return ResponsiveLayout(
                     webScreenLayout: WebScreenLayout(),
-                    mobileScreenLayout: MobileScreenLayout(),
+                    mobileScreenLayout: MobileScreenLayout(uid: user.uid),
                   );
                 } else {
                   return LoginPage();

@@ -7,8 +7,9 @@ class EditMemoModel extends ChangeNotifier {
     weightController.text = memo['weight'];
     setController.text = memo['set'];
     repController.text = memo['rep'];
-    time = memo['time'];
+    date = memo['date'];
     uid = memo['uid'];
+    id = memo['id'];
   }
   final dynamic memo;
 
@@ -21,8 +22,9 @@ class EditMemoModel extends ChangeNotifier {
   String weight = '';
   String set = '';
   String rep = '';
-  String time = '';
+  DateTime date = DateTime.now();
   String uid = '';
+  String id = '';
   bool _isLoading = false;
   bool get getLoading => _isLoading;
 
@@ -68,8 +70,8 @@ class EditMemoModel extends ChangeNotifier {
       set,
       rep,
       uid,
-      time,
-      memo.id,
+      date,
+      id,
     );
     return res;
   }

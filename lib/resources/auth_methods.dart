@@ -18,6 +18,11 @@ class AuthMethods {
     return userModel.User.fromSnap(documentSnapshot);
   }
 
+  String getCurrentUserUid() {
+    String currentUserUid = _auth.currentUser!.uid;
+    return currentUserUid;
+  }
+
   Future<String> signUpUser({
     required String email,
     required String password,

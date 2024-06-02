@@ -57,9 +57,10 @@ class _SignUpPageState extends State<SignUpPage> {
         res = successSignUp;
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (context) => const ResponsiveLayout(
+            builder: (context) => ResponsiveLayout(
               webScreenLayout: WebScreenLayout(),
-              mobileScreenLayout: MobileScreenLayout(),
+              mobileScreenLayout:
+                  MobileScreenLayout(uid: AuthMethods().getCurrentUserUid()),
             ),
           ),
         );
@@ -82,9 +83,10 @@ class _SignUpPageState extends State<SignUpPage> {
         res = successSignUp;
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (context) => const ResponsiveLayout(
+            builder: (context) => ResponsiveLayout(
               webScreenLayout: WebScreenLayout(),
-              mobileScreenLayout: MobileScreenLayout(),
+              mobileScreenLayout:
+                  MobileScreenLayout(uid: AuthMethods().getCurrentUserUid()),
             ),
           ),
         );

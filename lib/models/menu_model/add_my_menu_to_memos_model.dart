@@ -49,7 +49,7 @@ class AddMyMenuToMemosModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<String> addMenuToMemos(String memoDate) async {
+  Future<String> addMenuToMemos(DateTime date) async {
     String res = '';
     try {
       for (var memo in this.memoList) {
@@ -59,7 +59,7 @@ class AddMyMenuToMemosModel extends ChangeNotifier {
           memo['set'],
           memo['rep'],
           menu['uid'],
-          memoDate,
+          date,
         );
       }
       res = successRes;

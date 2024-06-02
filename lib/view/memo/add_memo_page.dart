@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:muscle_training_app/constant/colors.dart';
 import 'package:muscle_training_app/constant/text_resorce.dart';
 import 'package:muscle_training_app/domain/user.dart';
@@ -26,7 +25,6 @@ class _AddMemoPageState extends State<AddMemoPage> {
   bool _isLoading = false;
   var now = DateTime.now();
   late DateTime date;
-  DateFormat format = DateFormat('yyyy年MM月dd日');
 
   Future<void> addMemo(
     BuildContext context,
@@ -35,7 +33,7 @@ class _AddMemoPageState extends State<AddMemoPage> {
     String set,
     String rep,
     String uid,
-    String time,
+    DateTime date,
   ) async {
     try {
       setState(() {
@@ -47,7 +45,7 @@ class _AddMemoPageState extends State<AddMemoPage> {
         set,
         rep,
         uid,
-        time,
+        date,
       );
       if (res == successRes) {
         res = successAdd;
@@ -213,7 +211,6 @@ class _AddMemoPageState extends State<AddMemoPage> {
                 child: CupertinoButton(
                   color: blueColor,
                   onPressed: () async {
-                    String formattedDate = format.format(date).toString();
                     await addMemo(
                       context,
                       _eventController.text,
@@ -221,7 +218,7 @@ class _AddMemoPageState extends State<AddMemoPage> {
                       _setController.text,
                       _repController.text,
                       user.uid,
-                      formattedDate,
+                      date,
                     );
                   },
                   child: _isLoading

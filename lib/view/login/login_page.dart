@@ -50,7 +50,8 @@ class _LoginPageState extends State<LoginPage> {
           MaterialPageRoute(
             builder: (context) => ResponsiveLayout(
               webScreenLayout: WebScreenLayout(),
-              mobileScreenLayout: MobileScreenLayout(),
+              mobileScreenLayout:
+                  MobileScreenLayout(uid: AuthMethods().getCurrentUserUid()),
             ),
           ),
         );
@@ -83,7 +84,8 @@ class _LoginPageState extends State<LoginPage> {
           MaterialPageRoute(
             builder: (context) => ResponsiveLayout(
               webScreenLayout: WebScreenLayout(),
-              mobileScreenLayout: MobileScreenLayout(),
+              mobileScreenLayout:
+                  MobileScreenLayout(uid: AuthMethods().getCurrentUserUid()),
             ),
           ),
         );

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:muscle_training_app/constant/colors.dart';
-import 'package:muscle_training_app/view/calendar/menu_widget.dart';
+import 'package:muscle_training_app/view/calendar/widgets/menu_widget.dart';
 
 void BottomSheetWidget(BuildContext context, {required String date}) async {
   final result = await showBarModalBottomSheet<dynamic>(
@@ -10,9 +10,7 @@ void BottomSheetWidget(BuildContext context, {required String date}) async {
       date: date,
     ),
   );
-
-  // resultにはボトムシートから返された値が含まれます
-  print('Bottom sheet result: $result');
+  print(result);
 }
 
 class _buildBottomSheetContent extends StatefulWidget {
@@ -59,8 +57,8 @@ class _buildBottomSheetContentState extends State<_buildBottomSheetContent> {
               ),
               Container(
                 constraints: BoxConstraints(
-                  minHeight: 0, // 任意の最小の高さ
-                  maxHeight: 670, // 任意の最大の高さ
+                  minHeight: 0,
+                  maxHeight: 670,
                 ),
                 child: MenuWidget(
                   context,

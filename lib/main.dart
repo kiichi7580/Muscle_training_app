@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -7,10 +6,6 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:muscle_training_app/models/menu_model/menu_model.dart';
 import 'package:muscle_training_app/providers/auth_check_page.dart';
 import 'package:muscle_training_app/providers/user_provider.dart';
-import 'package:muscle_training_app/resposive/mobile_screen_layout.dart';
-import 'package:muscle_training_app/resposive/resposive_layout.dart';
-import 'package:muscle_training_app/resposive/web_screen_layout.dart';
-import 'package:muscle_training_app/view/login/login_page.dart';
 import 'package:provider/provider.dart';
 
 import 'firebase_options.dart';

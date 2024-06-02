@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:muscle_training_app/constant/colors.dart';
-import 'package:muscle_training_app/constant/globalvariavle.dart';
+import 'package:muscle_training_app/view/calendar/calendar_page.dart';
+import 'package:muscle_training_app/view/memo_tab/memo_tab_page.dart';
+import 'package:muscle_training_app/view/profile/profile_page.dart';
+import 'package:muscle_training_app/view/timer/timer_page.dart';
 
 final indexProvider = StateProvider((ref) {
   return 0;
 });
 
 class MainNavigation extends ConsumerWidget {
-  const MainNavigation({super.key});
+  const MainNavigation({super.key, required this.uid});
+  final String uid;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -37,7 +41,12 @@ class MainNavigation extends ConsumerWidget {
       type: BottomNavigationBarType.fixed,
     );
 
-    final pages = homeScreenItems;
+    final pages = [
+      CalendarPage(uid: uid),
+      MemoTabPage(uid: uid),
+      TimerPage(uid: uid),
+      ProfilePage(uid: uid),
+    ];
 
     return Scaffold(
       body: pages[index],
