@@ -5,16 +5,10 @@ import 'package:uuid/uuid.dart';
 class TrainingDaysFireStoreMethods {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  // String型のトレーニング日をDateTime型に変換する処理
-  DateTime convertDateTime(String dateString) {
-    // 年月日を分割
-    List<String> parts = dateString.split("年");
-
-    int year = int.parse(parts[0]); // 年
-    int month = int.parse(parts[1].split("月")[0]); // 月
-    int day = int.parse(parts[1].split("月")[1].split("日")[0]); // 日
-
-// DateTimeオブジェクトを作成
+  DateTime removeTimeInformation(DateTime date) {
+    int year = date.year;
+    int month = date.month;
+    int day = date.day;
     DateTime trainingDay = DateTime(year, month, day);
 
     print(trainingDay);
@@ -88,13 +82,13 @@ class TrainingDaysFireStoreMethods {
     String set,
     String rep,
     String uid,
-    String time,
+    DateTime date,
   ) async {
     String res = failureAdd;
     try {
       int numberOfSet = int.parse(set);
       print('numberOfSet: $numberOfSet');
-      final trainingDay = convertDateTime(time);
+      final trainingDay = removeTimeInformation(date);
       print('trainingDay: $trainingDay');
       final applicableTrainingDayId =
           await checkDocumentWithtrainingDayProperty(uid, trainingDay);
@@ -149,14 +143,14 @@ class TrainingDaysFireStoreMethods {
 // トレーニングした日の情報を削除
   Future<String> deleteTrainingDays(
     String set,
-    String time,
+    DateTime date,
     String uid,
   ) async {
     String res = failureDelete;
     try {
       int numberOfSet = int.parse(set);
       print('numberOfSet: $numberOfSet');
-      final trainingDay = convertDateTime(time);
+      final trainingDay = removeTimeInformation(date);
       print('trainingDay: $trainingDay');
       final applicableTrainingDayId =
           await checkDocumentWithtrainingDayProperty(uid, trainingDay);

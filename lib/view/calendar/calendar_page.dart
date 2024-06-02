@@ -12,7 +12,7 @@ import 'package:table_calendar/table_calendar.dart';
 
 import '../../domain/calendar.dart';
 import '../../main_navigation.dart';
-import 'bottom_sheet.dart';
+import 'widgets/bottom_sheet.dart';
 
 class CalendarPage extends StatefulWidget {
   const CalendarPage({super.key, required this.uid});
@@ -32,6 +32,7 @@ class _CalendarPageState extends State<CalendarPage> {
   late DateTime _selectedDay;
   late CalendarFormat _calendarFormat;
   late Map<DateTime, List<Calendar>> _events;
+  final DateFormat format = DateFormat('yyyy年MM月dd日');
 
   int getHashCode(DateTime key) {
     return key.day * 1000000 + key.month * 10000 + key.year;
@@ -263,6 +264,7 @@ class _CalendarPageState extends State<CalendarPage> {
                       firstDate: _firstDay,
                       lastDate: _lastDay,
                       event: event,
+                      uid: widget.uid,
                     ),
                   ),
                 );
@@ -302,7 +304,7 @@ class _CalendarPageState extends State<CalendarPage> {
                   await Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute<void>(
-                      builder: (_) => const MainNavigation(),
+                      builder: (_) => MainNavigation(uid: widget.uid),
                     ),
                     (_) => false,
                   );
@@ -316,12 +318,11 @@ class _CalendarPageState extends State<CalendarPage> {
         heroTag: '1',
         tooltip: 'メニューを表示する',
         onPressed: () {
-          final DateFormat format1 = DateFormat('yyyy年MM月dd日');
-          final String sheetDate = format1.format(_selectedDay);
-          print(sheetDate);
+          final String formattedDate = format.format(_selectedDay).toString();
+
           BottomSheetWidget(
             context,
-            date: sheetDate,
+            date: formattedDate,
           );
         },
         backgroundColor: addFloationActionButtonColor,

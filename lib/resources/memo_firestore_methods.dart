@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 import 'package:muscle_training_app/constant/text_resorce.dart';
 import 'package:muscle_training_app/resources/trainingDays_firestore_methods.dart';
 import 'package:uuid/uuid.dart';
@@ -16,21 +17,28 @@ class MemoFireStoreMethods {
   }
 
   // メモ追加処理
-  Future<String> addMemo(String event, String weight, String set, String rep,
-      String uid, String time) async {
+  Future<String> addMemo(
+    String event,
+    String weight,
+    String set,
+    String rep,
+    String uid,
+    DateTime date,
+  ) async {
     String res = failureAdd;
     try {
       if (event.isNotEmpty &&
           weight.isNotEmpty &&
           set.isNotEmpty &&
-          rep.isNotEmpty &&
-          time.isNotEmpty) {
+          rep.isNotEmpty) {
         final List<String> removeStringList = [
           '年',
           '月',
           '日',
         ];
-        final preDateId = removeWords(time, removeStringList);
+        DateFormat format = DateFormat('yyyy年MM月dd日');
+        String formattedDate = format.format(date).toString();
+        final preDateId = removeWords(formattedDate, removeStringList);
         final int dateId = int.parse(preDateId);
         String memoId = const Uuid().v1();
         _firestore.collection('memos').doc(memoId).set({
@@ -40,7 +48,7 @@ class MemoFireStoreMethods {
           'set': set,
           'rep': rep,
           'dateId': dateId,
-          'time': time,
+          'date': date,
           'uid': uid,
         });
         print('開始');
@@ -50,7 +58,7 @@ class MemoFireStoreMethods {
           set,
           rep,
           uid,
-          time,
+          date,
         );
         print('終了');
         res = successRes;
@@ -70,7 +78,7 @@ class MemoFireStoreMethods {
     String set,
     String rep,
     String uid,
-    String time,
+    DateTime date,
     String memoId,
   ) async {
     String res = failureUpDate;
@@ -92,7 +100,7 @@ class MemoFireStoreMethods {
           set,
           rep,
           uid,
-          time,
+          date,
         );
         res = successRes;
       } else {
@@ -110,13 +118,13 @@ class MemoFireStoreMethods {
     try {
       String memoId = memo['id'];
       String set = memo['set'];
-      String time = memo['time'];
+      DateTime date = memo['date'];
       String uid = memo['uid'];
 
       await _firestore.collection('memos').doc(memoId).delete();
       res = await TrainingDaysFireStoreMethods().deleteTrainingDays(
         set,
-        time,
+        date,
         uid,
       );
       res = successRes;

@@ -28,18 +28,17 @@ class _AddMyMenuToMemosPageState extends State<AddMyMenuToMemosPage> {
   bool _isLoading = false;
   var now = DateTime.now();
   late DateTime date;
-  DateFormat format = DateFormat('yyyy年MM月dd日');
 
   Future<void> addMenuToMemos(
     BuildContext context,
     AddMyMenuToMemosModel model,
     dynamic menu,
-    String formattedDate,
+    DateTime date,
   ) async {
     try {
       model.startLoding();
       String res = await model.addMenuToMemos(
-        formattedDate,
+        date,
       );
       if (res == successRes) {
         res = successAdd;
@@ -233,12 +232,11 @@ class _AddMyMenuToMemosPageState extends State<AddMyMenuToMemosPage> {
                       child: CupertinoButton(
                         color: blueColor,
                         onPressed: () async {
-                          String formattedDate = format.format(date).toString();
                           await addMenuToMemos(
                             context,
                             model,
                             widget.menu,
-                            formattedDate,
+                            date,
                           );
                         },
                         child: _isLoading

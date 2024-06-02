@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:muscle_training_app/constant/colors.dart';
 import 'package:muscle_training_app/models/memo_model/memo_model.dart';
-import 'package:muscle_training_app/view/memo/add_memo.dart';
-import 'package:muscle_training_app/view/memo/table_memo.dart';
+import 'package:muscle_training_app/view/memo/add_memo_page.dart';
+import 'package:muscle_training_app/view/memo/detail_memo_page.dart';
 import 'package:provider/provider.dart';
 
 class MemoPage {
@@ -64,11 +64,12 @@ class MemoPage {
                         ),
                       ),
                       onTap: () {
+                        String dateToString = memo.toString();
                         Navigator.push(
                           context,
                           MaterialPageRoute<void>(
-                            builder: (context) => TableWidget(
-                              date: memo.toString(),
+                            builder: (context) => DetailMemoPage(
+                              date: dateToString,
                               uid: uid,
                             ),
                           ),
