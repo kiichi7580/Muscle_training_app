@@ -6,7 +6,7 @@ import 'package:muscle_training_app/models/memo_model/detail_memo_model.dart';
 import 'package:muscle_training_app/resources/memo_firestore_methods.dart';
 import 'package:muscle_training_app/util/show_confirm_dialog.dart';
 import 'package:muscle_training_app/view/memo/edit_memo_page.dart';
-import 'package:muscle_training_app/view/memo/memo_data_source.dart';
+import 'package:muscle_training_app/view/memo/widgets/memo_data_source.dart';
 import 'package:muscle_training_app/view/memo/widgets/edit_or_delete_confirm_dialog.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
