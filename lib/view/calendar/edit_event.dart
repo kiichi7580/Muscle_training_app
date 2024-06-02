@@ -13,10 +13,12 @@ class EditEventPage extends StatefulWidget {
     required this.firstDate,
     required this.lastDate,
     required this.event,
+    required this.uid,
   });
   final DateTime firstDate;
   final DateTime lastDate;
   final Calendar event;
+  final String uid;
 
   @override
   State<EditEventPage> createState() => _EditEventState();
@@ -189,7 +191,7 @@ class _EditEventState extends State<EditEventPage> {
       await Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute<void>(
-          builder: (_) => const MainNavigation(),
+          builder: (_) => MainNavigation(uid: widget.uid),
         ),
         (_) => false,
       );

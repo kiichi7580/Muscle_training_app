@@ -185,7 +185,7 @@ class _AddEventState extends State<AddEventPage> {
                 await Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute<void>(
-                    builder: (_) => const MainNavigation(),
+                    builder: (_) => MainNavigation(uid: user.uid),
                   ),
                   (_) => false,
                 );
