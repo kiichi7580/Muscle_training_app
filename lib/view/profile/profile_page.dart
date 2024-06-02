@@ -20,11 +20,11 @@ import 'package:muscle_training_app/view/profile/widgets/open_dialog.dart';
 import 'package:provider/provider.dart';
 
 class ProfilePage extends StatefulWidget {
-  final String uid;
   const ProfilePage({
     super.key,
     required this.uid,
   });
+  final String uid;
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -33,14 +33,24 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   Uint8List? _image;
   DateTime today = DateTime.now();
+  String uid = '';
   String username = '';
   late int kMaxDaysInMonth;
   late List<String> targetMonthDateList = [];
+  late UserDataModel userDataModel;
 
   @override
   void initState() {
     super.initState();
+    uid = widget.uid;
     getNumberOfDaysInThisMonth(today.month);
+    userDataModel = UserDataModel(uid)..fetchUserData();
+  }
+
+  @override
+  void dispose() {
+    userDataModel.dispose();
+    super.dispose();
   }
 
   Future<void> selectImage(BuildContext context) async {
@@ -89,8 +99,8 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<UserDataModel>(
-      create: (_) => UserDataModel(widget.uid)..fetchUserData(),
+    return ChangeNotifierProvider<UserDataModel>.value(
+      value: userDataModel,
       child: Scaffold(
         appBar: AppBar(
           centerTitle: false,
@@ -147,7 +157,7 @@ class _ProfilePageState extends State<ProfilePage> {
               }
               String photoUrl =
                   userData['photoUrl']?.toString() ?? defaultPhotoUrlString;
-              username = userData['username']?.toString() ?? 'unknown';
+              username = model.username;
               return model.getIsLoading
                   ? const Center(
                       child: CircularProgressIndicator(
