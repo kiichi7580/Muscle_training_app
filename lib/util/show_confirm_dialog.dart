@@ -13,18 +13,10 @@ Future<void> showConfirmDialog(
     barrierDismissible: false,
     builder: (BuildContext context) {
       return AlertDialog(
+        backgroundColor: mainColor,
         title: const Text('削除の確認'),
         content: const Text('本当に削除しますか？'),
         actions: [
-          TextButton(
-            style: TextButton.styleFrom(
-              foregroundColor: blackColor,
-            ),
-            child: const Text('いいえ'),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
           TextButton(
             style: TextButton.styleFrom(
               foregroundColor: deleteColor,
@@ -38,6 +30,15 @@ Future<void> showConfirmDialog(
                 showSnackBar(res, context, backgroundColor: deleteColor);
               }
               Navigator.of(context).pop();
+            },
+          ),
+          TextButton(
+            style: TextButton.styleFrom(
+              foregroundColor: blackColor,
+            ),
+            child: const Text('いいえ'),
+            onPressed: () {
+              Navigator.pop(context);
             },
           ),
         ],
