@@ -23,6 +23,8 @@ const saveTx = '保存';
 // Update
 const upDateTx = '更新';
 
+const editTx = '編集';
+
 // Delete
 const deleteTx = '削除';
 
