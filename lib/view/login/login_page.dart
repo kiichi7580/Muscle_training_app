@@ -8,7 +8,6 @@ import 'package:sign_in_button/sign_in_button.dart';
 // Project imports:
 import 'package:muscle_training_app/constant/colors.dart';
 import 'package:muscle_training_app/constant/text_resorce.dart';
-import 'package:muscle_training_app/main.dart';
 import 'package:muscle_training_app/providers/user_provider.dart';
 import 'package:muscle_training_app/resources/auth_methods.dart';
 import 'package:muscle_training_app/resposive/mobile_screen_layout.dart';

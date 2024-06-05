@@ -155,8 +155,7 @@ class UserDataModel extends ChangeNotifier {
     if (lastLogin.year == now.year &&
         lastLogin.month == now.month &&
         lastLogin.day == now.day - 1) {
-      this.consecutiveLoginDays =
-          int.parse(this.userData['consecutiveLoginDays']) + 1;
+      this.consecutiveLoginDays = this.userData['consecutiveLoginDays'] + 1;
     } else {
       this.consecutiveLoginDays = 1; // 前日以降のログインがない場合はリセットして1日目とする
     }
