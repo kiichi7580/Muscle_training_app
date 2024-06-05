@@ -1,10 +1,15 @@
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:provider/provider.dart';
+
+// Project imports:
 import 'package:muscle_training_app/constant/colors.dart';
 import 'package:muscle_training_app/constant/text_resorce.dart';
 import 'package:muscle_training_app/models/profile_model/edit_profile_model.dart';
 import 'package:muscle_training_app/util/show_snackbar.dart';
-import 'package:provider/provider.dart';
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({super.key, required this.user});

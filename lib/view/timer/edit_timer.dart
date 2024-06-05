@@ -1,10 +1,15 @@
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
-import 'package:muscle_training_app/constant/text_resorce.dart';
-import 'package:muscle_training_app/util/show_snackbar.dart';
 import 'package:flutter/material.dart';
-import 'package:muscle_training_app/constant/colors.dart';
-import 'package:muscle_training_app/models/timer_model/edit_timer_model.dart';
+
+// Package imports:
 import 'package:provider/provider.dart';
+
+// Project imports:
+import 'package:muscle_training_app/constant/colors.dart';
+import 'package:muscle_training_app/constant/text_resorce.dart';
+import 'package:muscle_training_app/models/timer_model/edit_timer_model.dart';
+import 'package:muscle_training_app/util/show_snackbar.dart';
 
 class EditTimerPage extends StatefulWidget {
   const EditTimerPage({super.key, required this.timer});

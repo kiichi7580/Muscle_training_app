@@ -1,4 +1,7 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Project imports:
 import 'package:muscle_training_app/resources/profile_firestore_methods.dart';
 
 class EditProfileModel extends ChangeNotifier {

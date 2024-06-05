@@ -1,5 +1,10 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:intl/intl.dart';
+
+// Project imports:
 import 'package:muscle_training_app/constant/colors.dart';
 import 'package:muscle_training_app/domain/calendar.dart';
 

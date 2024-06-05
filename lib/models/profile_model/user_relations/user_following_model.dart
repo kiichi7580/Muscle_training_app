@@ -1,5 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserFollowingModel extends ChangeNotifier {
   UserFollowingModel(this.userData) {

@@ -1,9 +1,14 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:provider/provider.dart';
+
+// Project imports:
 import 'package:muscle_training_app/constant/colors.dart';
 import 'package:muscle_training_app/constant/text_resorce.dart';
 import 'package:muscle_training_app/models/profile_model/user_relations/user_following_model.dart';
 import 'package:muscle_training_app/view/profile/profile_page.dart';
-import 'package:provider/provider.dart';
 
 class UserFollowingListPage {
   const UserFollowingListPage({

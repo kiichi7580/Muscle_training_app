@@ -1,8 +1,13 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:provider/provider.dart';
+
+// Project imports:
 import 'package:muscle_training_app/domain/memo.dart';
 import 'package:muscle_training_app/models/memo_model/detail_memo_model.dart';
 import 'package:muscle_training_app/view/memo/widgets/table_memo_widget.dart';
-import 'package:provider/provider.dart';
 
 Widget MenuWidget(
   BuildContext context,

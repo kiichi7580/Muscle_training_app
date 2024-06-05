@@ -1,7 +1,12 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:provider/provider.dart';
+
+// Project imports:
 import 'package:muscle_training_app/constant/globalvariavle.dart';
 import 'package:muscle_training_app/providers/user_provider.dart';
-import 'package:provider/provider.dart';
 
 class ResponsiveLayout extends StatefulWidget {
   const ResponsiveLayout({

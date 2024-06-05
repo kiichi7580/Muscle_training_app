@@ -1,10 +1,14 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+
+// Project imports:
 import 'package:muscle_training_app/constant/colors.dart';
 import 'package:muscle_training_app/domain/calendar.dart';
-
 import '../../main_navigation.dart';
 
 class EditEventPage extends StatefulWidget {

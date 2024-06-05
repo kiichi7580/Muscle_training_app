@@ -1,11 +1,16 @@
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:provider/provider.dart';
+
+// Project imports:
 import 'package:muscle_training_app/constant/colors.dart';
 import 'package:muscle_training_app/constant/text_resorce.dart';
 import 'package:muscle_training_app/providers/user_provider.dart';
 import 'package:muscle_training_app/resources/auth_methods.dart';
 import 'package:muscle_training_app/util/show_snackbar.dart';
 import 'package:muscle_training_app/view/login/login_page.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class EmailConfirmationPage extends StatefulWidget {
   const EmailConfirmationPage({

@@ -1,4 +1,7 @@
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
+
+// Project imports:
 import 'package:muscle_training_app/view/profile/beginner_menu/menu/menu_1.dart';
 import 'package:muscle_training_app/view/profile/beginner_menu/menu/menu_2.dart';
 import 'package:muscle_training_app/view/profile/beginner_menu/menu/menu_3.dart';

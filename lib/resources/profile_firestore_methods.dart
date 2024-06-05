@@ -1,8 +1,13 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+// Flutter imports:
 import 'package:flutter/foundation.dart';
+
+// Package imports:
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:uuid/uuid.dart';
+
+// Project imports:
 import 'package:muscle_training_app/constant/text_resorce.dart';
 import 'package:muscle_training_app/resources/storage_methods.dart';
-import 'package:uuid/uuid.dart';
 
 class ProfileFireStoreMethods {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;

@@ -1,6 +1,9 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:muscle_training_app/resources/auth_methods.dart';
+
+// Project imports:
 import 'package:muscle_training_app/domain/user.dart';
+import 'package:muscle_training_app/resources/auth_methods.dart';
 
 class UserProvider with ChangeNotifier {
   User? _user;

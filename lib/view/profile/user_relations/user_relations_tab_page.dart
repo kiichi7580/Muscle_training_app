@@ -1,7 +1,10 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Project imports:
 import 'package:muscle_training_app/constant/colors.dart';
-import 'package:muscle_training_app/view/profile/user_relations/user_following_list_page.dart';
 import 'package:muscle_training_app/view/profile/user_relations/user_followers_list_page.dart';
+import 'package:muscle_training_app/view/profile/user_relations/user_following_list_page.dart';
 
 class UserRelationsTabPage extends StatefulWidget {
   const UserRelationsTabPage({
