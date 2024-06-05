@@ -1,23 +1,29 @@
+// Dart imports:
 import 'dart:typed_data';
 
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+
+// Project imports:
 import 'package:muscle_training_app/constant/colors.dart';
 import 'package:muscle_training_app/constant/text_resorce.dart';
 import 'package:muscle_training_app/models/profile_model/user_data_model/user_data_model.dart';
 import 'package:muscle_training_app/resources/profile_firestore_methods.dart';
 import 'package:muscle_training_app/util/pickImage.dart';
+import 'package:muscle_training_app/util/show_snackbar.dart';
 import 'package:muscle_training_app/view/profile/account_setting_page.dart';
 import 'package:muscle_training_app/view/profile/edit_profile_page.dart';
 import 'package:muscle_training_app/view/profile/training_frequency_visualization.dart';
 import 'package:muscle_training_app/view/profile/user_relations/user_relations_tab_page.dart';
 import 'package:muscle_training_app/view/profile/user_search_page.dart';
 import 'package:muscle_training_app/view/profile/widgets/follow_button.dart';
-import 'package:muscle_training_app/util/show_snackbar.dart';
 import 'package:muscle_training_app/view/profile/widgets/open_dialog.dart';
-import 'package:provider/provider.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({

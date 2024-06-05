@@ -1,18 +1,22 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:provider/provider.dart';
+import 'package:sign_in_button/sign_in_button.dart';
+
+// Project imports:
 import 'package:muscle_training_app/constant/colors.dart';
 import 'package:muscle_training_app/constant/text_resorce.dart';
-import 'package:muscle_training_app/main.dart';
 import 'package:muscle_training_app/providers/user_provider.dart';
-import 'package:muscle_training_app/util/show_snackbar.dart';
 import 'package:muscle_training_app/resources/auth_methods.dart';
 import 'package:muscle_training_app/resposive/mobile_screen_layout.dart';
 import 'package:muscle_training_app/resposive/resposive_layout.dart';
 import 'package:muscle_training_app/resposive/web_screen_layout.dart';
+import 'package:muscle_training_app/util/show_snackbar.dart';
 import 'package:muscle_training_app/view/login/reset_password_page.dart';
 import 'package:muscle_training_app/view/signup/signup_page.dart';
 import 'package:muscle_training_app/widgets/text_field_input.dart';
-import 'package:provider/provider.dart';
-import 'package:sign_in_button/sign_in_button.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

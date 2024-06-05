@@ -1,12 +1,17 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:provider/provider.dart';
+
+// Project imports:
 import 'package:muscle_training_app/constant/colors.dart';
+import 'package:muscle_training_app/models/timer_model/timer_model.dart';
 import 'package:muscle_training_app/view/timer/add_timer.dart';
 import 'package:muscle_training_app/view/timer/display_timer.dart';
 import 'package:muscle_training_app/view/timer/edit_timer.dart';
-import 'package:muscle_training_app/models/timer_model/timer_model.dart';
-import 'package:provider/provider.dart';
 
 class TimerPage extends StatelessWidget {
   const TimerPage({super.key, required this.uid});

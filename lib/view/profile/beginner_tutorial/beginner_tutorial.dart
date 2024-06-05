@@ -1,4 +1,7 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Project imports:
 import 'package:muscle_training_app/constant/colors.dart';
 import 'package:muscle_training_app/view/profile/beginner_menu/menu/beginner_menu.dart';
 import 'package:muscle_training_app/view/profile/beginner_tutorial/beginner_points.dart';

@@ -1,7 +1,12 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+
+// Project imports:
 import 'package:muscle_training_app/constant/colors.dart';
 import 'package:muscle_training_app/domain/memo.dart';
-import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 class MemoDataSource extends DataGridSource {
   MemoDataSource(List<Memo> memos) {

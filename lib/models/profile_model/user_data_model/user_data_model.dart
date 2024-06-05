@@ -1,6 +1,9 @@
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 
 class UserDataModel extends ChangeNotifier {
   UserDataModel(this.uid) {
@@ -152,8 +155,7 @@ class UserDataModel extends ChangeNotifier {
     if (lastLogin.year == now.year &&
         lastLogin.month == now.month &&
         lastLogin.day == now.day - 1) {
-      this.consecutiveLoginDays =
-          int.parse(this.userData['consecutiveLoginDays']) + 1;
+      this.consecutiveLoginDays = this.userData['consecutiveLoginDays'] + 1;
     } else {
       this.consecutiveLoginDays = 1; // 前日以降のログインがない場合はリセットして1日目とする
     }

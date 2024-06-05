@@ -1,10 +1,16 @@
+// Dart imports:
 import 'dart:io';
 
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:muscle_training_app/constant/colors.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
+
+// Project imports:
+import 'package:muscle_training_app/constant/colors.dart';
 
 class NotificationPermissionPage extends StatefulWidget {
   const NotificationPermissionPage({super.key});

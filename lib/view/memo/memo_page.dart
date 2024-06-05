@@ -1,9 +1,14 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:provider/provider.dart';
+
+// Project imports:
 import 'package:muscle_training_app/constant/colors.dart';
 import 'package:muscle_training_app/models/memo_model/memo_model.dart';
 import 'package:muscle_training_app/view/memo/add_memo_page.dart';
 import 'package:muscle_training_app/view/memo/detail_memo_page.dart';
-import 'package:provider/provider.dart';
 
 class MemoPage {
   Widget MemoList(String uid) {

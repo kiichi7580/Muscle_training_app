@@ -1,13 +1,17 @@
-import 'package:firebase_core/firebase_core.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart' as riverpod;
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:provider/provider.dart';
+
+// Project imports:
 import 'package:muscle_training_app/models/menu_model/menu_model.dart';
 import 'package:muscle_training_app/providers/auth_check_page.dart';
 import 'package:muscle_training_app/providers/user_provider.dart';
-import 'package:provider/provider.dart';
-
 import 'firebase_options.dart';
 
 void main() async {
