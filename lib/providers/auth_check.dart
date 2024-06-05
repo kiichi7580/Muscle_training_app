@@ -21,7 +21,7 @@ class AuthCheck extends StatelessWidget {
             return userAsyncValue.when(
               data: (user) {
                 if (user != null) {
-                  saveLoginDate();
+                  saveLoginDate(user);
                   return ResponsiveLayout(
                     webScreenLayout: WebScreenLayout(),
                     mobileScreenLayout: MobileScreenLayout(uid: user.uid),
