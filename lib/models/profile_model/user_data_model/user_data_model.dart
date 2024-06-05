@@ -145,18 +145,8 @@ class UserDataModel extends ChangeNotifier {
 
     setFollowerStatus(userSnap);
 
-    DateTime lastLogin = (this.userData['lastLogin'] as Timestamp).toDate();
-    DateTime now = DateTime.now();
+    this.consecutiveLoginDays = userSnap.data()!['consecutiveLoginDays'] as int;
 
-    // 連続ログイン日数を計算
-    if (lastLogin.year == now.year &&
-        lastLogin.month == now.month &&
-        lastLogin.day == now.day - 1) {
-      this.consecutiveLoginDays =
-          int.parse(this.userData['consecutiveLoginDays']) + 1;
-    } else {
-      this.consecutiveLoginDays = 1; // 前日以降のログインがない場合はリセットして1日目とする
-    }
     notifyListeners();
     endLoding();
   }
