@@ -7,7 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 // Project imports:
 import 'package:muscle_training_app/constant/colors.dart';
 import 'package:muscle_training_app/view/profile/beginner_tutorial/beginner_tutorial.dart';
-import 'package:muscle_training_app/view/profile/notification/notification_permission_page.dart';
+import 'package:muscle_training_app/view/profile/notification/notification_setting_page.dart';
 
 class AccountSettingPage extends StatefulWidget {
   const AccountSettingPage({super.key});
@@ -31,6 +31,7 @@ class _AccountSettingPageState extends State<AccountSettingPage> {
         foregroundColor: blackColor,
         backgroundColor: blueColor,
       ),
+      backgroundColor: mainColor,
       body: Column(
         children: [
           const SizedBox(
@@ -48,21 +49,21 @@ class _AccountSettingPageState extends State<AccountSettingPage> {
               );
             },
           ),
-          const SizedBox(
-            height: 4,
-          ),
-          BuildListTile(
-            context,
-            Icons.menu_book,
-            'MMについて',
-            () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const BeginnerTutorial(),
-                ),
-              );
-            },
-          ),
+          // const SizedBox(
+          //   height: 4,
+          // ),
+          // BuildListTile(
+          //   context,
+          //   Icons.menu_book,
+          //   'MMについて',
+          //   () {
+          //     Navigator.of(context).push(
+          //       MaterialPageRoute(
+          //         builder: (context) => const BeginnerTutorial(),
+          //       ),
+          //     );
+          //   },
+          // ),
           const SizedBox(
             height: 4,
           ),
@@ -73,7 +74,7 @@ class _AccountSettingPageState extends State<AccountSettingPage> {
             () {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => const NotificationPermissionPage(),
+                  builder: (context) => NotificationSettingPage(),
                 ),
               );
             },
@@ -101,20 +102,21 @@ class _AccountSettingPageState extends State<AccountSettingPage> {
     String title,
     void Function()? onTap,
   ) {
-    return ListTile(
-      leading: Icon(
-        icon,
-        size: 26,
-        color: Theme.of(context).colorScheme.onBackground,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      child: ListTile(
+        leading: Icon(
+          icon,
+          color: Theme.of(context).colorScheme.onBackground,
+        ),
+        title: Text(
+          title,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        onTap: onTap,
       ),
-      title: Text(
-        title,
-        style: Theme.of(context).textTheme.titleSmall!.copyWith(
-              color: Theme.of(context).colorScheme.onBackground,
-              fontSize: 20,
-            ),
-      ),
-      onTap: onTap,
     );
   }
 }

@@ -1,5 +1,6 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 // Package imports:
 import 'package:firebase_core/firebase_core.dart';
@@ -10,13 +11,46 @@ import 'package:provider/provider.dart';
 
 // Project imports:
 import 'package:muscle_training_app/models/menu_model/menu_model.dart';
-import 'package:muscle_training_app/providers/auth_check_page.dart';
+import 'package:muscle_training_app/providers/auth_check.dart';
 import 'package:muscle_training_app/providers/user_provider.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
+
 import 'firebase_options.dart';
+
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
 
 void main() async {
   // Firebaseの初期化
   WidgetsFlutterBinding.ensureInitialized();
+
+  // flutter_local_notificationsの初期化 ここから
+
+  // タイムゾーンを初期化
+  tz.initializeTimeZones();
+  tz.setLocalLocation(tz.getLocation("Asia/Tokyo"));
+
+  const AndroidInitializationSettings initializationSettingsAndroid =
+      AndroidInitializationSettings('@mipmap/ic_launcher');
+
+  final DarwinInitializationSettings initializationSettingsDarwin =
+      DarwinInitializationSettings(
+    onDidReceiveLocalNotification:
+        (int id, String? title, String? body, String? payload) async {},
+  );
+
+  final InitializationSettings initializationSettings = InitializationSettings(
+    android: initializationSettingsAndroid,
+    iOS: initializationSettingsDarwin,
+  );
+
+  await flutterLocalNotificationsPlugin.initialize(
+    initializationSettings,
+    onDidReceiveNotificationResponse: (NotificationResponse response) async {},
+  );
+  // flutter_local_notificationsの初期化 ここまで
+
   try {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
@@ -91,7 +125,7 @@ class MyApp extends StatelessWidget {
         //     return const LoginPage();
         //   },
         // ),
-        home: AuthCheckPage(),
+        home: AuthCheck(),
       ),
     );
   }
