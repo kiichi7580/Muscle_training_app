@@ -9,6 +9,7 @@ import 'package:muscle_training_app/providers/auth_check.dart';
 import 'package:muscle_training_app/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 
 import 'firebase_options.dart';
 
@@ -23,7 +24,8 @@ void main() async {
 
   // タイムゾーンを初期化
   tz.initializeTimeZones();
-  
+  tz.setLocalLocation(tz.getLocation("Asia/Tokyo"));
+
   const AndroidInitializationSettings initializationSettingsAndroid =
       AndroidInitializationSettings('@mipmap/ic_launcher');
 
