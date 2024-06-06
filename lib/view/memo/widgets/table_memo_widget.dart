@@ -1,4 +1,11 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:provider/provider.dart';
+import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+
+// Project imports:
 import 'package:muscle_training_app/constant/colors.dart';
 import 'package:muscle_training_app/constant/text_resorce.dart';
 import 'package:muscle_training_app/domain/memo.dart';
@@ -8,8 +15,6 @@ import 'package:muscle_training_app/util/show_confirm_dialog.dart';
 import 'package:muscle_training_app/view/memo/edit_memo_page.dart';
 import 'package:muscle_training_app/view/memo/memo_data_source.dart';
 import 'package:muscle_training_app/view/memo/widgets/edit_or_delete_confirm_dialog.dart';
-import 'package:provider/provider.dart';
-import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 class TableMemoWidget extends StatefulWidget {
   TableMemoWidget({

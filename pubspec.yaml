@@ -58,6 +58,7 @@ dependencies:
   google_sign_in: ^6.2.1
   hooks_riverpod: ^2.4.10
   image_picker: ^0.8.7
+  import_sorter: ^4.6.0
   intl: ^0.18.1
   json_annotation: ^4.8.1
   json_serializable: ^6.7.1

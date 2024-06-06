@@ -1,13 +1,18 @@
-import 'package:firebase_core/firebase_core.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
+// Package imports:
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart' as riverpod;
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:provider/provider.dart';
+
+// Project imports:
 import 'package:muscle_training_app/models/menu_model/menu_model.dart';
 import 'package:muscle_training_app/providers/auth_check.dart';
 import 'package:muscle_training_app/providers/user_provider.dart';
-import 'package:provider/provider.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 

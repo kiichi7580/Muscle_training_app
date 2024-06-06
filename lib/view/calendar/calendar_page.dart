@@ -1,15 +1,20 @@
+// Dart imports:
 import 'dart:collection';
 
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:table_calendar/table_calendar.dart';
+
+// Project imports:
 import 'package:muscle_training_app/constant/colors.dart';
 import 'package:muscle_training_app/view/calendar/add_event.dart';
 import 'package:muscle_training_app/view/calendar/edit_event.dart';
 import 'package:muscle_training_app/view/calendar/event_item.dart';
-import 'package:table_calendar/table_calendar.dart';
-
 import '../../domain/calendar.dart';
 import '../../main_navigation.dart';
 import 'widgets/bottom_sheet.dart';

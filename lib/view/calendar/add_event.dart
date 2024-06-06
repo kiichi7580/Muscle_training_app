@@ -1,14 +1,19 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:provider/provider.dart';
+
+// Project imports:
 import 'package:muscle_training_app/constant/colors.dart';
 import 'package:muscle_training_app/constant/text_resorce.dart';
 import 'package:muscle_training_app/domain/user.dart';
+import 'package:muscle_training_app/main_navigation.dart';
 import 'package:muscle_training_app/providers/user_provider.dart';
 import 'package:muscle_training_app/resources/calendar_firestore_methods.dart';
-import 'package:muscle_training_app/main_navigation.dart';
-import 'package:muscle_training_app/widgets/add_button.dart';
 import 'package:muscle_training_app/util/show_snackbar.dart';
-import 'package:provider/provider.dart';
+import 'package:muscle_training_app/widgets/add_button.dart';
 
 class AddEventPage extends StatefulWidget {
   const AddEventPage({

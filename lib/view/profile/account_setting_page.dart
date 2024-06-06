@@ -1,5 +1,10 @@
-import 'package:firebase_auth/firebase_auth.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:firebase_auth/firebase_auth.dart';
+
+// Project imports:
 import 'package:muscle_training_app/constant/colors.dart';
 import 'package:muscle_training_app/view/profile/beginner_tutorial/beginner_tutorial.dart';
 import 'package:muscle_training_app/view/profile/notification/notification_setting_page.dart';

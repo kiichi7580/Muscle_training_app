@@ -1,4 +1,7 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Project imports:
 import 'package:muscle_training_app/constant/text_resorce.dart';
 import 'package:muscle_training_app/domain/memo.dart';
 
