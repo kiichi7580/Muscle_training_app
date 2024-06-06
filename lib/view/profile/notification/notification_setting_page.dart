@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
@@ -7,7 +6,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:muscle_training_app/constant/colors.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:muscle_training_app/domain/protein_notification.dart';
-import 'package:muscle_training_app/view/profile/notification/show_notification_permission_dialog.dart';
+import 'package:muscle_training_app/view/profile/notification/notification_items/notification_request_permissions.dart';
+import 'package:muscle_training_app/view/profile/notification/notification_items/protein_notification_content.dart';
+import 'package:muscle_training_app/view/profile/notification/widgets/show_notification_permission_dialog.dart';
 import 'package:muscle_training_app/view/profile/notification/protein_notification_times_preferences.dart';
 import 'package:muscle_training_app/widgets/cupertino_switch_tile.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -221,85 +222,6 @@ class NotificationSettingPageState
         onChanged: onChanged,
       ),
     );
-  }
-
-  // 通知許可
-  Future<void> requestPermissions() async {
-    if (Platform.isIOS || Platform.isMacOS) {
-      await flutterLocalNotificationsPlugin
-          .resolvePlatformSpecificImplementation<
-              IOSFlutterLocalNotificationsPlugin>()
-          ?.requestPermissions(
-            alert: true,
-            badge: true,
-            sound: true,
-          );
-      await flutterLocalNotificationsPlugin
-          .resolvePlatformSpecificImplementation<
-              MacOSFlutterLocalNotificationsPlugin>()
-          ?.requestPermissions(
-            alert: true,
-            badge: true,
-            sound: true,
-          );
-    } else if (Platform.isAndroid) {
-      final AndroidFlutterLocalNotificationsPlugin? androidImplementation =
-          flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
-              AndroidFlutterLocalNotificationsPlugin>();
-      await androidImplementation?.requestNotificationsPermission();
-    }
-  }
-
-  // プロテイン用通知 複数設定可
-  Future<void> dailyProteinNotifications(
-      List<ProteinNotification> notificationTimes) async {
-    for (int i = 0; i < notificationTimes.length; i++) {
-      await dailyProteinNotification(notificationTimes[i], i);
-    }
-  }
-
-  Future<void> dailyProteinNotification(
-      ProteinNotification notificationTime, int id) async {
-    if (notificationTime.isActive == false) {
-      await cancelNotification(id);
-      return;
-    }
-    int hour = notificationTime.hour;
-    int minute = notificationTime.minute;
-    await flutterLocalNotificationsPlugin.zonedSchedule(
-      id,
-      'MM',
-      '現在$hour:時$minute分です。',
-      _nextProteinNotification(notificationTime),
-      const NotificationDetails(
-        android: AndroidNotificationDetails(
-          'MM-muscle-daily',
-          'MM-muscle-daily',
-          channelDescription: '今日もプロテインを飲んでタンパク質を摂取しましょう',
-        ),
-      ),
-      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-      uiLocalNotificationDateInterpretation:
-          UILocalNotificationDateInterpretation.absoluteTime,
-      matchDateTimeComponents: DateTimeComponents.time,
-    );
-  }
-
-  tz.TZDateTime _nextProteinNotification(ProteinNotification notificationTime) {
-    int hour = notificationTime.hour;
-    int minute = notificationTime.minute;
-    int second = notificationTime.second;
-    final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
-    tz.TZDateTime scheduledDate = tz.TZDateTime(
-        tz.local, now.year, now.month, now.day, hour, minute, second);
-    if (scheduledDate.isBefore(now)) {
-      scheduledDate = scheduledDate.add(const Duration(days: 1));
-    }
-    return scheduledDate;
-  }
-
-  Future<void> cancelNotification(int id) async {
-    await flutterLocalNotificationsPlugin.cancel(id);
   }
 
   // 連続ログイン達成用通知
