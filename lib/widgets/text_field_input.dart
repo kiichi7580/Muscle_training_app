@@ -1,5 +1,6 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
+import 'package:muscle_training_app/constant/colors.dart';
 
 class TextFieldInput extends StatelessWidget {
   const TextFieldInput({
@@ -31,6 +32,7 @@ class TextFieldInput extends StatelessWidget {
         border: inputBorder,
         focusedBorder: inputBorder,
         enabledBorder: inputBorder,
+        fillColor: mainColor,
         filled: true,
         contentPadding: const EdgeInsets.all(8),
       ),
@@ -67,6 +69,8 @@ class MemoTextField extends StatelessWidget {
       keyboardType: textInputType,
       decoration: InputDecoration(
         labelText: labelText,
+        fillColor: mainColor,
+        filled: true,
       ),
       onChanged: onChanged,
     );
