@@ -108,12 +108,12 @@ class _AddMemoPageState extends State<AddMemoPage> {
   Widget build(BuildContext context) {
     final User user = Provider.of<UserProvider>(context).getUser;
 
-    return CupertinoPageScaffold(
+    return Scaffold(
       backgroundColor: mainColor,
       // キーボードの警告を消す
       resizeToAvoidBottomInset: false,
-      navigationBar: CupertinoNavigationBar(
-        middle: Text(
+      appBar: AppBar(
+        title: Text(
           'メモを追加',
           style: TextStyle(
             fontSize: 18,
@@ -123,7 +123,7 @@ class _AddMemoPageState extends State<AddMemoPage> {
         ),
         backgroundColor: blueColor,
       ),
-      child: Center(
+      body: Center(
         child: Padding(
           padding: EdgeInsets.all(16),
           child: Column(
@@ -135,13 +135,11 @@ class _AddMemoPageState extends State<AddMemoPage> {
                       Icon(
                         Icons.date_range,
                         size: 22,
-                        color: blackColor,
                       ),
                       Text(
                         '日付',
                         style: TextStyle(
                           fontSize: 18,
-                          color: blackColor,
                         ),
                       ),
                     ],
@@ -152,14 +150,14 @@ class _AddMemoPageState extends State<AddMemoPage> {
                         initialDateTime: date,
                         mode: CupertinoDatePickerMode.date,
                         use24hFormat: true,
-                        showDayOfWeek: true,
+                        // showDayOfWeek: true,
                         onDateTimeChanged: (DateTime newDate) {
                           setState(() => date = newDate);
                         },
                       ),
                     ),
                     child: Text(
-                      '${date.year}年${date.month}月${date.day}日(${date.weekday})',
+                      '${date.year}年${date.month}月${date.day}日',
                       style: const TextStyle(
                         fontSize: 20,
                       ),
