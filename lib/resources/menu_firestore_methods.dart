@@ -10,7 +10,11 @@ class MenuFireStoreMethods {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   // メニュー追加処理
-  Future<String> addMenu(String uid, String menuName, List<Memo> memos) async {
+  Future<String> addMenu(
+    String uid,
+    String menuName,
+    List<Memo> memos,
+  ) async {
     String res = failureAdd;
     try {
       if (menuName.isNotEmpty || memos.isNotEmpty) {
@@ -86,6 +90,41 @@ class MenuFireStoreMethods {
             'set': memo.set,
           });
         }
+        res = successRes;
+      } else {
+        res = validationRes;
+      }
+    } catch (err) {
+      res = err.toString();
+    }
+    return res;
+  }
+
+  // マイメニューにメニューを追加する
+  Future<String> addMenuToMyMenu(
+    String uid,
+    String menuId,
+    Memo memo,
+  ) async {
+    String res = failureAdd;
+    try {
+      if (menuId.isNotEmpty) {
+        String memoId = const Uuid().v1();
+        _firestore
+            .collection('users')
+            .doc(uid)
+            .collection('menus')
+            .doc(menuId)
+            .collection('memos')
+            .doc(memoId)
+            .set({
+          'id': memoId,
+          'event': memo.event,
+          'weight': memo.weight,
+          'rep': memo.rep,
+          'set': memo.set,
+        });
+
         res = successRes;
       } else {
         res = validationRes;
