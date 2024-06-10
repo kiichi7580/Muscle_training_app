@@ -58,6 +58,42 @@ class NotificationSettingPageState
     await flutterLocalNotificationsPlugin.cancel(index);
   }
 
+  Future<void> settingProteinNotificationTime() async {
+    await Permission.notification.request();
+    final status = await Permission.notification.status;
+
+    print('status: $status');
+    if (status == PermissionStatus.permanentlyDenied) {
+      final response = await showNotificationPermissionDialog(
+        context,
+      );
+      if (response == null || response == false) {
+        return;
+      }
+      await openAppSettings();
+
+      return;
+    } else if (status == PermissionStatus.granted) {
+      DatePicker.showTime12hPicker(
+        context,
+        onConfirm: (dateTime) async {
+          setState(() {
+            proteinNotificationTimes.add(ProteinNotification(
+              hour: dateTime.hour,
+              minute: dateTime.minute,
+              second: 0,
+              isActive: true,
+            ));
+            saveProteinNotificationTimes(proteinNotificationTimes);
+            dailyProteinNotifications(proteinNotificationTimes);
+          });
+        },
+        onCancel: () {},
+        locale: LocaleType.jp,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,84 +121,72 @@ class NotificationSettingPageState
             title: 'プロテイン',
             message: '設定された時間に通知が送られ、プロテインの飲み忘れを防ぎます。',
             value: proteinNotificationTimes.isNotEmpty,
-            onChanged: (bool) async {
-              await Permission.notification.request();
-              final status = await Permission.notification.status;
-
-              print('status: $status');
-              if (status == PermissionStatus.permanentlyDenied) {
-                final response = await showNotificationPermissionDialog(
-                  context,
-                );
-                if (response == null || response == false) {
-                  return;
-                }
-                await openAppSettings();
-
-                return;
-              } else if (status == PermissionStatus.granted) {
-                DatePicker.showTime12hPicker(
-                  context,
-                  onConfirm: (dateTime) async {
-                    setState(() {
-                      proteinNotificationTimes.add(ProteinNotification(
-                        hour: dateTime.hour,
-                        minute: dateTime.minute,
-                        second: 0,
-                        isActive: true,
-                      ));
-                      saveProteinNotificationTimes(proteinNotificationTimes);
-                      dailyProteinNotifications(proteinNotificationTimes);
-                    });
-                  },
-                  onCancel: () {},
-                  locale: LocaleType.jp,
-                );
-              }
-            },
+            onChanged: (bool) async {},
           ),
-          SizedBox(height: 16),
+          SizedBox(height: 8),
           Expanded(
             child: ListView.builder(
-              itemCount: proteinNotificationTimes.length,
+              itemCount: proteinNotificationTimes.length + 1,
               itemBuilder: (context, index) {
-                return ListTile(
-                  title: Row(
-                    children: [
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.08,
-                      ),
-                      Text(
-                        '通知${index + 1}: ${proteinNotificationTimes[index].hour}時${proteinNotificationTimes[index].minute}分',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
+                print('index: $index');
+                if (proteinNotificationTimes.length != 0 &&
+                    proteinNotificationTimes.length > index) {
+                  return ListTile(
+                    title: Row(
+                      children: [
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.08,
                         ),
-                      ),
-                    ],
-                  ),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
+                        Text(
+                          '通知${index + 1}: ${proteinNotificationTimes[index].hour}時${proteinNotificationTimes[index].minute}分',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        CupertinoSwitch(
+                          value: proteinNotificationTimes[index].isActive,
+                          onChanged: (bool value) {
+                            setState(() {
+                              proteinNotificationTimes[index] =
+                                  ProteinNotification(
+                                hour: proteinNotificationTimes[index].hour,
+                                minute: proteinNotificationTimes[index].minute,
+                                second: proteinNotificationTimes[index].second,
+                                isActive: value,
+                              );
+                            });
+                          },
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.delete),
+                          onPressed: () {
+                            deleteNotification(index);
+                          },
+                        ),
+                      ],
+                    ),
+                  );
+                }
+                return Center(
+                  child: Column(
                     children: [
-                      CupertinoSwitch(
-                        value: proteinNotificationTimes[index].isActive,
-                        onChanged: (bool value) {
-                          setState(() {
-                            proteinNotificationTimes[index] =
-                                ProteinNotification(
-                              hour: proteinNotificationTimes[index].hour,
-                              minute: proteinNotificationTimes[index].minute,
-                              second: proteinNotificationTimes[index].second,
-                              isActive: value,
-                            );
-                          });
+                      SizedBox(height: 16),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            minimumSize: Size(160, 40),
+                            foregroundColor: heavyBlueColor,
+                            backgroundColor: mainColor,
+                            side: BorderSide(color: heavyBlueColor)),
+                        onPressed: () async {
+                          await settingProteinNotificationTime();
                         },
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.delete),
-                        onPressed: () {
-                          deleteNotification(index);
-                        },
+                        child: Text('通知を設定する'),
                       ),
                     ],
                   ),
