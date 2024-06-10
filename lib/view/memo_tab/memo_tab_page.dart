@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 // Project imports:
 import 'package:muscle_training_app/constant/colors.dart';
 import 'package:muscle_training_app/view/memo/memo_page.dart';
-import 'package:muscle_training_app/view/menu/menu_page.dart';
+import 'package:muscle_training_app/view/my_menu/my_menu_page.dart';
 
 class MemoTabPage extends StatefulWidget {
   const MemoTabPage({
@@ -78,7 +78,7 @@ class _MemoTabPageState extends State<MemoTabPage>
     return TabBarView(
       controller: tabController,
       children: [
-        MenuPage().MyMenu(widget.uid),
+        MyMenuPage().MyMenu(widget.uid),
         MemoPage().MemoList(widget.uid),
       ],
     );

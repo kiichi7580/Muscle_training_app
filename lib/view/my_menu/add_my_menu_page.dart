@@ -9,27 +9,27 @@ import 'package:muscle_training_app/constant/colors.dart';
 import 'package:muscle_training_app/constant/text_resorce.dart';
 import 'package:muscle_training_app/domain/memo.dart';
 import 'package:muscle_training_app/domain/user.dart';
-import 'package:muscle_training_app/models/menu_model/add_menu_model.dart';
-import 'package:muscle_training_app/models/menu_model/menu_model.dart';
+import 'package:muscle_training_app/models/my_menu_model/add_my_menu_model.dart';
+import 'package:muscle_training_app/models/my_menu_model/my_menu_model.dart';
 import 'package:muscle_training_app/providers/user_provider.dart';
 import 'package:muscle_training_app/resources/menu_firestore_methods.dart';
 import 'package:muscle_training_app/util/show_snackbar.dart';
-import 'package:muscle_training_app/view/menu/widgets/add_memu_widgets.dart';
+import 'package:muscle_training_app/view/my_menu/widgets/add_my_memu_widgets.dart';
 
-class AddMenuPage extends StatefulWidget {
-  const AddMenuPage({super.key});
+class AddMyMenuPage extends StatefulWidget {
+  const AddMyMenuPage({super.key});
 
   @override
-  State<AddMenuPage> createState() => _AddMenuPageState();
+  State<AddMyMenuPage> createState() => _AddMyMenuPageState();
 }
 
-class _AddMenuPageState extends State<AddMenuPage> {
+class _AddMyMenuPageState extends State<AddMyMenuPage> {
   final TextEditingController _menuNameController = TextEditingController();
   bool _added = false;
 
   Future<void> addMenu(
     BuildContext context,
-    AddMenuModel model,
+    AddMyMenuModel model,
     String uid,
     String menuName,
     List<Memo> memos,
@@ -58,7 +58,7 @@ class _AddMenuPageState extends State<AddMenuPage> {
   List<Widget> menuList = <Widget>[
     Builder(
       builder: (context) {
-        return AddMenuWidget(context);
+        return AddMyMenuWidget(context);
       },
     )
   ];
@@ -81,10 +81,10 @@ class _AddMenuPageState extends State<AddMenuPage> {
   Widget build(BuildContext context) {
     final User user = Provider.of<UserProvider>(context).getUser;
     final List<Memo> memoList =
-        Provider.of<MenuModel>(context, listen: false).getMemoList;
-    return ChangeNotifierProvider<AddMenuModel>(
-      create: (_) => AddMenuModel(),
-      child: Consumer<AddMenuModel>(
+        Provider.of<MyMenuModel>(context, listen: false).getMemoList;
+    return ChangeNotifierProvider<AddMyMenuModel>(
+      create: (_) => AddMyMenuModel(),
+      child: Consumer<AddMyMenuModel>(
         builder: (context, model, child) {
           return Scaffold(
             appBar: AppBar(
@@ -118,7 +118,7 @@ class _AddMenuPageState extends State<AddMenuPage> {
               foregroundColor: blackColor,
               backgroundColor: blueColor,
             ),
-            backgroundColor: greyColor,
+            backgroundColor: lightGreyColor,
             body: buildBody(context, menuList),
             floatingActionButton: buildFloatingActionButton(
               context,
@@ -130,10 +130,10 @@ class _AddMenuPageState extends State<AddMenuPage> {
     );
   }
 
-  void buttonPressed1(AddMenuModel model, BuildContext context) {
+  void buttonPressed1(AddMyMenuModel model, BuildContext context) {
     if (_added) {
       return menuList.add(
-        AddMenuWidget(
+        AddMyMenuWidget(
           context,
         ),
       );
@@ -211,7 +211,7 @@ class _AddMenuPageState extends State<AddMenuPage> {
 
   Widget buildFloatingActionButton(
     BuildContext context,
-    AddMenuModel model,
+    AddMyMenuModel model,
   ) {
     return FloatingActionButton(
       heroTag: '1',

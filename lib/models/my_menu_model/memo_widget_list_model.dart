@@ -7,7 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 // Project imports:
 import 'package:muscle_training_app/domain/memo.dart';
-import 'package:muscle_training_app/view/menu/widgets/edit_menu_widgets.dart';
+import 'package:muscle_training_app/view/my_menu/widgets/edit_my_menu_widgets.dart';
 
 class MemoWidgetListModel extends ChangeNotifier {
   MemoWidgetListModel(this.menu) {
@@ -50,7 +50,7 @@ class MemoWidgetListModel extends ChangeNotifier {
       for (var i = 0; i < snapshot.docs.length; i++) {
         final document = snapshot.docs[i];
         _memoList.add(document);
-        _memoWidgetList.add(EditMenuWidget(
+        _memoWidgetList.add(EditMyMenuWidget(
           context,
           _memoList[i].data(),
         ));

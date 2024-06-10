@@ -1,6 +1,7 @@
 // Flutter imports:
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:muscle_training_app/view/my_menu/detail_my_menu_page.dart';
 
 // Package imports:
 import 'package:provider/provider.dart';
@@ -9,11 +10,10 @@ import 'package:provider/provider.dart';
 import 'package:muscle_training_app/constant/colors.dart';
 import 'package:muscle_training_app/constant/text_resorce.dart';
 import 'package:muscle_training_app/domain/user.dart';
-import 'package:muscle_training_app/models/menu_model/add_my_menu_to_memos_model.dart';
+import 'package:muscle_training_app/models/my_menu_model/add_my_menu_to_memos_model.dart';
 import 'package:muscle_training_app/providers/user_provider.dart';
 import 'package:muscle_training_app/util/date_picker_item.dart';
 import 'package:muscle_training_app/util/show_snackbar.dart';
-import 'package:muscle_training_app/view/menu/detail_menu_page.dart';
 
 class AddMyMenuToMemosPage extends StatefulWidget {
   const AddMyMenuToMemosPage({
@@ -91,12 +91,12 @@ class _AddMyMenuToMemosPageState extends State<AddMyMenuToMemosPage> {
       create: (_) => AddMyMenuToMemosModel(widget.menu)..readMenu(context),
       child: Consumer<AddMyMenuToMemosModel>(
         builder: (context, model, child) {
-          return CupertinoPageScaffold(
+          return Scaffold(
             backgroundColor: mainColor,
             // キーボードの警告を消す
             resizeToAvoidBottomInset: false,
-            navigationBar: CupertinoNavigationBar(
-              middle: Text(
+            appBar: AppBar(
+              title: Text(
                 'メモを追加',
                 style: TextStyle(
                   fontSize: 18,
@@ -106,7 +106,7 @@ class _AddMyMenuToMemosPageState extends State<AddMyMenuToMemosPage> {
               ),
               backgroundColor: blueColor,
             ),
-            child: Center(
+            body: Center(
               child: Padding(
                 padding: EdgeInsets.all(16),
                 child: Column(
@@ -118,13 +118,11 @@ class _AddMyMenuToMemosPageState extends State<AddMyMenuToMemosPage> {
                             Icon(
                               Icons.date_range,
                               size: 22,
-                              color: blackColor,
                             ),
                             Text(
                               '日付',
                               style: TextStyle(
                                 fontSize: 18,
-                                color: blackColor,
                               ),
                             ),
                           ],
@@ -142,7 +140,7 @@ class _AddMyMenuToMemosPageState extends State<AddMyMenuToMemosPage> {
                             ),
                           ),
                           child: Text(
-                            '${date.year}年${date.month}月${date.day}日(${date.weekday})',
+                            '${date.year}年${date.month}月${date.day}日',
                             style: const TextStyle(
                               fontSize: 20,
                               color: linkBlue,
@@ -216,7 +214,7 @@ class _AddMyMenuToMemosPageState extends State<AddMyMenuToMemosPage> {
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) =>
-                                    DetailMenuPage(menu: widget.menu),
+                                    DetailMyMenuPage(menu: widget.menu),
                               ),
                             );
                           },

@@ -9,22 +9,22 @@ import 'package:muscle_training_app/constant/colors.dart';
 import 'package:muscle_training_app/constant/text_resorce.dart';
 import 'package:muscle_training_app/domain/memo.dart';
 import 'package:muscle_training_app/domain/user.dart';
-import 'package:muscle_training_app/models/menu_model/edit_menuName_model.dart';
-import 'package:muscle_training_app/models/menu_model/memo_widget_list_model.dart';
-import 'package:muscle_training_app/models/menu_model/menu_model.dart';
+import 'package:muscle_training_app/models/my_menu_model/edit_menuName_model.dart';
+import 'package:muscle_training_app/models/my_menu_model/memo_widget_list_model.dart';
+import 'package:muscle_training_app/models/my_menu_model/my_menu_model.dart';
 import 'package:muscle_training_app/providers/user_provider.dart';
 import 'package:muscle_training_app/resources/menu_firestore_methods.dart';
 import 'package:muscle_training_app/util/show_snackbar.dart';
 
-class EditMenuPage extends StatefulWidget {
-  const EditMenuPage({super.key, required this.menu});
+class EditMyMenuPage extends StatefulWidget {
+  const EditMyMenuPage({super.key, required this.menu});
   final dynamic menu;
 
   @override
-  State<EditMenuPage> createState() => _EditTimerPageState();
+  State<EditMyMenuPage> createState() => _EditMyMenuPageState();
 }
 
-class _EditTimerPageState extends State<EditMenuPage> {
+class _EditMyMenuPageState extends State<EditMyMenuPage> {
   String menuName = '';
 
   Future<void> upDate(
@@ -63,7 +63,7 @@ class _EditTimerPageState extends State<EditMenuPage> {
   Widget build(BuildContext context) {
     final User user = Provider.of<UserProvider>(context).getUser;
     final List<Memo> memoList =
-        Provider.of<MenuModel>(context, listen: false).getMemoList;
+        Provider.of<MyMenuModel>(context, listen: false).getMemoList;
     return ChangeNotifierProvider<MemoWidgetListModel>(
       create: (_) =>
           MemoWidgetListModel(widget.menu)..fetchEditMemoList(context),
@@ -103,7 +103,7 @@ class _EditTimerPageState extends State<EditMenuPage> {
               foregroundColor: blackColor,
               backgroundColor: blueColor,
             ),
-            backgroundColor: greyColor,
+            backgroundColor: lightGreyColor,
             body: buildBody(
               context,
               memoWidgetList,

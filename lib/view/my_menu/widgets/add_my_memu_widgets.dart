@@ -7,18 +7,18 @@ import 'package:provider/provider.dart';
 // Project imports:
 import 'package:muscle_training_app/constant/colors.dart';
 import 'package:muscle_training_app/constant/text_resorce.dart';
-import 'package:muscle_training_app/models/menu_model/add_menu_model.dart';
-import 'package:muscle_training_app/models/menu_model/menu_model.dart';
+import 'package:muscle_training_app/models/my_menu_model/add_my_menu_model.dart';
+import 'package:muscle_training_app/models/my_menu_model/my_menu_model.dart';
 import 'package:muscle_training_app/util/show_snackbar.dart';
 import 'package:muscle_training_app/widgets/text_field_input.dart';
 
-Widget AddMenuWidget(BuildContext context) {
+Widget AddMyMenuWidget(BuildContext context) {
   Size screenSize = MediaQuery.of(context).size;
   double screenWidth = screenSize.width;
-  final MenuModel menuModel = Provider.of<MenuModel>(context, listen: false);
-  return ChangeNotifierProvider<AddMenuModel>(
-    create: (_) => AddMenuModel(),
-    child: Consumer<AddMenuModel>(
+  final MyMenuModel menuModel = Provider.of<MyMenuModel>(context, listen: false);
+  return ChangeNotifierProvider<AddMyMenuModel>(
+    create: (_) => AddMyMenuModel(),
+    child: Consumer<AddMyMenuModel>(
       builder: (context, model, child) {
         return Container(
           padding: EdgeInsets.symmetric(
