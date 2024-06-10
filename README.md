@@ -40,8 +40,7 @@
 
 <br>
 
-<img src="./images/マイメニュー一覧画面.png" width="200"> 
-<img src="./images/メモ一覧画面.png" width="200"> <img src="./images/メモ詳細画面.png" width="200">
+<img src="./images/マイメニュー一覧画面.png" width="200"> <img src="./images/メモ一覧画面.png" width="200"> <img src="./images/メモ詳細画面.png" width="200">
 
 <br>
 
