@@ -27,25 +27,29 @@
 
 ***
 ## イメージ画像
-<img src="./images/スプラッシュ画面.png" width="200"> <img src="./images/ログイン画面.png" width="200"> <img src="./images/新規登録画面.png" width="200">
+<img src="./images/スプラッシュ画面.png" width="200"> <img src="./images/新規登録画面.png" width="200"> 
 
 <br>
 
-<img src="./images/カレンダー画面.png" width="200"> <img src="./images/予定追加画面.png
-" width="200"> <img src="./images/予定編集画面.png" width="200"> <img src="./images/カレンダー＿メニュー画面.png" width="200">
+<img src="./images/ログイン画面.png" width="200"> <img src="./images/パスワード再設定画面.png" width="200"> <img src="./images/パスワード再設定用メール送信画面.png" width="200"> 
 
 <br>
 
-<img src="./images/メモ一覧画面.png" width="200"> <img src="./images/メニュー表示画面.png" width="200"> <img src="./images/メモ追加記入画面.png" width="200"> <img src="./images/メニュー追加後画面.png" width="200"> <img src="./images/メニュー編集途中画面.png" width="200">
+<img src="./images/カレンダー画面.png" width="200"> <img src="./images/カレンダーメニュー画面.png
+" width="200"> 
 
 <br>
 
-<img src="./images/タイマー一覧画面.png" width="200"> <img src="./images/タイマー追加記入画面.png" width="200"> <img src="./images/タイマー追加後画面.png" width="200"> <img src="./images/タイマー編集途中画面.png" width="200">
+<img src="./images/マイメニュー一覧画面.png" width="200"> 
+<img src="./images/メモ一覧画面.png" width="200"> <img src="./images/メモ詳細画面.png" width="200">
 
 <br>
 
-<img src="./images/タイマー詳細画面.png" width="200"> <img src="./images/タイマー進行画面.png" width="200">
+<img src="./images/タイマー一覧画面.png" width="200"> <img src="./images/タイマー画面.png" width="200"> <img src="./images/タイマー使用中画面.png" width="200">
 
+<br>
+
+<img src="./images/プロフィール画面.png" width="200"> <img src="./images/設定画面.png" width="200"> <img src="./images/初心者向け筋トレ説明画面.png" width="200"> <img src="./images/プロテイン通知設定画面.png" width="200">
 
 <br>
 <br>
@@ -85,6 +89,7 @@ open -a Simulator
 - ### 🗓️ カレンダー機能
 
   - #### 予定を記入し、スケジュール管理ができる
+
   - #### ( 提供する価値 ) → 過去のスケジュールを見ることで、自分がどれくらいの期間・間隔で筋トレを継続できているのかがわかる
 
   <br>
@@ -93,6 +98,7 @@ open -a Simulator
 - ### 📝 メモ機能
 
   - #### 種目、重量、セット数、回数を記入し、今日のメニューを振り返ることができる
+
   - #### ( 提供する価値 ) → 過去の記録を見ることで、自分の努力量や成長率を知ることができ、モチベーション☝️☝️につながる
 
   <br>
@@ -105,6 +111,24 @@ open -a Simulator
 
 <br>
 <br>
+
+- ### 👥 SNS機能
+
+  - #### 他ユーザーと繋がり、他ユーザーの筋トレ頻度を閲覧できる
+
+  - #### ( 提供する価値 ) → 他ユーザーの筋トレ頻度を閲覧したり、自分の筋トレ頻度が他ユーザーから見られるという意識から、筋トレのモチベーションに繋げる
+
+<br>
+<br>
+
+- ### 📣 通知機能
+
+  - #### プロテインを飲みたい時間に通知が送られる
+
+  - #### ( 提供する価値 ) → プロテインの飲み忘れを防ぎ、自分が1日に取りたいタンパク質量を摂取することができる
+
+<br>
+<br>
 <br>
 <br>
 <br>
@@ -114,7 +138,7 @@ open -a Simulator
 
 <br>
 
-<img src="./images/筋トレ管理アプリ＿画面遷移図.png" width="1000">
+<img src="./images/筋トレ管理アプリ_画面遷移図2.png" width="1000">
 
 <br>
 <br>
@@ -134,6 +158,7 @@ open -a Simulator
 
   - #### メモを記入するときに、種目、重量、セット数、回数と細かい記録を記入できるように入力欄を作成した
 
+  - #### いつものメニューをテンプレート化し、一括でメモに追加できるようにした
 <br>
 <br>
 
@@ -141,13 +166,25 @@ open -a Simulator
 
   - #### タイマーの進捗状況がわかるようにタイマー表示画面に円形のプログレスバーを表示させた
 
+  - #### 画面を見なくてもわかるように、タイマーの開始と終了を合図する音声をつけた
+
 <br>
 <br>
 
-- ### シンプルなデザイン
+- ### 👤 プロフィール画面
 
-  - #### 全体的に青単色にして、初めてでも使いやすいシンプルなデザインを意識して作成した
-  - #### 全体的にリスト化して、みやすいUIを心がけた
+  - #### 短期目標と長期目標を設定することで、自分の筋トレの目的を再認識させる仕組みにした
+
+  - #### 自分の筋トレ頻度を可視化するウィジェットを作成し、他ユーザーからも閲覧できるようにした
+
+<br>
+<br>
+
+- ### 全体的に
+
+  - #### シンプルなデザインにして、直感的に使えるUIを心がけた
+
+  - #### リスト化や表形式にして、ユーザー情報を提供するようにした
 
 <br>
 <br>
@@ -156,37 +193,19 @@ open -a Simulator
 <br>
 
 ***
-## 追加予定の機能
-
-- ### 🗓️ カレンダー画面
-  - #### 筋トレした日は、その日の記録が見れるようにメニュー表示画面へ遷移させたり、もしくはダイアログ、ボトムシートなどでメニューが表示されるようにしたい(追加済み)
-
-  - #### 予定リストの一つ一つに色をつけられる機能(追加済み)
-<br>
-<br>
-
-- ### 📝 メモ画面
-
-  - #### メニュー表示画面のデザインがシンプルすぎるので、もう少し見やすいように表形式にしたい<br>例）Data-Table（パッケージ）を使用するなど
-
-  - #### トグルボタンを使用して、自重トレーニングとウエイトトレーニングでメモの仕方を分けられるようにする
+## 追加したい機能
 
 <br>
-<br>
 
-- ### ⏰ タイマー画面
+- #### 筋トレのフィードバックを記録できる機能
 
-  - #### タイマーの用途を明確にするために、タイマーに名前をつけられるようにしたい（追加済み）
+- #### 動画や4コマ漫画で筋トレのやり方をわかりやすく説明する
 
-  - #### 0秒になったら音が鳴るようにしたい
+- #### 他ユーザーに自分のメニューを共有できる機能
 
-<br>
-<br>
+- #### RM換算表
 
-- ### その他
-
-  - #### 筋トレ始めてたの人をサポートするチュートリアル画面を作りたい
-  - #### １日で摂取したい栄養素(タンパク質量など)を記録できる機能
+- #### このアプリのチュートリアル
 
 <br>
 <br>
@@ -197,49 +216,91 @@ open -a Simulator
 ***
 ## 使ったパッケージ
 
-- ### カレンダー機能
-
-  - #### table_calendar:
-  - #### flutter_colorpicker:
- 
-
 <br>
 
-- ### タイマー機能
-
-  - ##### circular_countdown_timer:
-
+- ### UI関連
+  - carousel_slider:
+  - circular_countdown_timer:
+  - flutter_colorpicker:
+  - flutter_datetime_picker_plus:
+  - flutter_launcher_icons:
+  - flutter_native_splash:
+  - flutter_picker:
+  - flutter_slidable:
+  - flutter_speed_dial:
+  - flutter_svg:
+  - modal_bottom_sheet:
+  - sign_in_button:
+  - syncfusion_flutter_datagrid: 
+  - table_calendar:
+ 
 <br>
 
 - ### 状態管理
 
-  - #### provider:
-  - #### flutter_riverpod:
+  - flutter_riverpod:
+  - provider:
 
 <br>
+
+- ### ビルド関連
+
+  - build_runner:
+  - json_serializable:
+
+<br>
+
+- ### データ保存関連
+
+  #### クラウド
+  - firebase_core:
+  - firebase_storage:
+
+  #### ローカル
+  - shared_preferences:
+<br>
+
 
 - ### データ処理関連
 
-  - #### intl:
-  - #### flutter_localization:
-  - #### flutter_localizations:
+  - flutter_localization:
+  - flutter_localizations:
+  - flutter_native_timezone:
+  - freezed:
+  - freezed_annotation:
+  - image_picker:
+  - intl:
+  - json_annotation:
+  - riverpod_annotation:
+  - timezone:
+  - uuid:
 
 <br>
 
-- ### Firebase関連
+- ### 認証関連
 
-  - #### firebase_core:
-  - #### cloud_firestore:
-  - #### firebase_auth:
+  - firebase_auth:
+  - google_sign_in:
 
 <br>
 
-- ### UI関連
+- ### 音声
 
-  - #### flutter_native_splash:
-  - #### flutter_launcher_icons:
-  - #### flutter_slidable:
-#
+  - audioplayers:
+
+<br>
+
+- ### 通知
+
+  - permission_handler:
+  - flutter_local_notifications:
+
+<br>
+
+- ### コード改善
+
+  - import_sorter:
+
 <br>
 
 
