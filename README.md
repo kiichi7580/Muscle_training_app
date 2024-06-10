@@ -35,8 +35,7 @@
 
 <br>
 
-<img src="./images/カレンダー画面.png" width="200"> <img src="./images/カレンダーメニュー画面.png
-" width="200"> 
+<img src="./images/カレンダー画面.png" width="200"> <img src="./images/カレンダーメニュー画面.png" width="200"> 
 
 <br>
 
