@@ -9,19 +9,19 @@ import 'package:provider/provider.dart';
 
 // Project imports:
 import 'package:muscle_training_app/constant/colors.dart';
-import 'package:muscle_training_app/models/menu_model/menu_model.dart';
-import 'package:muscle_training_app/view/menu/add_menu_page.dart';
-import 'package:muscle_training_app/view/menu/add_my_menu_to_memos_page.dart';
-import 'package:muscle_training_app/view/menu/detail_menu_page.dart';
-import 'package:muscle_training_app/view/menu/edit_menu_page.dart';
+import 'package:muscle_training_app/models/my_menu_model/my_menu_model.dart';
+import 'package:muscle_training_app/view/my_menu/add_my_menu_page.dart';
+import 'package:muscle_training_app/view/my_menu/add_my_menu_to_memos_page.dart';
+import 'package:muscle_training_app/view/my_menu/detail_my_menu_page.dart';
+import 'package:muscle_training_app/view/my_menu/edit_my_menu_page.dart';
 
-class MenuPage {
+class MyMenuPage {
   Widget MyMenu(String uid) {
-    return ChangeNotifierProvider<MenuModel>(
-      create: (_) => MenuModel()..fetchMenu(),
+    return ChangeNotifierProvider<MyMenuModel>(
+      create: (_) => MyMenuModel()..fetchMenu(),
       child: Scaffold(
         body: Center(
-          child: Consumer<MenuModel>(
+          child: Consumer<MyMenuModel>(
             builder: (context, model, child) {
               final List<dynamic>? menus = model.menus;
 
@@ -123,7 +123,7 @@ class MenuPage {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => EditMenuPage(menu: menu),
+                      builder: (context) => EditMyMenuPage(menu: menu),
                     ),
                   );
                 },
@@ -188,7 +188,7 @@ class MenuPage {
           onTap: () {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => DetailMenuPage(menu: menu),
+                builder: (context) => DetailMyMenuPage(menu: menu),
               ),
             );
           },
@@ -199,8 +199,8 @@ class MenuPage {
 
   buildFloatingActionButton() {
     return Builder(builder: (context) {
-      final MenuModel menuModel =
-          Provider.of<MenuModel>(context, listen: false);
+      final MyMenuModel menuModel =
+          Provider.of<MyMenuModel>(context, listen: false);
       return SpeedDial(
         icon: Icons.add,
         backgroundColor: addFloationActionButtonColor,
@@ -229,7 +229,7 @@ class MenuPage {
             onTap: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => AddMenuPage(),
+                  builder: (context) => AddMyMenuPage(),
                 ),
               );
             },

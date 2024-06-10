@@ -11,7 +11,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 // Project imports:
 import 'package:muscle_training_app/domain/memo.dart';
 
-class MenuModel extends ChangeNotifier {
+class MyMenuModel extends ChangeNotifier {
   List<dynamic> menus = [];
   List<Memo> memoList = [];
   List<String> menuNameList = [];

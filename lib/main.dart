@@ -10,7 +10,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 
 // Project imports:
-import 'package:muscle_training_app/models/menu_model/menu_model.dart';
+import 'package:muscle_training_app/models/my_menu_model/my_menu_model.dart';
 import 'package:muscle_training_app/providers/auth_check.dart';
 import 'package:muscle_training_app/providers/user_provider.dart';
 import 'package:timezone/data/latest.dart' as tz;
@@ -79,7 +79,7 @@ class MyApp extends StatelessWidget {
           create: (_) => UserProvider(),
         ),
         ChangeNotifierProvider(
-          create: (_) => MenuModel(),
+          create: (_) => MyMenuModel(),
         ),
       ],
       child: MaterialApp(
