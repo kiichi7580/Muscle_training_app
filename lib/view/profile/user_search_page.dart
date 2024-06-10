@@ -30,7 +30,8 @@ class _UserSearchPageState extends State<UserSearchPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: secondaryColor,
+        toolbarHeight: MediaQuery.of(context).size.height * 0.08,
+        backgroundColor: heavyBlueColor,
         title: Container(
           alignment: Alignment.centerLeft,
           decoration: BoxDecoration(
@@ -64,7 +65,7 @@ class _UserSearchPageState extends State<UserSearchPage> {
           ),
         ),
       ),
-      backgroundColor: secondaryColor,
+      backgroundColor: mainColor,
       body: isShowUsers
           ? FutureBuilder(
               future: FirebaseFirestore.instance
@@ -119,8 +120,11 @@ class _UserSearchPageState extends State<UserSearchPage> {
                 );
               },
             )
-          : Center(
-              child: Text('気になるユーザーを検索してみましょう！'),
+          : Container(
+              height: MediaQuery.of(context).size.height * 0.2,
+              child: Center(
+                child: Text('気になるユーザーを検索してみましょう！'),
+              ),
             ),
     );
   }

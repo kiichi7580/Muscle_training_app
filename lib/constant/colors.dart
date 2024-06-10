@@ -24,6 +24,7 @@ const noReactionColor = Color.fromRGBO(255, 0, 0, 1.0);
 
 // 色々
 const greyColor = Colors.grey;
+Color lightGreyColor = Colors.grey[400]!;
 const addFloationActionButtonColor = Color.fromRGBO(0, 173, 169, 1);
 
 const lightGreenColor = Color.fromRGBO(82, 215, 170, 1);

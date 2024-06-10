@@ -6,7 +6,7 @@ import 'package:muscle_training_app/constant/colors.dart';
 import 'package:muscle_training_app/constant/text_resorce.dart';
 import 'package:muscle_training_app/util/show_snackbar.dart';
 
-Future<void> showConfirmDialog(
+Future<void> showDeleteConfirmDialog(
   BuildContext context,
   dynamic snap,
   dynamic function,

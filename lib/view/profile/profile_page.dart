@@ -108,6 +108,7 @@ class _ProfilePageState extends State<ProfilePage> {
     return ChangeNotifierProvider<UserDataModel>.value(
       value: userDataModel,
       child: Scaffold(
+        backgroundColor: mainColor,
         appBar: AppBar(
           centerTitle: false,
           title: Text(

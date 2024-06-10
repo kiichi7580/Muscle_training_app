@@ -87,7 +87,7 @@ class _TableMemoWidgetState extends State<TableMemoWidget> {
                                       ),
                                     );
                                   } else if (selectedText == deleteTx) {
-                                    await showConfirmDialog(
+                                    await showDeleteConfirmDialog(
                                       context,
                                       dynamicMemo,
                                       await MemoFireStoreMethods().deleteMemo,
